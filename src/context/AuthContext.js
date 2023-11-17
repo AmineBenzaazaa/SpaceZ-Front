@@ -11,15 +11,16 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [splashLoading, setSplashLoading] = useState(false);
 
-  const register = async (fullName, username, email, password) => {
+  const register = async (fullName, username,email,phoneNumber, password) => {
     setIsLoading(true);
   
     try {
       const response = await axios.post(`${BASE_URL}/user/signup`, {
-        fullName,
-        username,
-        email,
-        password,
+        fullName: fullName,
+        username: username,
+        email: email,
+        phoneNumber: phoneNumber,
+        password:password
       });
   
       let userInfo = response.data;

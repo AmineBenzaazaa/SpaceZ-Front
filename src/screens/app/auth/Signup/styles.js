@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   },
   label: {
     textAlign: "left",
-    color: colors.purplelight,
+    color: colors.white,
 
   },
   text: {
