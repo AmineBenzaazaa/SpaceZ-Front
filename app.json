@@ -15,19 +15,33 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.chaudhrygroup.Spacez"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.aminebenz.Spacez"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "assets": {
-      "fonts": ["./assets/fonts/"] 
+      "fonts": [
+        "./assets/fonts/"
+      ]
+    },
+    "runtimeVersion": "1.0.0",
+    "extra": {
+      "eas": {
+        "projectId": "7a3cb6bd-2270-4758-901a-0e278cb406ce"
+      }
+    },
+    "owner": "aminebenz",
+    "updates": {
+      "url": "https://u.expo.dev/7a3cb6bd-2270-4758-901a-0e278cb406ce"
     }
   }
 }

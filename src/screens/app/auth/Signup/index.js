@@ -53,7 +53,7 @@ const RegisterScreen = ({ navigation }) => {
         phoneNumber,
         password
       );
-      console.log("response :>> ", response);
+      // console.log("response :>> ", response);
 
       // Check if the registration response indicates success
       if (response && response.status === 200) {

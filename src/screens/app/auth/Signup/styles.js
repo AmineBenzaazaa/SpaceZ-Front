@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
   label: {
     textAlign: "left",
     color: colors.white,
-
   },
   text: {
     textAlign: "center",

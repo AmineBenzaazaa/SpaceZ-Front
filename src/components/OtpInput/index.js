@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, TextInput, StyleSheet } from "react-native";
+import colors from "../../constants/colors";
 const OtpInput = ({ verifyOtp }) => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const handleOtpChange = (value, index) => {
@@ -17,6 +18,8 @@ const OtpInput = ({ verifyOtp }) => {
       // Trigger OTP verification
       const otpValue = newOtp.join('');
       verifyOtp(otpValue);
+      console.log(otpValue);
+      console.log('verifyOtp(otpValue) :>> ', verifyOtp(otpValue));
     }
   };
   const inputs = [];
@@ -47,7 +50,8 @@ const styles = StyleSheet.create({
   box: {
     borderBottomWidth: 1.3,
     // borderWidth: 1,
-    borderColor: "grey",
+    color:colors.white,
+    borderColor: colors.purplelight,
     width: 40,
     height: 40,
     margin: 8,

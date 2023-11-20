@@ -6,19 +6,40 @@ const { height } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 30,
-    paddingHorizontal:24,
+    backgroundColor: colors.purpledark,
+    paddingHorizontal: 24,
+  },
+  label: {
+    textAlign: "left",
+    color: colors.white,
   },
   text: {
     textAlign: "center",
-    color: colors.grey,
-    fontSize: 15,
+    color: colors.white,
+    fontSize: 12,
     marginTop: 28,
   },
   link: {
-    color: colors.purple,
+    color: colors.purplelight,
     paddingLeft: 4,
-    fontWeight: "bold"
+    fontWeight: "bold",
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingBottom: 24,
+    paddingTop: 12,
+  },
+  agreeText: {
+    color: colors.purplelight,
+    fontSize: 12,
+  },
+  agreelink: {
+    color: colors.purplelight,
+    textDecorationLine: "underline",
+  },
+  input:{
+    marginHorizontal: 8,
   }
 });
 

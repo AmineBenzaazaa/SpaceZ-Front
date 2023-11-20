@@ -1,11 +1,25 @@
 import React, { createContext, useState, useContext } from "react";
 import Spinner from "react-native-loading-spinner-overlay";
+import { BASE_URL } from "../config";
 
 // Create an OTP context
 const OtpContext = createContext();
 
+const getStoredUserData = async () => {
+  try {
+    const storedUserInfo = await SecureStore.getItemAsync('userInfo');
+    if (storedUserInfo) {
+      return JSON.parse(storedUserInfo);
+    }
+    return null;
+  } catch (error) {
+    console.error('Error retrieving stored user data:', error);
+    return null;
+  }
+};
+
 // Create an OTP context provider
-const OtpProvider = ({ children }) => {
+const OtpProvider = ({ children, username }) => {
   const [otp, setOtp] = useState("");
   const [verificationResult, setVerificationResult] = useState("");
   const [showSpinner, setShowSpinner] = useState(false);
@@ -15,13 +29,13 @@ const OtpProvider = ({ children }) => {
       setShowSpinner(true);
 
       // Make the OTP verification API request here
-      const response = await fetch("YOUR_BACKEND_API_URL/verify-otp", {
+      const response = await fetch(`${BASE_URL}/user/verify-email`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ otp }), // Send the OTP entered by the user
-      });
+        body: JSON.stringify({ otp, username }), // Send the OTP and username
+      }); 
 
       // Set the verification result based on the response
 

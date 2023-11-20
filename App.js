@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import "react-native-gesture-handler";
 import { useFonts } from "expo-font";
 // import * as SplashScreen from "expo-splash-screen";
 
-import { AuthProvider } from "./src/context/AuthContext";
+import { AuthContext, AuthProvider } from "./src/context/AuthContext";
 import { OtpProvider } from "./src/context/OtpContext";
 
 import Onboarding from "./src/screens/app/auth/Onboarding";
@@ -36,10 +36,18 @@ export default function App() {
             <Stack.Screen name="Onboarding" component={Onboarding} />
             <Stack.Screen name="Signin" component={Signin} />
             <Stack.Screen name="Signup" component={Signup} />
-            <Stack.Screen name="Verification" component={Verification} />
+            <Stack.Screen name="Verification" component={VerificationWrapper} />
           </Stack.Navigator>
         </NavigationContainer>
       </OtpProvider>
     </AuthProvider>
   );
 }
+
+// Create a wrapper component for Verification to fetch username from AuthContext
+const VerificationWrapper = () => {
+  const { getUser } = useContext(AuthContext);
+  const { username } = getUser();
+
+  return <Verification username={username} />;
+};
