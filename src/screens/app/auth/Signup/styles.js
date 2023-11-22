@@ -40,6 +40,9 @@ const styles = StyleSheet.create({
   },
   input:{
     marginHorizontal: 8,
+  },
+  footer:{
+      flex: 1,
   }
 });
 

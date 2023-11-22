@@ -40,6 +40,10 @@ const styles = StyleSheet.create({
   },
   input:{
     marginHorizontal: 8,
+  },
+  resend:{
+    flex: 1,
+    textAlign: "center"
   }
 });
 

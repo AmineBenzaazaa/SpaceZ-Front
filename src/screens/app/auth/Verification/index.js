@@ -1,49 +1,77 @@
-import { SafeAreaView, View, Text, TouchableOpacity } from "react-native";
-import React, { useContext, useState } from "react";
-import Spinner from "react-native-loading-spinner-overlay";
-
+import React, { useContext, useEffect, useState } from "react";
+import { SafeAreaView, View, Text, TextInput } from "react-native";
+import styles from "./styles";
 import Button from "../../../../components/Button";
 import Title from "../../../../components/Title";
-import Input from "../../../../components/Input";
 import OtpInput from "../../../../components/OtpInput";
+import { AuthContext } from "../../../../context/AuthContext";
 
-import { AuthContext } from '../../../../context/AuthContext'; 
+const Verification = ({ navigation }) => {
+  const { verifyEmail, userInfo, sendVerificationEmail } =
+    useContext(AuthContext);
+  const [otp, setOtp] = useState("");
+  const [countdown, setCountdown] = useState(60);
+  const { userId } = useContext(AuthContext);
 
-import styles from "./styles";
-
-const Verification = ({ navigation, username }) => {
-  // const { otp, setOtp, verificationResult, showSpinner, verifyOtp } = useOtp();
-
-  const { verifyEmail } = useContext(AuthContext);
-
-  // const handleVerifyOtp = async () => {
-  //   await verifyOtp(otp, username); // Pass the username to the verifyOtp function
-  // };
   const handleEmailVerification = async () => {
     try {
-      await verifyEmail('945657', '655b1f48864b23d9e3fdafe9');
-      // If verification is successful, you can navigate the user to the next screen or perform other actions
+      // Use the token and userId in the verifyEmail function
+      const response = await verifyEmail(userId, otp);
+
+      console.log("response :>> ", response.status);
+
+      if (response.status === 200) {
+        // If verification is successful, navigate the user to the "Key" screen
+        navigation.navigate("Key");
+      } else {
+        // Handle the case where verification was not successful
+        console.error("Email verification failed:", response.message);
+      }
     } catch (error) {
-      // Handle verification error
+      console.error("error :>> ", error);
     }
   };
 
+  const handleResend = async () => {
+    // Call your resend email logic here
+    await sendVerificationEmail(
+      userInfo.userData.user.email,
+      userInfo.userInfo.token
+    );
+    setCountdown(60); // Reset the countdown
+  };
+
+  useEffect(() => {
+    let timer;
+
+    if (countdown > 0) {
+      timer = setInterval(() => {
+        setCountdown((prevCountdown) => prevCountdown - 1);
+      }, 1000);
+    }
+    console.log("countdown :>> ", countdown);
+    return () => {
+      // Clear the interval when the component unmounts
+      clearInterval(timer);
+    };
+  }, [countdown]);
+
   return (
     <SafeAreaView style={styles.container}>
-      <Title title="Verify Your Email" subtitle="Confirmation code was sent to your email address" />
-      <OtpInput verifyOtp={handleEmailVerification} />
-      <Button>Verify</Button>
+      <Title
+        title="Verify Your Email"
+        subtitle="Confirmation code was sent to your email address"
+      />
+      <OtpInput onOtpChange={setOtp} />
+      <Button onPress={handleEmailVerification}>Verify</Button>
       <Text style={styles.text}>
-        Not registered?{" "}
-        <Text style={styles.link} onPress={() => navigation.navigate("Signup")}>
-          Sign up!
-        </Text>
+        Resend in {countdown} seconds
+        {countdown === 0 && (
+          <Text style={styles.link} onPress={handleResend}>
+            Resend
+          </Text>
+        )}
       </Text>
-      {/* <Spinner
-        visible={showSpinner}
-        textContent={"Loading..."}
-        textStyle={{ color: "white" }}
-      /> */}  
     </SafeAreaView>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import {
   // Button,
   Text,
@@ -11,12 +11,15 @@ import {
 } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import CountryPicker from "react-native-country-picker-modal";
+import PhoneInput from "react-native-phone-input";
 
 import styles from "./styles";
 
 import Button from "../../../../components/Button";
 import Title from "../../../../components/Title";
 import Input from "../../../../components/Input";
+import CustomPhoneInput from "../../../../components/PhoneInput";
 
 import { AuthContext } from "../../../../context/AuthContext";
 import colors from "../../../../constants/colors";
@@ -28,8 +31,15 @@ const RegisterScreen = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState(null);
   const [password, setPassword] = useState(null);
   const [confirmationPassword, setConfirmationPassword] = useState(null);
+  const [country, setCountry] = useState(null);
   const [error, setError] = useState(null);
-  const { isLoading, register } = useContext(AuthContext);
+  const { isLoading, register, setUserId } = useContext(AuthContext);
+
+  const handlePhoneNumberChange = (number) => {
+    // Update the phoneNumber state when the phone number changes
+    console.log("number :>> ", number);
+    setPhoneNumber(number);
+  };
 
   const handleRegister = async () => {
     setError(null); // Reset any previous errors
@@ -37,41 +47,41 @@ const RegisterScreen = ({ navigation }) => {
       setError("Password and confirmation password do not match.");
       return; // Exit early if there's a mismatch
     }
+    
     try {
-      console.log("Registration Data:", {
-        fullName,
-        username,
-        email,
-        phoneNumber,
-        password,
-        confirmationPassword,
-      });
       const response = await register(
         fullName,
         username,
         email,
         phoneNumber,
-        password
+        password,
+        country
       );
-      // console.log("response :>> ", response);
-
       // Check if the registration response indicates success
-      if (response && response.status === 200) {
-        // Registration was successful, navigate to another page
-        // navigation.navigate("Verification");
+      if (response.userInfo.token) {
+        // Login was successful, navigate to another page
+        const userId = response.userData.user._id;
+        console.log("userId:", userId);
+
+        // Set userId in AuthContext
+        setUserId(userId);
+
+        // Optional: You can navigate the user to another screen after successful verification
+        navigation.navigate("Verification");
       } else {
-        // Registration failed, set error message
-        setError("Registration failed. Please try again.");
+        // Login failed, set error message
+        setError("Login failed. Please check your credentials.");
       }
     } catch (e) {
       // Handle API call errors here
+      console.error("Login error:", e);
       setError("Server error. Please try again.");
     }
   };
 
-  const phone = (
-    <FontAwesome5 name="phone" size={15} color={colors.purplelight} />
-  );
+  // const phone = (
+  //   <FontAwesome5 name="phone" size={15} color={colors.purplelight} />
+  // );
   const userIcon = (
     <FontAwesome5 name="user" size={15} color={colors.purplelight} />
   );
@@ -90,11 +100,11 @@ const RegisterScreen = ({ navigation }) => {
 
         <View style={styles.input}>
           <Text style={styles.label}>Phone Number</Text>
-          <Input
-            placeholder="Enter your phone number"
+
+          <CustomPhoneInput
             value={phoneNumber}
-            onChangeText={(text) => setPhoneNumber(text)}
-            icon={phone}
+            placeholder="Enter your Phone Number"
+            onPhoneNumberChange={handlePhoneNumberChange}
           />
         </View>
         <View style={styles.input}>
@@ -124,6 +134,17 @@ const RegisterScreen = ({ navigation }) => {
             value={username}
             onChangeText={(text) => setUsername(text)}
             icon={userIcon}
+          />
+        </View>
+        
+        <View style={styles.input}>
+          <Text style={styles.label}>Country</Text>
+          <Input
+            placeholder="Country"
+            value={password}
+            secureTextEntry
+            onChangeText={(text) => setCountry(text)}
+            icon={passwordIcon}
           />
         </View>
 
@@ -164,6 +185,5 @@ const RegisterScreen = ({ navigation }) => {
     </>
   );
 };
-
 
 export default RegisterScreen;

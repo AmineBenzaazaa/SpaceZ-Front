@@ -38,8 +38,24 @@ const styles = StyleSheet.create({
     color: colors.purplelight,
     textDecorationLine: "underline",
   },
-  input:{
+  input: {
     marginHorizontal: 8,
+  },
+  warning: {
+    color: colors.purplelight,
+    fontSize: 14,
+  },
+  key: {
+    backgroundColor: colors.purplebold,
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8,
+    padding:16,
+  },
+  copy:{
+    backgroundColor: '#A09CF7'
+  },
+  walletPublicKey: {
+    color: colors.white
   }
 });
 

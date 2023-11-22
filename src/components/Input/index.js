@@ -3,7 +3,7 @@ import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import styles from "./styles";
 import colors from "../../constants/colors";
 
-const Title = ({ icon, ...props }) => {
+const Input = ({ icon, ...props }) => {
   return (
     <View style={styles.inputContainer}>
       {icon && <View style={styles.icon}>{icon}</View>}
@@ -16,4 +16,4 @@ const Title = ({ icon, ...props }) => {
   );
 };
 
-export default React.memo(Title);
+export default React.memo(Input);

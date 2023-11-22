@@ -21,31 +21,41 @@ import Input from "../../../../components/Input";
 import { AuthContext } from "../../../../context/AuthContext";
 import colors from "../../../../constants/colors";
 
-const RegisterScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [error, setError] = useState(null);
-  const { isLoading, login } = useContext(AuthContext);
+  const { isLoading, login, setUserId } = useContext(AuthContext);
 
   const handleLogin = async () => {
     setError(null); // Reset any previous errors
     try {
-      const response = await login(email, password);
-      console.log('response :>> ', response.userInfo.token);
-
-      // if (response.userInfo.token) {
-      //   // Login was successful, navigate to another page
-      //   navigation.navigate("Verification");
-      // } else {
-      //   // Login failed, set error message
-      //   setError("Login failed. Please check your credentials.");
-      // }
+      // Remove spaces from the email
+      const cleanedEmail = email.replace(/\s/g, '');
+  
+      const response = await login(cleanedEmail, password);
+  
+      if (response.userInfo.token) {
+        // Login was successful, navigate to another page
+        const userId = response.userData.user._id;
+        console.log('userId:', userId);
+  
+        // Set userId in AuthContext
+        setUserId(userId);
+  
+        // Optional: You can navigate the user to another screen after successful verification
+        navigation.navigate("Verification");
+      } else {
+        // Login failed, set error message
+        setError("Login failed. Please check your credentials.");
+      }
     } catch (e) {
       // Handle API call errors here
       console.error("Login error:", e);
       setError("Server error. Please try again.");
     }
   };
+  
   
 
   const emailIcon = (
@@ -86,18 +96,12 @@ const RegisterScreen = ({ navigation }) => {
         <Button onPress={() => handleLogin()}>Log in</Button>
         {error && <Text style={styles.errorText}>{error}</Text>}
         <Text style={styles.text}>
-        Don’t have an account?{" "}
+          Don’t have an account?{" "}
           <Text
             style={styles.link}
             onPress={() => navigation.navigate("Signin")}
           >
             Sign up!
-          </Text>
-          <Text
-            style={styles.link}
-            onPress={() => navigation.navigate("Verification")}
-          >
-            Verification
           </Text>
         </Text>
       </SafeAreaView>
@@ -106,4 +110,4 @@ const RegisterScreen = ({ navigation }) => {
 };
 
 
-export default RegisterScreen;
+export default LoginScreen;

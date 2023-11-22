@@ -1,28 +1,31 @@
 import React, { useState } from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import colors from "../../constants/colors";
-const OtpInput = ({ verifyOtp }) => {
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-  const handleOtpChange = (value, index) => {
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
+
+  const OtpInput = ({  onOtpChange }) => {
+    const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+
+    const handleOtpChange = (value, index) => {
+      const newOtp = [...otp];
+      newOtp[index] = value;
+      setOtp(newOtp);
+      onOtpChange(newOtp.join('')); // Pass the concatenated OTP to the parent component
   
-    if (value && index < newOtp.length - 1) {
-      // Focus on the next input
-      inputs[index + 1].focus();
-    }
+      if (value && index < newOtp.length - 1) {
+        // Focus on the next input
+        inputs[index + 1].focus();
+      }
+
+      // Check if OTP is complete (no empty values)
+      if (newOtp.every((digit) => digit !== '')) {
+        // Trigger OTP verification
+        const otpValue = newOtp.join('');
+        // verifyOtp(otpValue);
+      }
+    };
   
-    // Check if OTP is complete (no empty values)
-    if (newOtp.every((digit) => digit !== '')) {
-      // Trigger OTP verification
-      const otpValue = newOtp.join('');
-      verifyOtp(otpValue);
-      console.log(otpValue);
-      console.log('verifyOtp(otpValue) :>> ', verifyOtp(otpValue));
-    }
-  };
   const inputs = [];
+  
   return (
     <View style={styles.container}>
       {otp.map((digit, index) => (
