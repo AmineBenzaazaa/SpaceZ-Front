@@ -1,8 +1,22 @@
-import React, { useContext } from "react";
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import {
+  Animated,
+  Dimensions,
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import "react-native-gesture-handler";
 import { useFonts } from "expo-font";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 // import * as SplashScreen from "expo-splash-screen";
 
 import { AuthContext, AuthProvider } from "./src/context/AuthContext";
@@ -12,47 +26,226 @@ import Onboarding from "./src/screens/app/auth/Onboarding";
 import Signin from "./src/screens/app/auth/Signin";
 import Signup from "./src/screens/app/auth/Signup";
 import Verification from "./src/screens/app/auth/Verification";
-import HomeScreen from "./src/screens/app/Home";
 import Key from "./src/screens/app/auth/Key";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
+// Font Awesome Icons...
+import { FontAwesome5 } from "@expo/vector-icons";
+import { useRef } from "react";
+
+// Dashboard
+import Home from "./src/screens/app/dashboard/Home";
+import Swap from "./src/screens/app/dashboard/Swap";
+import Team from "./src/screens/app/dashboard/Team";
+import Statistics from "./src/screens/app/dashboard/Statistics";
+import Wallet from "./src/screens/app/dashboard/Wallet";
+import colors from "./src/constants/colors";
+
+const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+// Hiding Tab Names...
 export default function App() {
-  const Stack = createStackNavigator();
-  const Tab = createBottomTabNavigator();
+  // Animated Tab Indicator...
+  const tabOffsetValue = useRef(new Animated.Value(0)).current;
 
-  const [fontsLoaded] = useFonts({
-    "poppins-bold": require("./src/assets/fonts/Poppins-Bold.ttf"),
-    "poppins-light": require("./src/assets/fonts/Poppins-Light.ttf"),
-    "poppins-regular": require("./src/assets/fonts/Poppins-Regular.ttf"),
-    "poppins-semibold": require("./src/assets/fonts/Poppins-SemiBold.ttf"),
-  });
+  const screenOptions = {
+    headerShown: false,
+    tabBarStyle: {
+      backgroundColor: "#1E1D2B",
+      position: "absolute",
+      // bottom: 40,
+      // marginHorizontal: 20,
+      // Max Height...
+      height: 70,
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+      // Shadow...
+      // shadowColor: "#000",
+      // shadowOpacity: 0.06,
+      // shadowOffset: {
+      //   width: 10,
+      //   height: 10,
+      // },
+      paddingHorizontal: 20,
+    },
+  };
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  const HomeTabs = () => (
+    <>
+      <Tab.Navigator
+        {...{ screenOptions }}
+        tabBarOptions={{
+          showLabel: false,
+        }}
+      >
+        <Tab.Screen
+          name={"Home"}
+          component={Home}
+          options={{
+            tabBarIcon: ({ focused, name }) => (
+              <>
+                <FontAwesome5
+                  name="home"
+                  size={20}
+                  color={focused ? colors.purplelight : colors.darkgold}
+                  style={{ marginBottom: 5 }}
+                ></FontAwesome5>
+                <Text
+                  style={{
+                    color: focused ? colors.purplelight : colors.darkgold,
+                  }}
+                >
+                  Home
+                </Text>
+              </>
+            ),
+          }}
+        ></Tab.Screen>
 
-  // const HomeStack = () => (
-  //   <Stack.Navigator screenOptions={{ headerShown: false }}>
-  //     <Stack.Screen name="Home" component={HomeScreen} />
-  //   </Stack.Navigator>
-  // );
+        <Tab.Screen
+          name={"Swap"}
+          component={Swap}
+          options={{
+            tabBarIcon: ({ focused, name }) => (
+              <>
+                <FontAwesome5
+                  name="exchange-alt"
+                  size={20}
+                  color={focused ? colors.purplelight : colors.darkgold}
+                  style={{ marginBottom: 5 }}
+                ></FontAwesome5>
+                <Text
+                  style={{
+                    color: focused ? colors.purplelight : colors.darkgold,
+                  }}
+                >
+                  Swap
+                </Text>
+              </>
+            ),
+          }}
+        ></Tab.Screen>
+
+        <Tab.Screen
+          name={"Wallet"}
+          component={Wallet}
+          options={{
+            tabBarIcon: ({ focused, name }) => (
+              <>
+                <FontAwesome5
+                  name="wallet"
+                  size={20}
+                  color={focused ? colors.purplelight : colors.darkgold}
+                  style={{ marginBottom: 5 }}
+                ></FontAwesome5>
+                <Text
+                  style={{
+                    color: focused ? colors.purplelight : colors.darkgold,
+                  }}
+                >
+                  wallet
+                </Text>
+              </>
+            ),
+          }}
+        ></Tab.Screen>
+
+        <Tab.Screen
+          name={"Team"}
+          component={Team}
+          options={{
+            tabBarIcon: ({ focused, name }) => (
+              <>
+                <FontAwesome5
+                  name="users"
+                  size={20}
+                  color={focused ? colors.purplelight : colors.darkgold}
+                  style={{ marginBottom: 5 }}
+                ></FontAwesome5>
+                <Text
+                  style={{
+                    color: focused ? colors.purplelight : colors.darkgold,
+                  }}
+                >
+                  Team
+                </Text>
+              </>
+            ),
+          }}
+        ></Tab.Screen>
+
+        <Tab.Screen
+          name={"Statistics"}
+          component={Statistics}
+          options={{
+            tabBarIcon: ({ focused, name }) => (
+              <>
+                <FontAwesome5
+                  name="chart-bar"
+                  size={20}
+                  color={focused ? colors.purplelight : colors.darkgold}
+                  style={{ marginBottom: 5 }}
+                ></FontAwesome5>
+                <Text
+                  style={{
+                    color: focused ? colors.purplelight : colors.darkgold,
+                  }}
+                >
+                  Statistics
+                </Text>
+              </>
+            ),
+          }}
+        ></Tab.Screen>
+      </Tab.Navigator>
+    </>
+  );
+
+  const AppStack = () => (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {/* <Stack.Screen name="Onboarding" component={Onboarding} />
+      <Stack.Screen name="Signin" component={Signin} />
+      <Stack.Screen name="Signup" component={Signup} />
+      <Stack.Screen name="Verification" component={Verification} />
+      <Stack.Screen name="Key" component={Key} /> */}
+      <Stack.Screen name="HomeTabs" component={HomeTabs} />
+    </Stack.Navigator>
+  );
 
   return (
     <AuthProvider>
       <OtpProvider>
         <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Onboarding" component={Onboarding} />
-            <Stack.Screen name="Signin" component={Signin} />
-            <Stack.Screen name="Signup" component={Signup} />
-            <Stack.Screen name="Verification" component={Verification} />
-            <Stack.Screen name="Key" component={Key} />
-            {/* <Tab.Navigator>
-              <Tab.Screen name="Home" component={HomeStack} />
-            </Tab.Navigator> */}
-          </Stack.Navigator>
+          <AppStack />
         </NavigationContainer>
       </OtpProvider>
     </AuthProvider>
   );
 }
+
+function getWidth() {
+  let width = Dimensions.get("window").width;
+
+  // Horizontal Padding = 20...
+  width = width - 80;
+
+  // Total five Tabs...
+  return width / 5;
+}
+
+function EmptyScreen() {
+  return (
+    <View
+      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+    ></View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

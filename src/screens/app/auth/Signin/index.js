@@ -44,7 +44,7 @@ const LoginScreen = ({ navigation }) => {
         setUserId(userId);
   
         // Optional: You can navigate the user to another screen after successful verification
-        navigation.navigate("Verification");
+        navigation.navigate("Key");
       } else {
         // Login failed, set error message
         setError("Login failed. Please check your credentials.");
@@ -91,7 +91,6 @@ const LoginScreen = ({ navigation }) => {
             icon={passwordIcon}
           />
         </View>
-
 
         <Button onPress={() => handleLogin()}>Log in</Button>
         {error && <Text style={styles.errorText}>{error}</Text>}

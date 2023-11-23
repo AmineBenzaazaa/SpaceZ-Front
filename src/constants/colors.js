@@ -1,10 +1,11 @@
 const colors = {
-    purplebold: '#0E0C30',
-    purpledark: '#1E1D38',
-    purplelight: '#A09CF7',
+    purplebold: '#1E1D2B',
+    purpledark: '#2E2E40',
+    purplelight: '#E8B858',
+    darkgold: '#6F5B3D',
     white: '#FFFFFF',
-    black: '#173147',
-    grey: '#95959E',
+    black: '#000000',
+    grey: '#A2A2A9',
 }
 
 export default colors

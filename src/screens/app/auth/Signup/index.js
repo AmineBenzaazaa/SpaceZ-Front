@@ -8,6 +8,7 @@ import {
   StyleSheet,
   SafeAreaView,
   Image,
+  ScrollView,
 } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
@@ -23,6 +24,7 @@ import CustomPhoneInput from "../../../../components/PhoneInput";
 
 import { AuthContext } from "../../../../context/AuthContext";
 import colors from "../../../../constants/colors";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const RegisterScreen = ({ navigation }) => {
   const [fullName, setfullName] = useState(null);
@@ -37,7 +39,6 @@ const RegisterScreen = ({ navigation }) => {
 
   const handlePhoneNumberChange = (number) => {
     // Update the phoneNumber state when the phone number changes
-    console.log("number :>> ", number);
     setPhoneNumber(number);
   };
 
@@ -47,7 +48,7 @@ const RegisterScreen = ({ navigation }) => {
       setError("Password and confirmation password do not match.");
       return; // Exit early if there's a mismatch
     }
-    
+
     try {
       const response = await register(
         fullName,
@@ -94,94 +95,96 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <>
-      <SafeAreaView style={styles.container}>
-        <Title title="Sign up" subtitle="Enter your credentials" />
-        <Spinner visible={isLoading} />
+      <KeyboardAwareScrollView style={styles.container} behavior={"padding"}>
+        <ScrollView>
+          {/* <SafeAreaView style={styles.container}> */}
+            <Title title="Sign up" subtitle="Enter your credentials" />
+            <Spinner visible={isLoading} />
 
-        <View style={styles.input}>
-          <Text style={styles.label}>Phone Number</Text>
+            <View style={styles.input}>
+              <Text style={styles.label}>Phone Number</Text>
 
-          <CustomPhoneInput
-            value={phoneNumber}
-            placeholder="Enter your Phone Number"
-            onPhoneNumberChange={handlePhoneNumberChange}
-          />
-        </View>
-        <View style={styles.input}>
-          <Text style={styles.label}>Email Address</Text>
-          <Input
-            placeholder="Enter your email"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-            icon={emailIcon}
-          />
-        </View>
+              <CustomPhoneInput
+                value={phoneNumber}
+                placeholder="Enter your Phone Number"
+                onPhoneNumberChange={handlePhoneNumberChange}
+              />
+            </View>
+            <View style={styles.input}>
+              <Text style={styles.label}>Email Address</Text>
+              <Input
+                placeholder="Enter your email"
+                value={email}
+                onChangeText={(text) => setEmail(text)}
+                icon={emailIcon}
+              />
+            </View>
 
-        <View style={styles.input}>
-          <Text style={styles.label}>Full name</Text>
-          <Input
-            placeholder="Enter your Full name"
-            value={fullName}
-            onChangeText={(text) => setfullName(text)}
-            icon={userIcon}
-          />
-        </View>
+            <View style={styles.input}>
+              <Text style={styles.label}>Full name</Text>
+              <Input
+                placeholder="Enter your Full name"
+                value={fullName}
+                onChangeText={(text) => setfullName(text)}
+                icon={userIcon}
+              />
+            </View>
 
-        <View style={styles.input}>
-          <Text style={styles.label}>Username</Text>
-          <Input
-            placeholder="Username"
-            value={username}
-            onChangeText={(text) => setUsername(text)}
-            icon={userIcon}
-          />
-        </View>
-        
-        <View style={styles.input}>
-          <Text style={styles.label}>Country</Text>
-          <Input
-            placeholder="Country"
-            value={password}
-            secureTextEntry
-            onChangeText={(text) => setCountry(text)}
-            icon={passwordIcon}
-          />
-        </View>
+            <View style={styles.input}>
+              <Text style={styles.label}>Username</Text>
+              <Input
+                placeholder="Username"
+                value={username}
+                onChangeText={(text) => setUsername(text)}
+                icon={userIcon}
+              />
+            </View>
 
-        <View style={styles.input}>
-          <Text style={styles.label}>Password</Text>
-          <Input
-            placeholder="Password"
-            value={password}
-            secureTextEntry
-            onChangeText={(text) => setPassword(text)}
-            icon={passwordIcon}
-          />
-        </View>
+            <View style={styles.input}>
+              <Text style={styles.label}>Country</Text>
+              <Input
+                placeholder="Country"
+                value={country}
+                onChangeText={(text) => setCountry(text)}
+                icon={passwordIcon}
+              />
+            </View>
 
-        <View style={styles.input}>
-          <Text style={styles.label}>Confirmation Password</Text>
-          <Input
-            placeholder="Confirmation Password"
-            value={confirmationPassword}
-            secureTextEntry
-            onChangeText={(text) => setConfirmationPassword(text)}
-            icon={passwordIcon}
-          />
-        </View>
+            <View style={styles.input}>
+              <Text style={styles.label}>Password</Text>
+              <Input
+                placeholder="Password"
+                value={password}
+                secureTextEntry
+                onChangeText={(text) => setPassword(text)}
+                icon={passwordIcon}
+              />
+            </View>
+            <View style={styles.input}>
+              <Text style={styles.label}>Confirmation Password</Text>
+              <Input
+                placeholder="Confirmation Password"
+                value={confirmationPassword}
+                secureTextEntry
+                onChangeText={(text) => setConfirmationPassword(text)}
+                icon={passwordIcon}
+              />
+            </View>
 
-        <Button onPress={() => handleRegister()}>Sign up</Button>
-        {error && <Text style={styles.errorText}>{error}</Text>}
-        <Text style={styles.text}>
-          Already have an account?{" "}
-          <Text
-            style={styles.link}
-            onPress={() => navigation.navigate("Signin")}
-          >
-            Sign in!
-          </Text>
-        </Text>
-      </SafeAreaView>
+            <Button onPress={() => handleRegister()}>Sign up</Button>
+            {error && <Text style={styles.errorText}>{error}</Text>}
+            <Text style={styles.text}>
+              Already have an account?{" "}
+              <Text
+                style={styles.link}
+                onPress={() => navigation.navigate("Signin")}
+              >
+                Sign in!
+              </Text>
+            </Text>
+          {/* </SafeAreaView> */}
+        </ScrollView>
+      </KeyboardAwareScrollView>
     </>
   );
 };

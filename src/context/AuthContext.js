@@ -13,16 +13,17 @@ export const AuthProvider = ({ children,navigation }) => {
   const [splashLoading, setSplashLoading] = useState(false);
   const [userId, setUserId] = useState(null);
 
-  const register = async (fullName, username, email, phoneNumber, password) => {
+  const register = async (fullName, username, email, phoneNumber, password, country) => {
     setIsLoading(true);
-
     try {
+      console.log('fullName, username, email, phoneNumber, password, country :>> ', fullName, username, email, phoneNumber, password, country);
       const response = await axios.post(`${BASE_URL}/user/signup`, {
         fullName: fullName,
         username: username,
         email: email,
         phoneNumber: phoneNumber,
         password: password,
+        country: country
       });
 
       let userInfo = response.data;
@@ -42,10 +43,22 @@ export const AuthProvider = ({ children,navigation }) => {
       // Alert.alert("Success!", `User ${username} was successfully created!`);
       // sendVerificationEmail(email);
       return combinedData; // Return the response from the API request
-    } catch (e) {
-      console.log(`register error ${e}`);
+    } catch (error) {
+      if (error.response) {
+        // The server responded with an error status code (e.g., 4xx or 5xx)
+        console.error(
+          "Server error:",
+          error.response.status,
+          error.response.data
+        );
+      } else if (error.request) {
+        // The request was made, but no response was received
+        console.error("No response received. Network issue.");
+      } else {
+        // Something happened while setting up the request
+        console.error("Request setup error:", error.message);
+      }
       setIsLoading(false);
-      throw e; // Rethrow the error to indicate registration failure
     }
   };
 
@@ -72,7 +85,7 @@ export const AuthProvider = ({ children,navigation }) => {
 
       // Alert.alert("Success!", `User was successfully logged in!`);
       storeUserDataSecurely(combinedData);
-      sendVerificationEmail(email);
+      // sendVerificationEmail(email);
       setIsLoading(false);
       return combinedData;
     } catch (error) {

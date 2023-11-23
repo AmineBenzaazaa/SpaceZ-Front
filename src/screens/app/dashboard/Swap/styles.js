@@ -29,9 +29,9 @@ const styles = StyleSheet.create({
   },
   copy: {
     flex: 1, // 20% width
-    backgroundColor: colors.black,
+    backgroundColor: "#2B2A57",
     // marginLeft: 8, // Add margin left for separation
-    padding: 19,
+    padding: 22,
     borderTopRightRadius: 8,
     borderBottomRightRadius: 8,
     justifyContent: "center", // Center content vertically
