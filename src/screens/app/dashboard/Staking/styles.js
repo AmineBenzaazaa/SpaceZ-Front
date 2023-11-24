@@ -6,12 +6,12 @@ const styles = StyleSheet.create({
     flex: 1,
     // paddingHorizontal: 24,
     backgroundColor: colors.purpledark,
-    // justifyContent: "center", 
+    // justifyContent: "center", // Center content vertically
   },
   keyContainer: {
     flexDirection: "row",
-    justifyContent: "space-between", 
-    alignItems: "center", 
+    justifyContent: "space-between", // Space evenly
+    alignItems: "center", // Center content vertically
   },
   warning: {
     color: colors.purplelight,

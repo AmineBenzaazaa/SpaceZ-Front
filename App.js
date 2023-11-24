@@ -16,6 +16,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import "react-native-gesture-handler";
 import { useFonts } from "expo-font";
+import { useRef } from "react";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 // import * as SplashScreen from "expo-splash-screen";
 
@@ -30,7 +31,6 @@ import Key from "./src/screens/app/auth/Key";
 
 // Font Awesome Icons...
 import { FontAwesome5 } from "@expo/vector-icons";
-import { useRef } from "react";
 
 // Dashboard
 import Home from "./src/screens/app/dashboard/Home";
@@ -39,6 +39,7 @@ import Team from "./src/screens/app/dashboard/Team";
 import Statistics from "./src/screens/app/dashboard/Statistics";
 import Wallet from "./src/screens/app/dashboard/Wallet";
 import colors from "./src/constants/colors";
+import Staking from "./src/screens/app/dashboard/Staking";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -74,8 +75,16 @@ export default function App() {
     <>
       <Tab.Navigator
         {...{ screenOptions }}
+        sceneContainerStyle={{
+          backgroundColor: 'transparent',
+          marginLeft: -1
+        }}
         tabBarOptions={{
           showLabel: false,
+          tabBarStyle:{borderTopWidth:0},
+          activeTintColor: colors.purpledark,
+          inactiveTintColor: colors.purpledark,
+          style: styles.container,
         }}
       >
         <Tab.Screen
@@ -209,6 +218,7 @@ export default function App() {
       <Stack.Screen name="Verification" component={Verification} />
       <Stack.Screen name="Key" component={Key} /> */}
       <Stack.Screen name="HomeTabs" component={HomeTabs} />
+      <Stack.Screen name="Staking" component={Staking} />
     </Stack.Navigator>
   );
 
@@ -247,5 +257,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#1E1D2B",
+    borderTopWidth: 0,
   },
 });

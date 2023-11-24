@@ -13,13 +13,13 @@ import Title from "../../../../components/Title";
 import Input from "../../../../components/Input";
 import OtpInput from "../../../../components/OtpInput";
 
-import styles from "./styles";
+// import styles from "./styles";
 
 import { AuthContext } from "../../../../context/AuthContext";
 import Checkbox from "../../../../components/Checkbox";
 import Header from "../../../../components/Header";
 
-const Swap = ({ navigation }) => {
+const Stacking = ({ navigation }) => {
   const { isLoading, userInfo } = useContext(AuthContext);
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState(null);
@@ -30,10 +30,10 @@ const Swap = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header title="Swap" />
-
+      <Header title="Staking" />
+      
     </SafeAreaView>
   );
 };
 
-export default Swap;
+export default Stacking;
