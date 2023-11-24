@@ -95,93 +95,93 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <>
-      <KeyboardAwareScrollView style={styles.container} behavior={"padding"}>
-        <ScrollView>
+      <KeyboardAwareScrollView behavior={"padding"} style={styles.container} >
+        <Title title="Sign up" subtitle="Enter your credentials" />
+        <ScrollView style={styles.form}>
           {/* <SafeAreaView style={styles.container}> */}
-            <Title title="Sign up" subtitle="Enter your credentials" />
-            <Spinner visible={isLoading} />
+          <Spinner visible={isLoading} />
 
-            <View style={styles.input}>
-              <Text style={styles.label}>Phone Number</Text>
+          <View style={styles.input}>
+            <Text style={styles.label}>Phone Number</Text>
 
-              <CustomPhoneInput
-                value={phoneNumber}
-                placeholder="Enter your Phone Number"
-                onPhoneNumberChange={handlePhoneNumberChange}
-              />
-            </View>
-            <View style={styles.input}>
-              <Text style={styles.label}>Email Address</Text>
-              <Input
-                placeholder="Enter your email"
-                value={email}
-                onChangeText={(text) => setEmail(text)}
-                icon={emailIcon}
-              />
-            </View>
+            <CustomPhoneInput
+              value={phoneNumber}
+              placeholder="Enter your Phone Number"
+              onPhoneNumberChange={handlePhoneNumberChange}
+            />
+          </View>
+          <View style={styles.input}>
+            <Text style={styles.label}>Email Address</Text>
+            <Input
+              placeholder="Enter your email"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+              icon={emailIcon}
+            />
+          </View>
 
-            <View style={styles.input}>
-              <Text style={styles.label}>Full name</Text>
-              <Input
-                placeholder="Enter your Full name"
-                value={fullName}
-                onChangeText={(text) => setfullName(text)}
-                icon={userIcon}
-              />
-            </View>
+          <View style={styles.input}>
+            <Text style={styles.label}>Full name</Text>
+            <Input
+              placeholder="Enter your Full name"
+              value={fullName}
+              onChangeText={(text) => setfullName(text)}
+              icon={userIcon}
+            />
+          </View>
 
-            <View style={styles.input}>
-              <Text style={styles.label}>Username</Text>
-              <Input
-                placeholder="Username"
-                value={username}
-                onChangeText={(text) => setUsername(text)}
-                icon={userIcon}
-              />
-            </View>
+          <View style={styles.input}>
+            <Text style={styles.label}>Username</Text>
+            <Input
+              placeholder="Username"
+              value={username}
+              onChangeText={(text) => setUsername(text)}
+              icon={userIcon}
+            />
+          </View>
 
-            <View style={styles.input}>
-              <Text style={styles.label}>Country</Text>
-              <Input
-                placeholder="Country"
-                value={country}
-                onChangeText={(text) => setCountry(text)}
-                icon={passwordIcon}
-              />
-            </View>
+          <View style={styles.input}>
+            <Text style={styles.label}>Country</Text>
+            <Input
+              placeholder="Country"
+              value={country}
+              onChangeText={(text) => setCountry(text)}
+              icon={passwordIcon}
+            />
+          </View>
 
-            <View style={styles.input}>
-              <Text style={styles.label}>Password</Text>
-              <Input
-                placeholder="Password"
-                value={password}
-                secureTextEntry
-                onChangeText={(text) => setPassword(text)}
-                icon={passwordIcon}
-              />
-            </View>
-            <View style={styles.input}>
-              <Text style={styles.label}>Confirmation Password</Text>
-              <Input
-                placeholder="Confirmation Password"
-                value={confirmationPassword}
-                secureTextEntry
-                onChangeText={(text) => setConfirmationPassword(text)}
-                icon={passwordIcon}
-              />
-            </View>
+          <View style={styles.input}>
+            <Text style={styles.label}>Password</Text>
+            <Input
+              placeholder="Password"
+              value={password}
+              secureTextEntry
+              onChangeText={(text) => setPassword(text)}
+              icon={passwordIcon}
+            />
+          </View>
+          <View style={styles.input}>
+            <Text style={styles.label}>Confirmation Password</Text>
+            <Input
+              placeholder="Confirmation Password"
+              value={confirmationPassword}
+              secureTextEntry
+              onChangeText={(text) => setConfirmationPassword(text)}
+              icon={passwordIcon}
+            />
+          </View>
 
-            <Button onPress={() => handleRegister()}>Sign up</Button>
-            {error && <Text style={styles.errorText}>{error}</Text>}
-            <Text style={styles.text}>
-              Already have an account?{" "}
-              <Text
-                style={styles.link}
-                onPress={() => navigation.navigate("Signin")}
-              >
-                Sign in!
-              </Text>
+          <Button onPress={() => handleRegister()}>Sign up</Button>
+          {error && <Text style={styles.errorText}>{error}</Text>}
+          <Text style={styles.text}>
+            Already have an account?{" "}
+            <Text
+              style={styles.link}
+              onPress={() => navigation.navigate("Signin")}
+            >
+              Sign in!
             </Text>
+          </Text>
           {/* </SafeAreaView> */}
         </ScrollView>
       </KeyboardAwareScrollView>

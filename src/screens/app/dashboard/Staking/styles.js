@@ -4,65 +4,48 @@ import colors from "../../../../constants/colors";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingHorizontal: 24,
     backgroundColor: colors.purpledark,
-    // justifyContent: "center", // Center content vertically
   },
-  keyContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between", // Space evenly
-    alignItems: "center", // Center content vertically
-  },
-  warning: {
-    color: colors.purplelight,
-    paddingVertical: 20,
-  },
-  key: {
-    flex: 8, // 60% width
-    backgroundColor: colors.purplebold,
-    borderTopLeftRadius: 8,
-    borderBottomLeftRadius: 8,
-    padding: 16,
-    fontSize:12,
-    flexDirection: "row", // Align items horizontally
-    alignItems: "center", // Center content vertically
-  },
-  copy: {
-    flex: 1, // 20% width
-    backgroundColor: "#2B2A57",
-    // marginLeft: 8, // Add margin left for separation
-    padding: 22,
-    borderTopRightRadius: 8,
-    borderBottomRightRadius: 8,
-    justifyContent: "center", // Center content vertically
+  body: {
+    paddingHorizontal: 24,
+    justifyContent: "center",
     alignItems: "center", // Center content horizontally
-
+    // flex: 1, // Take up available vertical space
   },
-  walletPublicKey: {
+  token: {
+    marginTop:34,
     color: colors.white,
-    paddingHorizontal: 20,
-    fontSize: 12,
-    marginLeft: 8, // Add margin left for separation
+    fontSize: 16,
+    textAlign: "center",
+    fontWeight: "600",
   },
-  icon: {
-    width: 24, // Adjust as needed
-    height: 24, // Adjust as needed
-    
+  text: {
+    marginBottom: 50,
+    color: colors.purplelight,
+    textAlign: "center",
+    fontSize: 14,
   },
-  text:{
+  coinImage: {
+    width: 90,
+    height: 90,
+    resizeMode: "contain", // Maintain aspect ratio and fit within the specified dimensions
+  },
+  button: {
+    backgroundColor: colors.green, // Adjust the color as needed
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    marginTop: 'auto', // Pushes the button to the bottom
+  },
+  buttonText: {
     color: colors.white,
-    paddingHorizontal: 10,
+    fontSize: 16,
+    textAlign: "center",
+    fontWeight: "bold",
   },
-  checkboxContainer: {
-    flexDirection: 'row',
-    marginBottom: 20,
-  },
-  checkbox: {
-    alignSelf: 'center',
-  },
-  label: {
-    marginHorizontal: 8,
-    marginVertical: 4,
+  content: {
+    paddingHorizontal: 46,
+    paddingBottom: 46,
   },
 });
 

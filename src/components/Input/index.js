@@ -8,7 +8,7 @@ const Input = ({ icon, ...props }) => {
     <View style={styles.inputContainer}>
       {icon && <View style={styles.icon}>{icon}</View>}
       <TextInput
-        placeholderTextColor={colors.grey}
+        placeholderTextColor={colors.text}
         style={styles.input}
         {...props}
       />

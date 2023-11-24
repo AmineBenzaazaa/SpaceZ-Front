@@ -5,16 +5,15 @@ import colors from "../../constants/colors";
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
     borderRadius: 30,
     padding: 13,
-    marginVertical: 8,
+    alignSelf: 'stretch', // Ensures the button expands to fill the width
+    width: '100%', // Sets the width to 100% of the screen
   },
   text: {
     color: colors.purpledark,
     fontSize: 16,
+    textAlign: "center",
     fontWeight: "normal",
   },
   blueBg: {

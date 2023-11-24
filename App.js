@@ -212,11 +212,11 @@ export default function App() {
 
   const AppStack = () => (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* <Stack.Screen name="Onboarding" component={Onboarding} />
+      <Stack.Screen name="Onboarding" component={Onboarding} />
       <Stack.Screen name="Signin" component={Signin} />
       <Stack.Screen name="Signup" component={Signup} />
       <Stack.Screen name="Verification" component={Verification} />
-      <Stack.Screen name="Key" component={Key} /> */}
+      <Stack.Screen name="Key" component={Key} />
       <Stack.Screen name="HomeTabs" component={HomeTabs} />
       <Stack.Screen name="Staking" component={Staking} />
     </Stack.Navigator>

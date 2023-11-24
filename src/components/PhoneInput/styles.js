@@ -5,10 +5,14 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row", // Align icon and input horizontally
     alignItems: "center", // Vertically center icon and input
-    borderBottomWidth: 1,
+    marginVertical:10,
+    borderBottomWidth: 0.7,
+    borderRadius:9,
     borderColor: colors.grey,
+    backgroundColor: colors.purpleinput,
     marginBottom: 12,
-    fontSize: 15,
+    padding:6,
+    fontSize: 14,
   },
   icon: {
     marginRight: 10, // Adjust spacing between icon and input

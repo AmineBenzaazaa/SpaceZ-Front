@@ -7,7 +7,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.purpledark,
+    // paddingHorizontal: 24,
+  },
+  form:{
     paddingHorizontal: 24,
+    paddingVertical:10,
   },
   label: {
     textAlign: "left",
@@ -17,7 +21,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: colors.white,
     fontSize: 12,
-    marginTop: 28,
+    marginVertical: 28,
   },
   link: {
     color: colors.purplelight,

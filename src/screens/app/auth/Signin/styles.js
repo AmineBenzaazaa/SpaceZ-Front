@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.purpledark,
-    paddingHorizontal: 24,
+    // paddingHorizontal: 24,
   },
   label: {
     textAlign: "left",
