@@ -13,9 +13,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  image:{
+  image: {
     height: 35,
-    width: 153
+    width: 153,
   },
   content: {
     paddingHorizontal: 46,

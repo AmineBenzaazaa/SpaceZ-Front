@@ -27,8 +27,6 @@ export default class Accordian extends Component {
   render() {
     return (
       <View>
-        
-        
         {this.state.expanded && (
           <>
             <View style={styles.child}>
@@ -40,46 +38,47 @@ export default class Accordian extends Component {
 
               <Text style={styles.token}>205</Text>
               <Text style={styles.text}>Countries</Text>
-            </View>
-            <View style={styles.transactionsLight}>
-              {/* Left column */}
-              <View style={styles.columnLeft}>
-                <Text style={styles.token}>11,265,520,780 SPZ</Text>
-                <Text style={styles.text}>Total Staked in Pool</Text>
+
+              <View style={styles.transactionsLight}>
+                {/* Left column */}
+                <View style={styles.columnLeft}>
+                  <Text style={styles.token}>11,265,520,780 SPZ</Text>
+                  <Text style={styles.text}>Total Staked in Pool</Text>
+                </View>
+
+                {/* Right column */}
+                <View style={styles.columnRight}>
+                  <Text style={styles.token}>$2,253,104,156</Text>
+                  <Text style={styles.text}>Total Staked in Pool (USD)</Text>
+                </View>
               </View>
 
-              {/* Right column */}
-              <View style={styles.columnRight}>
-                <Text style={styles.token}>$2,253,104,156</Text>
-                <Text style={styles.text}>Total Staked in Pool (USD)</Text>
-              </View>
-            </View>
+              <View style={styles.transactions}>
+                {/* Left column */}
+                <View style={styles.columnLeft}>
+                  <Text style={styles.token}>20,456,456,352 SPZ</Text>
+                  <Text style={styles.text}>Total Staked in Pool</Text>
+                </View>
 
-            <View style={styles.transactions}>
-              {/* Left column */}
-              <View style={styles.columnLeft}>
-                <Text style={styles.token}>20,456,456,352 SPZ</Text>
-                <Text style={styles.text}>Total Staked in Pool</Text>
-              </View>
-
-              {/* Right column */}
-              <View style={styles.columnRight}>
-                <Text style={styles.token}>$4,091,291,270</Text>
-                <Text style={styles.text}>Total Staked in Pool (USD)</Text>
-              </View>
-            </View>
-
-            <View style={styles.transactionsLight}>
-              {/* Left column */}
-              <View style={styles.columnLeft}>
-                <Text style={styles.token}>11,265,520,780 SPZ</Text>
-                <Text style={styles.text}>Total Staked in Pool</Text>
+                {/* Right column */}
+                <View style={styles.columnRight}>
+                  <Text style={styles.token}>$4,091,291,270</Text>
+                  <Text style={styles.text}>Total Staked in Pool (USD)</Text>
+                </View>
               </View>
 
-              {/* Right column */}
-              <View style={styles.columnRight}>
-                <Text style={styles.token}>$2,253,104,156</Text>
-                <Text style={styles.text}>Total Staked in Pool (USD)</Text>
+              <View style={styles.transactionsLight}>
+                {/* Left column */}
+                <View style={styles.columnLeft}>
+                  <Text style={styles.token}>11,265,520,780 SPZ</Text>
+                  <Text style={styles.text}>Total Staked in Pool</Text>
+                </View>
+
+                {/* Right column */}
+                <View style={styles.columnRight}>
+                  <Text style={styles.token}>$2,253,104,156</Text>
+                  <Text style={styles.text}>Total Staked in Pool (USD)</Text>
+                </View>
               </View>
             </View>
           </>
@@ -148,17 +147,17 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start", // Updated from "top"
   },
   transactions: {
-    flexDirection: 'row', // Arrange children horizontally
+    flexDirection: "row", // Arrange children horizontally
     backgroundColor: colors.purplebold,
     borderRadius: 8,
-    justifyContent: 'space-between', // Space evenly between children
+    justifyContent: "space-between", // Space evenly between children
     padding: 8,
   },
   transactionsLight: {
-    flexDirection: 'row', // Arrange children horizontally
+    flexDirection: "row", // Arrange children horizontally
     backgroundColor: colors.purpledark,
     borderRadius: 8,
-    justifyContent: 'space-between', // Space evenly between children
+    justifyContent: "space-between", // Space evenly between children
     padding: 8,
   },
 });

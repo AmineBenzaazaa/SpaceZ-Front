@@ -7,8 +7,8 @@ import {
   Button,
 } from "react-native";
 import React, { useContext, useState } from "react";
-import Spinner from "react-native-loading-spinner-overlay";
-// import AccordionView from 'react-native-accordion-view'
+// import { createDrawerNavigator } from "@react-navigation/drawer";
+// import 'react-native-gesture-handler';
 import { FontAwesome5 } from "@expo/vector-icons";
 
 import Header from "../../../../components/Header";
@@ -22,14 +22,24 @@ const Home = ({ navigation }) => {
   const { isLoading, userInfo } = useContext(AuthContext);
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState(null);
-
-  // const [expanded, setExpanded] = React.useState(true);
-  // const handlePress = () => setExpanded(!expanded);
+  // const Drawer = createDrawerNavigator();
 
   return (
     <SafeAreaView style={{ ...styles.container }}>
       <View style={{ ...styles.bg }}>
-        <Header title="Space’Z Network" />
+        {/* <Header title="" navigation={navigation}/> */}
+        <Header
+          title="Space’Z Network"
+          leftIconName="bell"
+          leftNavigation="Notification"
+          rightIconName="bars"
+          rightNavigation="Menu"
+          navigation={navigation}
+        />
+        {/* <Drawer.Navigator>
+          <Drawer.Screen name="Feed" component={Notification} />
+          <Drawer.Screen name="Article" component={Notification} />
+        </Drawer.Navigator> */}
         <View style={styles.head}>
           <View style={styles.columnLeft}>
             <Text style={styles.token}>100 SPZ</Text>
@@ -73,7 +83,10 @@ const Home = ({ navigation }) => {
           <Text style={styles.token}>Add Referral</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.columnRef} onPress={() => navigation.navigate("Staking")}>
+        <TouchableOpacity
+          style={styles.columnRef}
+          onPress={() => navigation.navigate("Staking")}
+        >
           <FontAwesome5
             name="wallet"
             size={16}

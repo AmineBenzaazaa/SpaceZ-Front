@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     justifyContent: "center",
     alignItems: "center", // Center content horizontally
+    backgroundColor: colors.purpledark,
     // flex: 1, // Take up available vertical space
   },
   token: {
@@ -43,10 +44,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
   },
-  // content: {
-  //   paddingHorizontal: 46,
-  //   paddingBottom: 46,
-  // },
 });
 
 export default styles;

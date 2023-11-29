@@ -10,11 +10,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import "react-native-gesture-handler";
+// import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import "react-native-gesture-handler";
 import { useFonts } from "expo-font";
 import { useRef } from "react";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -40,6 +39,11 @@ import Statistics from "./src/screens/app/dashboard/Statistics";
 import Wallet from "./src/screens/app/dashboard/Wallet";
 import colors from "./src/constants/colors";
 import Staking from "./src/screens/app/dashboard/Staking";
+import Notification from "./src/screens/app/dashboard/Notification";
+import Menu from "./src/screens/app/dashboard/Menu";
+import Withdraw from "./src/screens/app/dashboard/Withdraw";
+import Deposit from "./src/screens/app/dashboard/Deposit";
+import Offer from "./src/screens/app/dashboard/Offer";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -212,13 +216,18 @@ export default function App() {
 
   const AppStack = () => (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Onboarding" component={Onboarding} />
+      {/* <Stack.Screen name="Onboarding" component={Onboarding} />
       <Stack.Screen name="Signin" component={Signin} />
       <Stack.Screen name="Signup" component={Signup} />
       <Stack.Screen name="Verification" component={Verification} />
-      <Stack.Screen name="Key" component={Key} />
+      <Stack.Screen name="Key" component={Key} /> */}
       <Stack.Screen name="HomeTabs" component={HomeTabs} />
       <Stack.Screen name="Staking" component={Staking} />
+      <Stack.Screen name="Notification" component={Notification} />
+      <Stack.Screen name="Withdraw" component={Withdraw} />
+      <Stack.Screen name="Deposit" component={Deposit} />
+      <Stack.Screen name="Offer" component={Offer} />
+      <Stack.Screen name="Menu" component={Menu} />
     </Stack.Navigator>
   );
 

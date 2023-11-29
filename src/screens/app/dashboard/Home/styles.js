@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
   
   transactions: {
     flexDirection: 'row',
+    maHorizontal: 20,
     borderRadius: 8,
     justifyContent: 'space-between',
     paddingHorizontal: 25,

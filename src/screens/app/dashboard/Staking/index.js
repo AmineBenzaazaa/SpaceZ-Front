@@ -6,12 +6,9 @@ import {
   Image,
 } from "react-native";
 import React, { useContext, useState } from "react";
-import Spinner from "react-native-loading-spinner-overlay";
 
 import Button from "../../../../components/Button";
-import Title from "../../../../components/Title";
 import Input from "../../../../components/Input";
-import OtpInput from "../../../../components/OtpInput";
 
 import styles from "./styles";
 
@@ -24,16 +21,21 @@ const Stacking = ({ navigation }) => {
   const [amount, setAmount] = useState();
   const [error, setError] = useState(null);
 
-
   const handleStakeButtonPress = () => {
     // Implement your logic for handling the stake button press
     console.log("Stake button pressed");
   };
 
-
   return (
     <SafeAreaView style={styles.container}>
-      <Header title="Staking" />
+      <Header
+        title="Staking"
+        leftIconName="chevron-left"
+        leftNavigation="Home"
+        rightIconName={false}
+        rightNavigation={false}
+        navigation={navigation}
+      />
       <View style={styles.body}>
         <View style={styles.token}>
           <Image
@@ -51,9 +53,9 @@ const Stacking = ({ navigation }) => {
           keyboardType="numeric"
           onChangeText={(text) => setAmount(text)}
         />
-        <View style={styles.content}>
-        <Button onPress={handleStakeButtonPress()} type="blue">Validate</Button>
-      </View>
+        <Button onPress={handleStakeButtonPress()} type="blue">
+          Validate
+        </Button>
       </View>
     </SafeAreaView>
   );
