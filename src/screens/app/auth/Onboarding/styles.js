@@ -43,6 +43,27 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     backgroundColor: colors.white,
   },
+  buttonsContainer: {
+    flexDirection: "column",
+    marginVertical: 10,
+  },
+  button: {
+    // flex: 1,
+    marginVertical: 5,
+    backgroundColor: colors.white,
+    borderRadius: 30,
+    padding: 13,
+    alignSelf: 'stretch',
+  },
+  btnText: {
+    color: colors.purpledark,
+    fontSize: 16,
+    textAlign: "center",
+    fontWeight: "normal",
+  },
+  btnbg: {
+    backgroundColor: colors.purplelight
+  }
 });
 
 export default styles;

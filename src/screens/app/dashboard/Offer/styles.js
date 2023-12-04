@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     borderRadius:20,
     backgroundColor:colors.white,
     height: 50,
-    width:180,
+    width:340,
     borderColor: 'gray',
     borderWidth: 0.5,
     borderRadius: 8,
@@ -50,16 +50,16 @@ const styles = StyleSheet.create({
 
   },
   token: {
-    marginTop:34,
+    marginVertical:22,
     color: colors.white,
     fontSize: 16,
     textAlign: "center",
     fontWeight: "600",
   },
   text: {
-    marginBottom: 50,
+    marginVertical: 5,
     color: colors.purplelight,
-    textAlign: "center",
+    textAlign: "left",
     fontSize: 14,
   },
   button: {
@@ -82,3 +82,4 @@ const styles = StyleSheet.create({
 });
 
 export default styles;
+

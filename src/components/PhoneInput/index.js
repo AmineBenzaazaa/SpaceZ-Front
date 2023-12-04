@@ -8,8 +8,6 @@ const CustomPhoneInput = ({ value, onPhoneNumberChange, ...props }) => {
   const phoneInputRef = useRef();
 
   const handlePhoneNumberChange = (number) => {
-    // Call the parent component's callback function to update the state
-    console.log('number :>> ', number);
     onPhoneNumberChange(number);
   };
 

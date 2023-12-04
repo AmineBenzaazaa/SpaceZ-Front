@@ -8,10 +8,7 @@ import {
 import React, { useContext, useState } from "react";
 import Spinner from "react-native-loading-spinner-overlay";
 
-import Button from "../../../../components/Button";
-import Title from "../../../../components/Title";
-import Input from "../../../../components/Input";
-import OtpInput from "../../../../components/OtpInput";
+import Header from "../../../../components/Header";
 
 import styles from "./styles";
 import { AuthContext } from "../../../../context/AuthContext";
@@ -28,7 +25,83 @@ const Statistics = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Title title="Statistics" />
+      <Header
+        title="Statistics"
+        leftIconName="bell"
+        leftNavigation="Notification"
+        rightIconName="bars"
+        rightNavigation="Menu"
+        navigation={navigation}
+      />
+      <View style={styles.main}>
+        <View style={styles.transactionsLight}>
+          {/* Left column */}
+          <View style={styles.columnLeft}>
+            <Text style={styles.CardText}>Total Staked in Pool</Text>
+          </View>
+
+          {/* Right column */}
+          <View style={styles.columnRight}>
+            <Text style={styles.CardText}>100 SPZ</Text>
+          </View>
+        </View>
+        <View style={styles.card}>
+          <View style={styles.transactionsLight}>
+            {/* Left column */}
+            <View style={styles.columnLeft}>
+              <Text style={styles.CardText}>Total Staked in Pool</Text>
+            </View>
+
+            {/* Right column */}
+            <View style={styles.columnRight}>
+              <Text style={styles.CardText}>100 SPZ</Text>
+            </View>
+          </View>
+          <View style={styles.cardDescription}>
+            <Text style={styles.text}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</Text>
+          </View>
+        </View>
+        <View style={styles.card}>
+          <View style={styles.transactionsLight}>
+            {/* Left column */}
+            <View style={styles.columnLeft}>
+              <Text style={styles.CardText}>Maximum Rewards</Text>
+            </View>
+
+            {/* Right column */}
+            <View style={styles.columnRight}>
+              <Text style={styles.CardText}>500 SPZ</Text>
+            </View>
+          </View>
+          <View style={styles.cardDescription}>
+            <Text style={styles.text}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt, sed do eiusmod tempor incididunt.</Text>
+          </View>
+        </View>
+        <View style={styles.card}>
+          <View style={styles.transactionsLight}>
+            {/* Left column */}
+            <View style={styles.columnLeft}>
+              <Text style={styles.CardText}>Receivable Rewards</Text>
+            </View>
+
+            {/* Right column */}
+            <View style={styles.columnRight}>
+              <Text style={styles.CardText}>500 SPZ</Text>
+            </View>
+          </View>
+          <View style={styles.cardDescription}>
+            <Text style={styles.text}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt, sed do eiusmod tempor incididunt.</Text>
+          </View>
+        </View>
+        <View style={styles.buttonsContainer}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Statement")}>
+            <Text style={styles.btnText}>Statemenet Details </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.button , styles.btnbg]} onPress={() => navigation.navigate("WithdrawReward")}>
+            <Text style={[styles.btnText]}>Withdraw Rewards</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };

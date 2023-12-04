@@ -18,9 +18,8 @@ import { useFonts } from "expo-font";
 import { useRef } from "react";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 // import * as SplashScreen from "expo-splash-screen";
-
+import { BetweenPagesProvider } from "between-pages";
 import { AuthContext, AuthProvider } from "./src/context/AuthContext";
-import { OtpProvider } from "./src/context/OtpContext";
 
 import Onboarding from "./src/screens/app/auth/Onboarding";
 import Signin from "./src/screens/app/auth/Signin";
@@ -44,6 +43,10 @@ import Menu from "./src/screens/app/dashboard/Menu";
 import Withdraw from "./src/screens/app/dashboard/Withdraw";
 import Deposit from "./src/screens/app/dashboard/Deposit";
 import Offer from "./src/screens/app/dashboard/Offer";
+import WithdrawReward from "./src/screens/app/dashboard/WithdrawReward";
+import Statement from "./src/screens/app/dashboard/Statement";
+import WalletWithdraw from "./src/screens/app/dashboard/WalletWithraw";
+import { DashboardProvider } from "./src/context/DashboardContext";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -80,12 +83,12 @@ export default function App() {
       <Tab.Navigator
         {...{ screenOptions }}
         sceneContainerStyle={{
-          backgroundColor: 'transparent',
-          marginLeft: -1
+          backgroundColor: "transparent",
+          marginLeft: -1,
         }}
         tabBarOptions={{
           showLabel: false,
-          tabBarStyle:{borderTopWidth:0},
+          tabBarStyle: { borderTopWidth: 0 },
           activeTintColor: colors.purpledark,
           inactiveTintColor: colors.purpledark,
           style: styles.container,
@@ -216,11 +219,11 @@ export default function App() {
 
   const AppStack = () => (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* <Stack.Screen name="Onboarding" component={Onboarding} />
+      <Stack.Screen name="Onboarding" component={Onboarding} />
       <Stack.Screen name="Signin" component={Signin} />
       <Stack.Screen name="Signup" component={Signup} />
       <Stack.Screen name="Verification" component={Verification} />
-      <Stack.Screen name="Key" component={Key} /> */}
+      <Stack.Screen name="Key" component={Key} />
       <Stack.Screen name="HomeTabs" component={HomeTabs} />
       <Stack.Screen name="Staking" component={Staking} />
       <Stack.Screen name="Notification" component={Notification} />
@@ -228,16 +231,19 @@ export default function App() {
       <Stack.Screen name="Deposit" component={Deposit} />
       <Stack.Screen name="Offer" component={Offer} />
       <Stack.Screen name="Menu" component={Menu} />
+      <Stack.Screen name="WithdrawReward" component={WithdrawReward} />
+      <Stack.Screen name="Statement" component={Statement} />
+      <Stack.Screen name="WalletWithdraw" component={WalletWithdraw} />
     </Stack.Navigator>
   );
 
   return (
     <AuthProvider>
-      <OtpProvider>
-        <NavigationContainer>
+      <NavigationContainer>
+        <BetweenPagesProvider>
           <AppStack />
-        </NavigationContainer>
-      </OtpProvider>
+        </BetweenPagesProvider>
+      </NavigationContainer>
     </AuthProvider>
   );
 }

@@ -16,6 +16,7 @@ import OtpInput from "../../../../components/OtpInput";
 import styles from "./styles";
 import { AuthContext } from "../../../../context/AuthContext";
 import Checkbox from "../../../../components/Checkbox";
+import Header from "../../../../components/Header";
 
 const Team = ({ navigation }) => {
   const { isLoading, userInfo } = useContext(AuthContext);
@@ -28,7 +29,14 @@ const Team = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Title title="Team"/>
+      <Header
+        title="Team"
+        leftIconName="bell"
+        leftNavigation="Notification"
+        rightIconName="bars"
+        rightNavigation="Menu"
+        navigation={navigation}
+      />
     </SafeAreaView>
   );
 };

@@ -6,28 +6,40 @@ import {
   Image,
   Button,
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 // import { createDrawerNavigator } from "@react-navigation/drawer";
 // import 'react-native-gesture-handler';
 import { FontAwesome5 } from "@expo/vector-icons";
+import axios from "axios";
 
 import Header from "../../../../components/Header";
+import CollapsibleView from "../../../../components/CollapsibleView";
 
 import styles from "./styles";
-import { AuthContext } from "../../../../context/AuthContext";
-import CollapsibleView from "../../../../components/CollapsibleView";
 import colors from "../../../../constants/colors";
 
+import { AuthContext } from "../../../../context/AuthContext";
+import { useDashboard } from "../../../../context/DashboardContext"; // Import useDashboard
+
 const Home = ({ navigation }) => {
-  const { isLoading, userInfo } = useContext(AuthContext);
-  const [agreed, setAgreed] = useState(false);
-  const [error, setError] = useState(null);
-  // const Drawer = createDrawerNavigator();
+  const { userInfo } = useContext(AuthContext);
+  const { homeData, statsData, loading, error } = useDashboard();
+  
+
+  useEffect(() => {
+    if (!userInfo || !userInfo.userInfo.token) {
+      navigation.replace("Onboarding");
+    }
+    else {
+      
+      console.log('res :>> ', homeData);
+      console.log('res :>> ', statsData);
+    }
+  }, [userInfo, navigation]);
 
   return (
     <SafeAreaView style={{ ...styles.container }}>
       <View style={{ ...styles.bg }}>
-        {/* <Header title="" navigation={navigation}/> */}
         <Header
           title="Space’Z Network"
           leftIconName="bell"
@@ -36,10 +48,6 @@ const Home = ({ navigation }) => {
           rightNavigation="Menu"
           navigation={navigation}
         />
-        {/* <Drawer.Navigator>
-          <Drawer.Screen name="Feed" component={Notification} />
-          <Drawer.Screen name="Article" component={Notification} />
-        </Drawer.Navigator> */}
         <View style={styles.head}>
           <View style={styles.columnLeft}>
             <Text style={styles.token}>100 SPZ</Text>

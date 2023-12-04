@@ -35,8 +35,6 @@ const styles = StyleSheet.create({
     alignItems: "center", // Align items vertically in the center
   },
   
-  
-
   icons: {
     marginRight: 8, // Adjust the margin as needed
   },

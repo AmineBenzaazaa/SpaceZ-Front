@@ -70,7 +70,7 @@ const LoginScreen = ({ navigation }) => {
       <SafeAreaView style={styles.container}>
         <Title title="Log in" subtitle="Enter your credentials" />
         <Spinner visible={isLoading} />
-
+        <View style={styles.main}>
         <View style={styles.input}>
           <Text style={styles.label}>Email Address</Text>
           <Input
@@ -98,11 +98,12 @@ const LoginScreen = ({ navigation }) => {
           Don’t have an account?{" "}
           <Text
             style={styles.link}
-            onPress={() => navigation.navigate("Signin")}
+            onPress={() => navigation.navigate("Signup")}
           >
             Sign up!
           </Text>
         </Text>
+        </View>
       </SafeAreaView>
     </>
   );

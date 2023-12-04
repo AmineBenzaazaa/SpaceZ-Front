@@ -13,6 +13,10 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: colors.white,
   },
+  main: {
+    paddingTop: 24,
+    paddingHorizontal: 20,
+  },
   text: {
     textAlign: "center",
     color: colors.white,

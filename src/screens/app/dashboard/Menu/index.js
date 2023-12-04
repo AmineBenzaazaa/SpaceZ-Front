@@ -4,6 +4,10 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import Header from "../../../../components/Header";
 import colors from "../../../../constants/colors";
 
+
+import { AuthContext } from "../../../../context/AuthContext";
+
+
 import styles from "./styles";
 
 const MenuItem = ({ iconName, label, onPress }) => (
@@ -17,9 +21,21 @@ const MenuItem = ({ iconName, label, onPress }) => (
 );
 
 const Menu = ({ navigation }) => {
+  const { logout } = useContext(AuthContext);
   const handleProfilePress = () => {
     console.log("My Profile Pressed");
     // Add navigation logic here if needed
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      // You can perform any additional actions after successful logout if needed.
+      console.log("User logged out successfully");
+    } catch (error) {
+      // Handle logout errors, if any.
+      console.error("Error logging out:", error);
+    }
   };
 
   return (
@@ -86,14 +102,9 @@ const Menu = ({ navigation }) => {
             width: "100%", // Set the width to 100% to make it a horizontal line
           }}
         />
-        <MenuItem
-          iconName="door-open"
-          label="Log out"
-          onPress={handleProfilePress}
-        />
+        <MenuItem iconName="door-open" label="Log out" onPress={handleLogout} />
       </View>
-    </SafeAreaView>     
+    </SafeAreaView>
   );
 };
-
 export default Menu;

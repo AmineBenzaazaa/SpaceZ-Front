@@ -11,7 +11,6 @@ import styles from "./styles";
 import { AuthContext } from "../../../../context/AuthContext";
 import Checkbox from "../../../../components/Checkbox";
 import Header from "../../../../components/Header";
-import DropDownPicker from "react-native-dropdown-picker";
 import colors from "../../../../constants/colors";
 
 const data = [
@@ -56,8 +55,8 @@ const Offer = ({ navigation }) => {
         navigation={navigation}
       />
       <View style={styles.body}>
-        <Text>From: </Text>
         <View style={styles.token}>
+        <Text style={styles.text}>From: </Text>
           <Dropdown
             style={[
               styles.dropdown,
@@ -89,13 +88,55 @@ const Offer = ({ navigation }) => {
               ></FontAwesome5>
             )}
           />
+       
+        </View>
         <Input
           placeholder="Enter SPZ Amount"
           value={amount}
           keyboardType="numeric"
           onChangeText={(text) => setAmount(text)}
         />
+        <View style={styles.token}>
+        <Text style={styles.text}>To: </Text>
+          <Dropdown
+            style={[
+              styles.dropdown,
+              isFocus && { borderColor: colors.purplelight },
+            ]}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={data}
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder={!isFocus ? "Select item" : "..."}
+            searchPlaceholder="Search..."
+            value={value}
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+            onChange={(item) => {
+              setValue(item.value);
+              setIsFocus(false);
+            }}
+            renderLeftIcon={() => (
+              <FontAwesome5
+                name="bitcoin"
+                size={16}
+                color={colors.purplelight}
+                style={{ marginHorizontal: 12 }}
+              ></FontAwesome5>
+            )}
+          />
+        
         </View>
+        <Input
+          placeholder="Enter SPZ Amount"
+          value={amount}
+          keyboardType="numeric"
+          onChangeText={(text) => setAmount(text)}
+        />
         <Button onPress={handleStakeButtonPress()} type="blue">
           Validate
         </Button>
@@ -104,4 +145,5 @@ const Offer = ({ navigation }) => {
   );
 };
 
-export default React.memo(Offer);
+
+export default Offer;

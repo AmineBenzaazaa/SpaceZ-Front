@@ -11,7 +11,6 @@ import styles from "./styles";
 import { AuthContext } from "../../../../context/AuthContext";
 import Checkbox from "../../../../components/Checkbox";
 import Header from "../../../../components/Header";
-import DropDownPicker from "react-native-dropdown-picker";
 import colors from "../../../../constants/colors";
 
 const data = [

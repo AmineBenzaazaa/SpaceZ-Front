@@ -16,12 +16,7 @@ import ButtonDash from "../../../../components/ButtonDash";
 
 const Swap = ({ navigation }) => {
   const { isLoading, userInfo } = useContext(AuthContext);
-  const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState(null);
-
-  const onCheckboxPress = () => {
-    setAgreed((value) => !value);
-  };
 
   const MenuItem = ({ iconName, label, balance, onPress }) => (
     <TouchableOpacity style={styles.Cardcontainer} onPress={onPress}>
@@ -40,7 +35,14 @@ const Swap = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header title="Swap" />
+      <Header
+        title="Swap"
+        leftIconName="bell"
+        leftNavigation="Notification"
+        rightIconName="bars"
+        rightNavigation="Menu"
+        navigation={navigation}
+      />
       <View style={styles.main}>
         <View style={styles.iconContainer}>
           <TouchableOpacity onPress={() => navigation.navigate("Deposit")} style={styles.columnContainer}>

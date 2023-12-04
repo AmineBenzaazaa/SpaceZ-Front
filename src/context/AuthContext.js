@@ -4,38 +4,55 @@ import React, { createContext, useEffect, useState } from "react";
 import { BASE_URL } from "../config";
 import { Alert } from "react-native";
 import * as SecureStore from "expo-secure-store";
+import { DashboardProvider } from "./DashboardContext";
 
 export const AuthContext = createContext();
 
-export const AuthProvider = ({ children,navigation }) => {
+export const AuthProvider = ({ children, navigation }) => {
   const [userInfo, setUserInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [splashLoading, setSplashLoading] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [token, setToken] = useState(null);
 
-  const register = async (fullName, username, email, phoneNumber, password, country) => {
+  const register = async (
+    fullName,
+    username,
+    email,
+    phoneNumber,
+    password,
+    country
+  ) => {
     setIsLoading(true);
     try {
-      console.log('fullName, username, email, phoneNumber, password, country :>> ', fullName, username, email, phoneNumber, password, country);
+      console.log(
+        "fullName, username, email, phoneNumber, password, country :>> ",
+        fullName,
+        username,
+        email,
+        phoneNumber,
+        password,
+        country
+      );
       const response = await axios.post(`${BASE_URL}/user/signup`, {
         fullName: fullName,
         username: username,
         email: email,
         phoneNumber: phoneNumber,
         password: password,
-        country: country
+        country: country,
       });
 
       let userInfo = response.data;
       AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
-      
+
       const userData = await getUser(userInfo);
 
       const combinedData = {
         userInfo: userInfo,
         userData: userData,
       };
-      
+
       setUserInfo(combinedData);
       setIsLoading(false);
       console.log(combinedData);
@@ -71,9 +88,9 @@ export const AuthProvider = ({ children,navigation }) => {
       });
 
       let userInfo = response.data;
-
       AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
-
+      setToken(userInfo.token);
+      console.log('token :>> ', token);
       const userData = await getUser(userInfo);
       const combinedData = {
         userInfo: userInfo,
@@ -125,8 +142,7 @@ export const AuthProvider = ({ children,navigation }) => {
           },
         }
       );
-      console.log('Verification email response:', response.data);
-    
+      console.log("Verification email response:", response.data);
     } catch (e) {
       // Handle any errors that may occur while sending the verification email
       console.error("Error sending verification email:", e);
@@ -231,15 +247,15 @@ export const AuthProvider = ({ children,navigation }) => {
   const isLoggedIn = async () => {
     try {
       setSplashLoading(true);
-  
+
       let userInfo = await AsyncStorage.getItem("userInfo");
       userInfo = JSON.parse(userInfo);
-  
+
       if (userInfo) {
         setUserInfo(userInfo);
         return true;
       }
-  
+
       setSplashLoading(false);
       return false;
     } catch (e) {
@@ -257,10 +273,9 @@ export const AuthProvider = ({ children,navigation }) => {
         navigation.navigate("Key"); // Replace "MainScreen" with your actual main screen name
       }
     };
-  
+
     checkLoggedIn();
   }, [navigation]);
-  
 
   return (
     <AuthContext.Provider
@@ -276,9 +291,10 @@ export const AuthProvider = ({ children,navigation }) => {
         userId,
         setUserId,
         verifyEmail,
+        token,
       }}
     >
-      {children}
+      <DashboardProvider token={token}>{children}</DashboardProvider>
     </AuthContext.Provider>
   );
 };
