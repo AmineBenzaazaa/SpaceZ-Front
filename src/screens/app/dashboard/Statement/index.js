@@ -14,6 +14,7 @@ import Header from "../../../../components/Header";
 import { AuthContext } from "../../../../context/AuthContext";
 import Checkbox from "../../../../components/Checkbox";
 import colors from "../../../../constants/colors";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Statement = ({ navigation }) => {
   const { isLoading, userInfo } = useContext(AuthContext);
@@ -25,7 +26,7 @@ const Statement = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAwareScrollView behavior={"padding"} style={styles.container}>
       <Header
         title="Statement Details"
         leftIconName="chevron-left"
@@ -385,7 +386,7 @@ const Statement = ({ navigation }) => {
         </View>
           <View style={{marginBottom:40}}/>
       </ScrollView>
-    </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 };
 

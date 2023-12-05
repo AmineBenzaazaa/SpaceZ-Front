@@ -12,6 +12,7 @@ import { AuthContext } from "../../../../context/AuthContext";
 import Checkbox from "../../../../components/Checkbox";
 import Header from "../../../../components/Header";
 import colors from "../../../../constants/colors";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const data = [
   { label: "SPZ", value: "1" },
@@ -45,7 +46,7 @@ const Withdraw = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAwareScrollView behavior={"padding"} style={styles.container}>
       <Header
         title="Withdraw"
         leftIconName="chevron-left"
@@ -98,7 +99,7 @@ const Withdraw = ({ navigation }) => {
           Validate
         </Button>
       </View>
-    </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 };
 

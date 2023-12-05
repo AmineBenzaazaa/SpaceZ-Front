@@ -13,6 +13,7 @@ import Header from "../../../../components/Header";
 import styles from "./styles";
 import { AuthContext } from "../../../../context/AuthContext";
 import Checkbox from "../../../../components/Checkbox";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Statistics = ({ navigation }) => {
   const { isLoading, userInfo } = useContext(AuthContext);
@@ -24,7 +25,7 @@ const Statistics = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAwareScrollView behavior={"padding"} style={styles.container}>
       <Header
         title="Statistics"
         leftIconName="bell"
@@ -102,7 +103,7 @@ const Statistics = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 };
 

@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     marginVertical:8,
     backgroundColor: colors.purplebold,
     borderRadius: 8,
-    padding: 8,
+    paddingVertical: 12,
   },
   text: {
     color: colors.grey,

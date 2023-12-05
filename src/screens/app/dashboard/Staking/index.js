@@ -15,6 +15,7 @@ import styles from "./styles";
 import { AuthContext } from "../../../../context/AuthContext";
 import Checkbox from "../../../../components/Checkbox";
 import Header from "../../../../components/Header";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Stacking = ({ navigation }) => {
   const { isLoading, userInfo } = useContext(AuthContext);
@@ -27,7 +28,7 @@ const Stacking = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAwareScrollView behavior={"padding"} style={styles.container}>
       <Header
         title="Staking"
         leftIconName="chevron-left"
@@ -57,7 +58,7 @@ const Stacking = ({ navigation }) => {
           Validate
         </Button>
       </View>
-    </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 };
 

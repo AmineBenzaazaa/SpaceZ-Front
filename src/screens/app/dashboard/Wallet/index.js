@@ -21,14 +21,19 @@ import { AuthContext } from "../../../../context/AuthContext";
 // import CollapsibleWallet from "../../../../components/CollapsibleWallet";
 import colors from "../../../../constants/colors";
 import ButtonDash from "../../../../components/ButtonDash";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Home = ({ navigation }) => {
   const { isLoading, userInfo } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(true);
   const [error, setError] = useState(null);
-  const [activeJobType, setActiveJobType] = useState("Deposit");
-  const jobTypes = ["Deposit", "SPZ", "USDB", "BTC", "BNB", "ETH", "HTC"];
-  const snapPoints = ["40%"];
+  const [isDepositOpen, setIsDepositOpen] = useState(false);
+  const [isWithdrawOpen, setIsWithdrawOpen] = useState(false);
+  const [activeType, setActiveType] = useState("Deposit");
+  const Types = ["Deposit", "SPZ", "USDB", "BTC", "BNB", "ETH", "HTC"];
+
+  const depositRBSheetRef = useRef();
+  const withdrawRBSheetRef = useRef();
 
   // const Drawer = createDrawerNavigator();
   const MenuItem = ({ iconName, label, balance, onPress }) => (
@@ -47,7 +52,10 @@ const Home = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ ...styles.container }}>
+    <KeyboardAwareScrollView
+      behavior={"padding"}
+      style={{ ...styles.container }}
+    >
       <ScrollView>
         <View style={{ ...styles.bg }}>
           {/* <Header title="" navigation={navigation}/> */}
@@ -104,13 +112,6 @@ const Home = ({ navigation }) => {
               <TouchableOpacity>
                 <FontAwesome5 name="copy" size={20} style={styles.walletIcon} />
               </TouchableOpacity>
-              <TouchableOpacity>
-                <FontAwesome5
-                  name="share"
-                  size={20}
-                  style={styles.walletIcon}
-                />
-              </TouchableOpacity>
             </View>
             <Text style={styles.WalletSmallText}>Your Wallet Address</Text>
           </View>
@@ -125,7 +126,7 @@ const Home = ({ navigation }) => {
               }}
             >
               <TouchableOpacity
-                onPress={() => this.RBSheet.open()}
+                onPress={() => setIsDepositOpen(true)}
                 style={styles.columnContainer}
               >
                 <View style={styles.icon}>
@@ -140,11 +141,10 @@ const Home = ({ navigation }) => {
                 </Text>
               </TouchableOpacity>
               <RBSheet
-                ref={(ref) => {
-                  this.RBSheet = ref;
-                }}
-                height={300}
+                ref={depositRBSheetRef}
+                height={400}
                 openDuration={250}
+                onClose={() => setIsDepositOpen(false)}
                 customStyles={{
                   container: {
                     // justifyContent: "center",
@@ -171,15 +171,15 @@ const Home = ({ navigation }) => {
                   </Text>
                   <View style={styles.tabsContainer}>
                     <FlatList
-                      data={jobTypes}
+                      data={Types}
                       renderItem={({ item }) => (
                         <TouchableOpacity
-                          style={styles.tab(activeJobType, item)}
+                          style={styles.tab(activeType, item)}
                           onPress={() => {
-                            setActiveJobType(item);
+                            setActiveType(item);
                           }}
                         >
-                          <Text style={styles.tabText(activeJobType, item)}>
+                          <Text style={styles.tabText(activeType, item)}>
                             {item}
                           </Text>
                         </TouchableOpacity>
@@ -217,7 +217,7 @@ const Home = ({ navigation }) => {
               }}
             >
               <TouchableOpacity
-                onPress={() => this.RBSheet.open()}
+                onPress={() => setIsWithdrawOpen(true)}
                 style={styles.columnContainer}
               >
                 <View style={styles.icon}>
@@ -232,11 +232,10 @@ const Home = ({ navigation }) => {
                 </Text>
               </TouchableOpacity>
               <RBSheet
-                ref={(ref) => {
-                  this.RBSheet = ref;
-                }}
-                height={300}
+                ref={depositRBSheetRef}
+                height={400}
                 openDuration={250}
+                onClose={() => setIsDepositOpen(false)}
                 customStyles={{
                   container: {
                     // justifyContent: "center",
@@ -249,7 +248,7 @@ const Home = ({ navigation }) => {
               >
                 <View style={{ justifyContent: "center", padding: 12 }}>
                   <Text style={[styles.CardText, { textAlign: "center" }]}>
-                  Withdraw
+                    Withdraw
                   </Text>
                   <Text
                     style={{
@@ -263,15 +262,15 @@ const Home = ({ navigation }) => {
                   </Text>
                   <View style={styles.tabsContainer}>
                     <FlatList
-                      data={jobTypes}
+                      data={Types}
                       renderItem={({ item }) => (
                         <TouchableOpacity
-                          style={styles.tab(activeJobType, item)}
+                          style={styles.tab(activeType, item)}
                           onPress={() => {
-                            setActiveJobType(item);
+                            setActiveType(item);
                           }}
                         >
-                          <Text style={styles.tabText(activeJobType, item)}>
+                          <Text style={styles.tabText(activeType, item)}>
                             {item}
                           </Text>
                         </TouchableOpacity>
@@ -300,7 +299,7 @@ const Home = ({ navigation }) => {
                   </View>
                 </View>
               </RBSheet>
-            </View> 
+            </View>
           </View>
           <View
             style={{
@@ -310,35 +309,36 @@ const Home = ({ navigation }) => {
               width: "100%",
             }}
           />
-
-          <MenuItem
-            iconName="bitcoin"
-            balance="0.00"
-            label="BTC"
-            onPress={handleProfilePress}
-          />
-          <MenuItem
-            iconName="ethereum"
-            balance="0.00"
-            label="ETH"
-            onPress={handleProfilePress}
-          />
-          <MenuItem
-            iconName="viacoin"
-            balance="0.00"
-            label="VIA"
-            onPress={handleProfilePress}
-          />
-          <MenuItem
-            iconName="maxcdn"
-            balance="0.00"
-            label="MXD"
-            onPress={handleProfilePress}
-          />
+          <View>
+            <MenuItem
+              iconName="bitcoin"
+              balance="0.00"
+              label="BTC"
+              onPress={handleProfilePress}
+            />
+            <MenuItem
+              iconName="ethereum"
+              balance="0.00"
+              label="ETH"
+              onPress={handleProfilePress}
+            />
+            <MenuItem
+              iconName="viacoin"
+              balance="0.00"
+              label="VIA"
+              onPress={handleProfilePress}
+            />
+            <MenuItem
+              iconName="maxcdn"
+              balance="0.00"
+              label="MXD"
+              onPress={handleProfilePress}
+            />
+          </View>
         </View>
         <View style={{ marginBottom: 80 }} />
       </ScrollView>
-    </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 };
 
@@ -369,7 +369,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   walletIcon: {
-    // marginVertical: 5,
+    marginHorizontal: 2,
     color: colors.white,
   },
   icon: {
@@ -377,8 +377,15 @@ const styles = StyleSheet.create({
     // marginVertical: 5,
     backgroundColor: colors.purplelight,
     padding: 30,
+    marginBottom: 4,
     borderRadius: 50,
     color: colors.purpledark,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      width: 6,
+      height: 5,
+    },
   },
   Walletcontainer: {
     // marginTop: 10,
@@ -393,6 +400,12 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderWidth: 1,
     padding: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      width: 6,
+      height: 5,
+    },
   },
   Cardcontainer: {
     marginTop: 10,
@@ -407,15 +420,28 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderWidth: 1,
     padding: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      width: 6,
+      height: 5,
+    },
   },
   card: {
+    marginHorizontal: 20,
     borderRadius: 8,
     borderColor: "#414154",
     borderStyle: "solid",
-    backgroundColor: colors.purplebold,
-    margin: 10,
+    backgroundColor: colors.purpledark,
+    margin: 20,
     borderWidth: 1,
     padding: 16,
+    shadowColor: "#414154",
+    shadowOpacity: 0.1,
+    shadowOffset: {
+      width: 7,
+      height: 4,
+    },
   },
   Walletcontainer: {
     flexDirection: "row",
@@ -548,18 +574,17 @@ const styles = StyleSheet.create({
     width: "100%",
     marginVertical: 6,
   },
-  tab: (activeJobType, item) => ({
+  tab: (activeType, item) => ({
     paddingVertical: 12 / 2,
     paddingHorizontal: 12,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor:
-      activeJobType === item ? colors.purplelight : colors.purpledark,
+    borderColor: activeType === item ? colors.purplelight : colors.purpledark,
     backgroundColor:
-      activeJobType === item ? colors.purplelight : colors.purpledark,
+      activeType === item ? colors.purplelight : colors.purpledark,
   }),
-  tabText: (activeJobType, item) => ({
+  tabText: (activeType, item) => ({
     fontSize: 14, // Add the fontSize property here
-    color: activeJobType === item ? colors.purpledark : colors.purplelight,
+    color: activeType === item ? colors.purpledark : colors.purplelight,
   }),
 });

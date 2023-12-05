@@ -17,6 +17,7 @@ import styles from "./styles";
 import { AuthContext } from "../../../../context/AuthContext";
 import Checkbox from "../../../../components/Checkbox";
 import Header from "../../../../components/Header";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Team = ({ navigation }) => {
   const { isLoading, userInfo } = useContext(AuthContext);
@@ -28,7 +29,7 @@ const Team = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAwareScrollView behavior={"padding"} style={styles.container}>
       <Header
         title="Team"
         leftIconName="bell"
@@ -37,7 +38,7 @@ const Team = ({ navigation }) => {
         rightNavigation="Menu"
         navigation={navigation}
       />
-    </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 };
 

@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  
+
   columnContainer: {
     flexDirection: "column",
     alignItems: "center",
@@ -27,6 +27,12 @@ const styles = StyleSheet.create({
     padding: 30,
     borderRadius: 50,
     color: colors.purpledark,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      width: 6,
+      height: 5,
+    },
   },
   Cardcontainer: {
     marginTop: 10,
@@ -41,6 +47,12 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderWidth: 1,
     padding: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      width: 7,
+      height: 4,
+    },
   },
   coin: {
     marginVertical: 5,
@@ -76,7 +88,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: 30,
     padding: 13,
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
   },
   btnText: {
     color: colors.purpledark,
@@ -85,8 +97,8 @@ const styles = StyleSheet.create({
     fontWeight: "normal",
   },
   btnbg: {
-    backgroundColor: colors.purplelight
-  }
+    backgroundColor: colors.purplelight,
+  },
 });
 
 export default styles;

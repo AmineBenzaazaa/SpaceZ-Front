@@ -5,8 +5,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.purpledark,
-    paddingHorizontal: 24,
     // justifyContent: "center", // Center content vertically
+  },
+  body: {
+    paddingHorizontal: 24,
   },
   keyContainer: {
     flexDirection: "row",
@@ -23,7 +25,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 8,
     borderBottomLeftRadius: 8,
     padding: 16,
-    fontSize:12,
+    fontSize: 12,
     flexDirection: "row", // Align items horizontally
     alignItems: "center", // Center content vertically
   },
@@ -36,7 +38,6 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 8,
     justifyContent: "center", // Center content vertically
     alignItems: "center", // Center content horizontally
-
   },
   walletPublicKey: {
     color: colors.white,
@@ -47,18 +48,17 @@ const styles = StyleSheet.create({
   icon: {
     width: 24, // Adjust as needed
     height: 24, // Adjust as needed
-    
   },
-  text:{
+  text: {
     color: colors.white,
     paddingHorizontal: 10,
   },
   checkboxContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 20,
   },
   checkbox: {
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   label: {
     marginHorizontal: 8,

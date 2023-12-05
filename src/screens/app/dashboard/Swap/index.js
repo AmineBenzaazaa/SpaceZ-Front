@@ -13,6 +13,7 @@ import Header from "../../../../components/Header";
 import styles from "./styles";
 import colors from "../../../../constants/colors";
 import ButtonDash from "../../../../components/ButtonDash";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Swap = ({ navigation }) => {
   const { isLoading, userInfo } = useContext(AuthContext);
@@ -34,7 +35,7 @@ const Swap = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAwareScrollView behavior={"padding"} style={styles.container}>
       <Header
         title="Swap"
         leftIconName="bell"
@@ -45,13 +46,19 @@ const Swap = ({ navigation }) => {
       />
       <View style={styles.main}>
         <View style={styles.iconContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate("Deposit")} style={styles.columnContainer}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Deposit")}
+            style={styles.columnContainer}
+          >
             <View style={styles.icon}>
               <Image source={require("../../../../assets/icons/deposit.png")} />
             </View>
             <Text style={styles.text}>Deposit</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Withdraw")} style={styles.columnContainer}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Withdraw")}
+            style={styles.columnContainer}
+          >
             <View style={styles.icon}>
               <Image
                 source={require("../../../../assets/icons/withdraw.png")}
@@ -94,15 +101,19 @@ const Swap = ({ navigation }) => {
           onPress={handleProfilePress}
         />
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Offer")}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("Offer")}
+          >
             <Text style={styles.btnText}>Make offer</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button , styles.btnbg]}>
+          <TouchableOpacity style={[styles.button, styles.btnbg]}>
             <Text style={[styles.btnText]}>My offers</Text>
           </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>
+      <View style={{ marginTop: 80 }} />
+    </KeyboardAwareScrollView>
   );
 };
 

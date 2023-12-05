@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { SafeAreaView, View, Text, TouchableOpacity } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import Header from "../../../../components/Header";
@@ -9,6 +9,7 @@ import { AuthContext } from "../../../../context/AuthContext";
 
 
 import styles from "./styles";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const MenuItem = ({ iconName, label, onPress }) => (
   <TouchableOpacity style={styles.container} onPress={onPress}>
@@ -39,7 +40,7 @@ const Menu = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.purpledark }}>
+    <KeyboardAwareScrollView behavior={"padding"} style={{ flex: 1, backgroundColor: colors.purpledark }}>
       <Header
         title="Menu"
         leftIconName="chevron-left"
@@ -104,7 +105,7 @@ const Menu = ({ navigation }) => {
         />
         <MenuItem iconName="door-open" label="Log out" onPress={handleLogout} />
       </View>
-    </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 };
 export default Menu;

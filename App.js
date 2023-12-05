@@ -16,7 +16,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useFonts } from "expo-font";
 import { useRef } from "react";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 // import * as SplashScreen from "expo-splash-screen";
 import { BetweenPagesProvider } from "between-pages";
 import { AuthContext, AuthProvider } from "./src/context/AuthContext";
@@ -50,48 +50,65 @@ import { DashboardProvider } from "./src/context/DashboardContext";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+const SharedElementStack = createSharedElementStackNavigator();
 
 // Hiding Tab Names...
 export default function App() {
   // Animated Tab Indicator...
   const tabOffsetValue = useRef(new Animated.Value(0)).current;
 
+  const config = {
+    animation: "spring",
+    config: {
+      stiffness: 1000,
+      damping: 500,
+      mass: 3,
+      overshootClamping: true,
+      restDisplacementThreshold: 0.01,
+      restSpeedThreshold: 0.01,
+    },
+  };
+
   const screenOptions = {
     headerShown: false,
+    unmountOnBlur: true,
+    TransitionEvent: {
+      animation: "spring",
+    },
     tabBarStyle: {
-      backgroundColor: "#1E1D2B",
+      backgroundColor: "#ffffff",
       position: "absolute",
-      // bottom: 40,
-      // marginHorizontal: 20,
+      bottom: 20,
       // Max Height...
-      height: 70,
+      height: 80,
+      alignItems: "center",
+      justifyContent: "center",
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
+      borderBottomRightRadius: 20,
+      borderBottomLeftRadius: 20,
+      margin: 15,
       // Shadow...
-      // shadowColor: "#000",
-      // shadowOpacity: 0.06,
-      // shadowOffset: {
-      //   width: 10,
-      //   height: 10,
-      // },
-      paddingHorizontal: 20,
+      shadowColor: "#000",
+      shadowOpacity: 0.2,
+      shadowOffset: {
+        width: 10,
+        height: 10,
+      },
+      padding: 20,
     },
   };
 
   const HomeTabs = () => (
-    <>
+    <BetweenPagesProvider>
       <Tab.Navigator
         {...{ screenOptions }}
         sceneContainerStyle={{
           backgroundColor: "transparent",
-          marginLeft: -1,
         }}
         tabBarOptions={{
           showLabel: false,
           tabBarStyle: { borderTopWidth: 0 },
-          activeTintColor: colors.purpledark,
-          inactiveTintColor: colors.purpledark,
-          style: styles.container,
         }}
       >
         <Tab.Screen
@@ -100,15 +117,25 @@ export default function App() {
           options={{
             tabBarIcon: ({ focused, name }) => (
               <>
+                <View
+                  style={{
+                    backgroundColor: focused
+                      ? colors.purpleinput
+                      : "transparent",
+                    borderRadius: 20,
+                    padding: 30,
+                    position: "absolute",
+                  }}
+                />
                 <FontAwesome5
                   name="home"
                   size={20}
-                  color={focused ? colors.purplelight : colors.darkgold}
+                  color={focused ? colors.purplelight : colors.purpledark}
                   style={{ marginBottom: 5 }}
                 ></FontAwesome5>
                 <Text
                   style={{
-                    color: focused ? colors.purplelight : colors.darkgold,
+                    color: focused ? colors.purplelight : colors.purpledark,
                   }}
                 >
                   Home
@@ -124,15 +151,25 @@ export default function App() {
           options={{
             tabBarIcon: ({ focused, name }) => (
               <>
+                <View
+                  style={{
+                    backgroundColor: focused
+                      ? colors.purpleinput
+                      : "transparent",
+                    borderRadius: 20,
+                    padding: 30,
+                    position: "absolute",
+                  }}
+                />
                 <FontAwesome5
                   name="exchange-alt"
                   size={20}
-                  color={focused ? colors.purplelight : colors.darkgold}
+                  color={focused ? colors.purplelight : colors.purpledark}
                   style={{ marginBottom: 5 }}
                 ></FontAwesome5>
                 <Text
                   style={{
-                    color: focused ? colors.purplelight : colors.darkgold,
+                    color: focused ? colors.purplelight : colors.purpledark,
                   }}
                 >
                   Swap
@@ -148,15 +185,25 @@ export default function App() {
           options={{
             tabBarIcon: ({ focused, name }) => (
               <>
+                <View
+                  style={{
+                    backgroundColor: focused
+                      ? colors.purpleinput
+                      : "transparent",
+                    borderRadius: 20,
+                    padding: 30,
+                    position: "absolute",
+                  }}
+                />
                 <FontAwesome5
                   name="wallet"
                   size={20}
-                  color={focused ? colors.purplelight : colors.darkgold}
+                  color={focused ? colors.purplelight : colors.purpledark}
                   style={{ marginBottom: 5 }}
                 ></FontAwesome5>
                 <Text
                   style={{
-                    color: focused ? colors.purplelight : colors.darkgold,
+                    color: focused ? colors.purplelight : colors.purpledark,
                   }}
                 >
                   wallet
@@ -172,15 +219,25 @@ export default function App() {
           options={{
             tabBarIcon: ({ focused, name }) => (
               <>
+                <View
+                  style={{
+                    backgroundColor: focused
+                      ? colors.purpleinput
+                      : "transparent",
+                    borderRadius: 20,
+                    padding: 30,
+                    position: "absolute",
+                  }}
+                />
                 <FontAwesome5
                   name="users"
                   size={20}
-                  color={focused ? colors.purplelight : colors.darkgold}
+                  color={focused ? colors.purplelight : colors.purpledark}
                   style={{ marginBottom: 5 }}
                 ></FontAwesome5>
                 <Text
                   style={{
-                    color: focused ? colors.purplelight : colors.darkgold,
+                    color: focused ? colors.purplelight : colors.purpledark,
                   }}
                 >
                   Team
@@ -196,29 +253,67 @@ export default function App() {
           options={{
             tabBarIcon: ({ focused, name }) => (
               <>
+                <View
+                  style={{
+                    backgroundColor: focused
+                      ? colors.purpleinput
+                      : "transparent",
+                    borderRadius: 20,
+                    padding: 30,
+                    position: "absolute",
+                  }}
+                />
                 <FontAwesome5
                   name="chart-bar"
                   size={20}
-                  color={focused ? colors.purplelight : colors.darkgold}
+                  color={focused ? colors.purplelight : colors.purpledark}
                   style={{ marginBottom: 5 }}
                 ></FontAwesome5>
                 <Text
                   style={{
-                    color: focused ? colors.purplelight : colors.darkgold,
+                    color: focused ? colors.purplelight : colors.purpledark,
                   }}
                 >
-                  Statistics
+                  Stats
                 </Text>
               </>
             ),
           }}
         ></Tab.Screen>
       </Tab.Navigator>
-    </>
+    </BetweenPagesProvider>
   );
 
+  HomeTabs.navigationOptions = {
+    transitionSpec: {
+      open: {
+        animation: "timing",
+        config: { duration: 500 }, // Customize duration
+      },
+      close: {
+        animation: "timing",
+        config: { duration: 500 }, // Customize duration
+      },
+    },
+    cardStyleInterpolator: ({ current: { progress } }) => {
+      return {
+        cardStyle: {
+          opacity: progress, // Customize opacity animation
+        },
+      };
+    },
+  };
+
   const AppStack = () => (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        transitionSpec: {
+          open: config,
+          close: config,
+        },
+      }}
+    >
       <Stack.Screen name="Onboarding" component={Onboarding} />
       <Stack.Screen name="Signin" component={Signin} />
       <Stack.Screen name="Signup" component={Signup} />
@@ -229,7 +324,7 @@ export default function App() {
       <Stack.Screen name="Notification" component={Notification} />
       <Stack.Screen name="Withdraw" component={Withdraw} />
       <Stack.Screen name="Deposit" component={Deposit} />
-      <Stack.Screen name="Offer" component={Offer} />
+      <Stack.Screen name="Offer" component={Offer} /> 
       <Stack.Screen name="Menu" component={Menu} />
       <Stack.Screen name="WithdrawReward" component={WithdrawReward} />
       <Stack.Screen name="Statement" component={Statement} />
@@ -247,32 +342,3 @@ export default function App() {
     </AuthProvider>
   );
 }
-
-function getWidth() {
-  let width = Dimensions.get("window").width;
-
-  // Horizontal Padding = 20...
-  width = width - 80;
-
-  // Total five Tabs...
-  return width / 5;
-}
-
-function EmptyScreen() {
-  return (
-    <View
-      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-    ></View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#1E1D2B",
-    borderTopWidth: 0,
-  },
-});

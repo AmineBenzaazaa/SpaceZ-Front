@@ -15,6 +15,7 @@ import { AuthContext } from "../../../../context/AuthContext";
 import Checkbox from "../../../../components/Checkbox";
 import Header from "../../../../components/Header";
 import colors from "../../../../constants/colors";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const WithdrawReward = ({ navigation }) => {
   const { isLoading, userInfo } = useContext(AuthContext);
@@ -27,7 +28,7 @@ const WithdrawReward = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAwareScrollView behavior={"padding"} style={styles.container}>
       <Header
         title="Withdraw Reward"
         leftIconName="chevron-left"
@@ -70,7 +71,7 @@ const WithdrawReward = ({ navigation }) => {
           Validate
         </Button>
       </View>
-    </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 };
 

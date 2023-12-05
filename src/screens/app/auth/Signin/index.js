@@ -20,6 +20,8 @@ import Input from "../../../../components/Input";
 
 import { AuthContext } from "../../../../context/AuthContext";
 import colors from "../../../../constants/colors";
+import { KeyboardAvoidingView } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState(null);
@@ -67,7 +69,7 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <>
-      <SafeAreaView style={styles.container}>
+      <KeyboardAwareScrollView behavior={"padding"} style={styles.container}>
         <Title title="Log in" subtitle="Enter your credentials" />
         <Spinner visible={isLoading} />
         <View style={styles.main}>
@@ -104,7 +106,7 @@ const LoginScreen = ({ navigation }) => {
           </Text>
         </Text>
         </View>
-      </SafeAreaView>
+      </KeyboardAwareScrollView>
     </>
   );
 };

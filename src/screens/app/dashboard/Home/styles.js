@@ -71,8 +71,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   image: {
-    width: "240%", // Adjusted to take the full width of the container
-    height: "45%", // Adjusted to maintain aspect ratio
+    // width: "10%", // Adjusted to take the full width of the container
+    height: "175%", // Adjusted to maintain aspect ratio
     resizeMode: "contain",
   },
 });

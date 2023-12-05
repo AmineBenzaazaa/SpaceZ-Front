@@ -20,11 +20,11 @@ import colors from "../../../../constants/colors";
 
 import { AuthContext } from "../../../../context/AuthContext";
 import { useDashboard } from "../../../../context/DashboardContext"; // Import useDashboard
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Home = ({ navigation }) => {
   const { userInfo } = useContext(AuthContext);
   const { homeData, statsData, loading, error } = useDashboard();
-  
 
   useEffect(() => {
     if (!userInfo || !userInfo.userInfo.token) {
@@ -38,7 +38,7 @@ const Home = ({ navigation }) => {
   }, [userInfo, navigation]);
 
   return (
-    <SafeAreaView style={{ ...styles.container }}>
+    <KeyboardAwareScrollView behavior={"padding"} style={{ ...styles.container }}>
       <View style={{ ...styles.bg }}>
         <Header
           title="Space’Z Network"
@@ -50,7 +50,7 @@ const Home = ({ navigation }) => {
         />
         <View style={styles.head}>
           <View style={styles.columnLeft}>
-            <Text style={styles.token}>100 SPZ</Text>
+            <Text style={styles.token}></Text>
             <Text style={styles.text}>My Staking</Text>
 
             <Text style={styles.token}>0</Text>
@@ -104,7 +104,7 @@ const Home = ({ navigation }) => {
           <Text style={styles.token}>Stake SPZ</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 };
 

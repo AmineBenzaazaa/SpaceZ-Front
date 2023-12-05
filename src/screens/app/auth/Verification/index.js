@@ -5,6 +5,7 @@ import Button from "../../../../components/Button";
 import Title from "../../../../components/Title";
 import OtpInput from "../../../../components/OtpInput";
 import { AuthContext } from "../../../../context/AuthContext";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Verification = ({ navigation }) => {
   const { verifyEmail, userInfo, sendVerificationEmail } =
@@ -57,7 +58,7 @@ const Verification = ({ navigation }) => {
   }, [countdown]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAwareScrollView behavior={"padding"} style={styles.container}>
       <Title
         title="Verify Your Email"
         subtitle="Confirmation code was sent to your email address"
@@ -72,7 +73,7 @@ const Verification = ({ navigation }) => {
           </Text>
         )}
       </Text>
-    </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 };
 
