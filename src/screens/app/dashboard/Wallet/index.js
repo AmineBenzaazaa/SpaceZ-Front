@@ -9,7 +9,7 @@ import {
   FlatList,
   Button,
 } from "react-native";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 // import { createDrawerNavigator } from "@react-navigation/drawer";
 // import 'react-native-gesture-handler';
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -22,18 +22,29 @@ import { AuthContext } from "../../../../context/AuthContext";
 import colors from "../../../../constants/colors";
 import ButtonDash from "../../../../components/ButtonDash";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useDashboard } from "../../../../context/DashboardContext";
 
 const Home = ({ navigation }) => {
-  const { isLoading, userInfo } = useContext(AuthContext);
-  const [isOpen, setIsOpen] = useState(true);
-  const [error, setError] = useState(null);
+  const { walletData, loading, error } = useDashboard();
+  const { userInfo } = useContext(AuthContext);
   const [isDepositOpen, setIsDepositOpen] = useState(false);
   const [isWithdrawOpen, setIsWithdrawOpen] = useState(false);
   const [activeType, setActiveType] = useState("Deposit");
-  const Types = ["Deposit", "SPZ", "USDB", "BTC", "BNB", "ETH", "HTC"];
+  const [copiedText, setCopiedText] = React.useState('');
+  const Types = ["BNB", "SNX", "USDT"];
 
-  const depositRBSheetRef = useRef();
-  const withdrawRBSheetRef = useRef();
+  useEffect(() => {
+    if (!userInfo || !userInfo.userInfo.token) {
+      navigation.replace("Onboarding");
+    } else {
+      console.log("res :>> ", walletData);
+    }
+  }, [userInfo, navigation]);
+
+  const copyToClipboard = async () => {
+    await (userInfo.userData.user.walletPublicKey);
+  };
+
 
   // const Drawer = createDrawerNavigator();
   const MenuItem = ({ iconName, label, balance, onPress }) => (
@@ -48,297 +59,303 @@ const Home = ({ navigation }) => {
 
   const handleProfilePress = () => {
     console.log("My Profile Pressed");
-    // Add navigation logic here if needed
   };
 
   return (
-    <KeyboardAwareScrollView
-      behavior={"padding"}
-      style={{ ...styles.container }}
-    >
-      <ScrollView>
-        <View style={{ ...styles.bg }}>
-          {/* <Header title="" navigation={navigation}/> */}
-          <Header
-            title="Wallet"
-            leftIconName="bell"
-            leftNavigation="Notification"
-            rightIconName="bars"
-            rightNavigation="Menu"
-            navigation={navigation}
-          />
-          {/* <Drawer.Navigator>
+    <ScrollView>
+      <KeyboardAwareScrollView
+        behavior={"padding"}
+        style={{ ...styles.container }}
+      >
+        <ScrollView>
+          <View style={{ ...styles.bg }}>
+            {/* <Header title="" navigation={navigation}/> */}
+            <Header
+              title="Wallet"
+              leftIconName="bell"
+              leftNavigation="Notification"
+              rightIconName="bars"
+              rightNavigation="Menu"
+              navigation={navigation}
+            />
+            {/* <Drawer.Navigator>
           <Drawer.Screen name="Feed" component={Notification} />
           <Drawer.Screen name="Article" component={Notification} />
         </Drawer.Navigator> */}
 
-          <View style={styles.head}>
-            <View style={styles.columnLeft}>
-              <Text style={styles.token}>0.00 BFIC</Text>
-              <Text style={styles.text}>BFIC Available</Text>
-
-              <Text style={styles.token}>$14.75</Text>
-              <Text style={styles.text}>BFIC Price</Text>
-            </View>
-            <View style={styles.columnCenter}>
-              <View style={styles.imageContainer}>
-                {/* <Image
-                source={require("../../../../assets/images/Group.png")}
-                style={styles.image}
-              /> */}
-              </View>
-            </View>
-            <View style={styles.columnRight}>
-              <Text style={styles.token}>0.00 SPZ</Text>
-              <Text style={styles.text}>SPZ Available</Text>
-
-              <Text style={styles.token}>$0.20</Text>
-              <Text style={styles.text}>SPZ Price</Text>
-            </View>
-          </View>
-          {/* <CollapsibleWallet title="text" data={[1, 2, 3]} /> */}
-          <View style={styles.card}>
-            <View style={styles.Walletcontainer}>
-              <View style={styles.WalletIconContainer}>
-                <FontAwesome5
-                  name="wallet"
-                  size={20}
-                  style={styles.walletIcon}
-                />
-                <Text style={styles.WalletText}>
-                  liurfhepirhjfpihj32o842638212o84262...
+            <View style={styles.head}>
+              <View style={styles.columnLeft}>
+                <Text style={styles.token}>
+                  {walletData[0].balance} {walletData[0].symbol}
                 </Text>
+                <Text style={styles.text}>BFIC Available</Text>
+
+                <Text style={styles.token}>${walletData[0].Price}</Text>
+                <Text style={styles.text}>BFIC Price</Text>
               </View>
-              <TouchableOpacity>
-                <FontAwesome5 name="copy" size={20} style={styles.walletIcon} />
-              </TouchableOpacity>
-            </View>
-            <Text style={styles.WalletSmallText}>Your Wallet Address</Text>
-          </View>
-        </View>
-        <View style={styles.main}>
-          <View style={styles.iconContainer}>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <TouchableOpacity
-                onPress={() => setIsDepositOpen(true)}
-                style={styles.columnContainer}
-              >
-                <View style={styles.icon}>
+              <View style={styles.columnCenter}>
+                <View style={styles.imageContainer}>
                   <Image
-                    source={require("../../../../assets/icons/deposit.png")}
+                    source={require("../../../../assets/images/wallet.png")}
+                    style={styles.image}
                   />
                 </View>
-                <Text
-                  style={[styles.text, { color: colors.white, fontSize: 14 }]}
-                >
-                  Deposit
+              </View>
+              <View style={styles.columnRight}>
+                <Text style={styles.token}>
+                  {walletData[1].balance} {walletData[1].symbol}
                 </Text>
-              </TouchableOpacity>
-              <RBSheet
-                ref={depositRBSheetRef}
-                height={400}
-                openDuration={250}
-                onClose={() => setIsDepositOpen(false)}
-                customStyles={{
-                  container: {
-                    // justifyContent: "center",
-                    backgroundColor: colors.purplebold,
-                    // alignItems: "center",
-                    borderTopLeftRadius: 28,
-                    borderTopRightRadius: 28,
-                  },
+                <Text style={styles.text}>SPZ Available</Text>
+
+                <Text style={styles.token}>${walletData[1].Price}</Text>
+                <Text style={styles.text}>SPZ Price</Text>
+              </View>
+            </View>
+            {/* <CollapsibleWallet title="text" data={[1, 2, 3]} /> */}
+            <View style={styles.card}>
+              <View style={styles.Walletcontainer}>
+                <View style={styles.WalletIconContainer}>
+                  <FontAwesome5
+                    name="wallet"
+                    size={20}
+                    style={styles.walletIcon}
+                  />
+                  <Text style={styles.WalletText}>
+                    {userInfo.userData.user.walletPublicKey.slice(0, 30)}
+                  </Text>
+                </View>
+                <TouchableOpacity onPress={copyToClipboard}>
+                  <FontAwesome5
+                    name="copy"
+                    size={20}
+                    style={styles.walletIcon}
+                  />
+                </TouchableOpacity>
+              </View>
+              <Text style={styles.WalletSmallText}>Your Wallet Address</Text>
+            </View>
+          </View>
+          <View style={styles.main}>
+            <View style={styles.iconContainer}>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
-                <View style={{ justifyContent: "center", padding: 12 }}>
-                  <Text style={[styles.CardText, { textAlign: "center" }]}>
+                <TouchableOpacity
+                  onPress={() => this.depositRBSheet.open()}
+                  style={styles.columnContainer}
+                >
+                  <View style={styles.icon}>
+                    <Image
+                      source={require("../../../../assets/icons/deposit.png")}
+                    />
+                  </View>
+                  <Text
+                    style={[styles.text, { color: colors.white, fontSize: 14 }]}
+                  >
                     Deposit
                   </Text>
-                  <Text
-                    style={{
-                      textAlign: "left",
-                      fontSize: 14,
-                      paddingVertical: 5,
-                      color: colors.grey,
-                    }}
-                  >
-                    Choose asset to deposit
-                  </Text>
-                  <View style={styles.tabsContainer}>
-                    <FlatList
-                      data={Types}
-                      renderItem={({ item }) => (
-                        <TouchableOpacity
-                          style={styles.tab(activeType, item)}
-                          onPress={() => {
-                            setActiveType(item);
-                          }}
-                        >
-                          <Text style={styles.tabText(activeType, item)}>
-                            {item}
-                          </Text>
-                        </TouchableOpacity>
-                      )}
-                      keyExtractor={(item) => item}
-                      contentContainerStyle={{ columnGap: 8 }}
-                      horizontal
+                </TouchableOpacity>
+                <RBSheet
+                  ref={(ref) => {
+                    this.depositRBSheet = ref;
+                  }}
+                  height={400}
+                  openDuration={250}
+                  customStyles={{
+                    container: {
+                      // justifyContent: "center",
+                      backgroundColor: colors.purplebold,
+                      // alignItems: "center",
+                      borderTopLeftRadius: 28,
+                      borderTopRightRadius: 28,
+                    },
+                  }}
+                >
+                  <View style={{ justifyContent: "center", padding: 12 }}>
+                    <Text style={[styles.CardText, { textAlign: "center" }]}>
+                      Deposit
+                    </Text>
+                    <Text
+                      style={{
+                        textAlign: "left",
+                        fontSize: 14,
+                        paddingVertical: 5,
+                        color: colors.grey,
+                      }}
+                    >
+                      Choose asset to deposit
+                    </Text>
+                    <View style={styles.tabsContainer}>
+                      <FlatList
+                        data={Types}
+                        renderItem={({ item }) => (
+                          <TouchableOpacity
+                            style={styles.tab(activeType, item)}
+                            onPress={() => {
+                              setActiveType(item);
+                            }}
+                          >
+                            <Text style={styles.tabText(activeType, item)}>
+                              {item}
+                            </Text>
+                          </TouchableOpacity>
+                        )}
+                        keyExtractor={(item) => item}
+                        contentContainerStyle={{ columnGap: 8 }}
+                        horizontal
+                      />
+                    </View>
+                    <Text
+                      style={[
+                        styles.text,
+                        { textAlign: "left", paddingVertical: 12 },
+                      ]}
+                    >
+                      Deposit SPZ tokens for staking. The Network fees for
+                      transaction on SPZ Network will be charged in BFIC
+                    </Text>
+                    <View style={styles.buttonsContainer}>
+                      <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => navigation.navigate("walletDeposit") +  this.depositRBSheet.close()}
+                      >
+                        <Text style={styles.btnText}>Validate</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </RBSheet>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => this.withdrawRBSheet.open()}
+                  style={styles.columnContainer}
+                >
+                  <View style={styles.icon}>
+                    <Image
+                      source={require("../../../../assets/icons/withdraw.png")}
                     />
                   </View>
                   <Text
-                    style={[
-                      styles.text,
-                      { textAlign: "left", paddingVertical: 12 },
-                    ]}
+                    style={[styles.text, { color: colors.white, fontSize: 14 }]}
                   >
-                    Deposit SPZ tokens for staking. The Network fees for
-                    transaction on SPZ Network will be charged in BFIC
+                    withdraw
                   </Text>
-                  <View style={styles.buttonsContainer}>
-                    <TouchableOpacity
-                      style={styles.button}
-                      onPress={() => navigation.navigate("WalletWithdraw")}
+                </TouchableOpacity>
+                <RBSheet
+                  ref={(ref) => {
+                    this.withdrawRBSheet = ref;
+                  }}
+                  height={400}
+                  openDuration={250}
+                  onClose={() => setIsDepositOpen(false)}
+                  customStyles={{
+                    container: {
+                      // justifyContent: "center",
+                      backgroundColor: colors.purplebold,
+                      // alignItems: "center",
+                      borderTopLeftRadius: 28,
+                      borderTopRightRadius: 28,
+                    },
+                  }}
+                >
+                  <View style={{ justifyContent: "center", padding: 12 }}>
+                    <Text style={[styles.CardText, { textAlign: "center" }]}>
+                      Withdraw
+                    </Text>
+                    <Text
+                      style={{
+                        textAlign: "left",
+                        fontSize: 14,
+                        paddingVertical: 5,
+                        color: colors.grey,
+                      }}
                     >
-                      <Text style={styles.btnText}>Validate</Text>
-                    </TouchableOpacity>
+                      Choose asset to withdraw
+                    </Text>
+                    <View style={styles.tabsContainer}>
+                      <FlatList
+                        data={Types}
+                        renderItem={({ item }) => (
+                          <TouchableOpacity
+                            style={styles.tab(activeType, item)}
+                            onPress={() => {
+                              setActiveType(item);
+                            }}
+                          >
+                            <Text style={styles.tabText(activeType, item)}>
+                              {item}
+                            </Text>
+                          </TouchableOpacity>
+                        )}
+                        keyExtractor={(item) => item}
+                        contentContainerStyle={{ columnGap: 8 }}
+                        horizontal
+                      />
+                    </View>
+                    <Text
+                      style={[
+                        styles.text,
+                        { textAlign: "left", paddingVertical: 12 },
+                      ]}
+                    >
+                      Deposit SPZ tokens for staking. The Network fees for
+                      transaction on SPZ Network will be charged in BFIC
+                    </Text>
+                    <View style={styles.buttonsContainer}>
+                      <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => navigation.navigate("WalletWithdraw") +  this.withdrawRBSheet.close()}
+                      >
+                        <Text style={styles.btnText}>Validate</Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
-                </View>
-              </RBSheet>
+                </RBSheet>
+              </View>
             </View>
             <View
               style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
+                borderBottomColor: colors.purplelight,
+                borderBottomWidth: 0.6,
+                // padding: 10,
+                width: "100%",
               }}
-            >
-              <TouchableOpacity
-                onPress={() => setIsWithdrawOpen(true)}
-                style={styles.columnContainer}
-              >
-                <View style={styles.icon}>
-                  <Image
-                    source={require("../../../../assets/icons/withdraw.png")}
-                  />
-                </View>
-                <Text
-                  style={[styles.text, { color: colors.white, fontSize: 14 }]}
-                >
-                  withdraw
-                </Text>
-              </TouchableOpacity>
-              <RBSheet
-                ref={depositRBSheetRef}
-                height={400}
-                openDuration={250}
-                onClose={() => setIsDepositOpen(false)}
-                customStyles={{
-                  container: {
-                    // justifyContent: "center",
-                    backgroundColor: colors.purplebold,
-                    // alignItems: "center",
-                    borderTopLeftRadius: 28,
-                    borderTopRightRadius: 28,
-                  },
-                }}
-              >
-                <View style={{ justifyContent: "center", padding: 12 }}>
-                  <Text style={[styles.CardText, { textAlign: "center" }]}>
-                    Withdraw
-                  </Text>
-                  <Text
-                    style={{
-                      textAlign: "left",
-                      fontSize: 14,
-                      paddingVertical: 5,
-                      color: colors.grey,
-                    }}
-                  >
-                    Choose asset to withdraw
-                  </Text>
-                  <View style={styles.tabsContainer}>
-                    <FlatList
-                      data={Types}
-                      renderItem={({ item }) => (
-                        <TouchableOpacity
-                          style={styles.tab(activeType, item)}
-                          onPress={() => {
-                            setActiveType(item);
-                          }}
-                        >
-                          <Text style={styles.tabText(activeType, item)}>
-                            {item}
-                          </Text>
-                        </TouchableOpacity>
-                      )}
-                      keyExtractor={(item) => item}
-                      contentContainerStyle={{ columnGap: 8 }}
-                      horizontal
-                    />
-                  </View>
-                  <Text
-                    style={[
-                      styles.text,
-                      { textAlign: "left", paddingVertical: 12 },
-                    ]}
-                  >
-                    Deposit SPZ tokens for staking. The Network fees for
-                    transaction on SPZ Network will be charged in BFIC
-                  </Text>
-                  <View style={styles.buttonsContainer}>
-                    <TouchableOpacity
-                      style={styles.button}
-                      onPress={() => navigation.navigate("WalletWithdraw")}
-                    >
-                      <Text style={styles.btnText}>Validate</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </RBSheet>
+            />
+            <View>
+              <MenuItem
+                iconName="bitcoin"
+                balance={walletData[0].balance.slice(0, 4)}
+                label={walletData[0].symbol}
+                onPress={handleProfilePress}
+              />
+              <MenuItem
+                iconName="ethereum"
+                balance={walletData[1].balance.slice(0, 4)}
+                label={walletData[1].symbol}
+                onPress={handleProfilePress}
+              />
+              <MenuItem
+                iconName="viacoin"
+                balance={walletData[2].balance.slice(0, 4)}
+                label={walletData[2].symbol}
+                onPress={handleProfilePress}
+              />
             </View>
           </View>
-          <View
-            style={{
-              borderBottomColor: colors.purplelight,
-              borderBottomWidth: 0.6,
-              // padding: 10,
-              width: "100%",
-            }}
-          />
-          <View>
-            <MenuItem
-              iconName="bitcoin"
-              balance="0.00"
-              label="BTC"
-              onPress={handleProfilePress}
-            />
-            <MenuItem
-              iconName="ethereum"
-              balance="0.00"
-              label="ETH"
-              onPress={handleProfilePress}
-            />
-            <MenuItem
-              iconName="viacoin"
-              balance="0.00"
-              label="VIA"
-              onPress={handleProfilePress}
-            />
-            <MenuItem
-              iconName="maxcdn"
-              balance="0.00"
-              label="MXD"
-              onPress={handleProfilePress}
-            />
-          </View>
-        </View>
-        <View style={{ marginBottom: 80 }} />
-      </ScrollView>
-    </KeyboardAwareScrollView>
+          <View style={{ marginBottom: 80 }} />
+        </ScrollView>
+      </KeyboardAwareScrollView>
+    </ScrollView>
   );
 };
 
@@ -566,8 +583,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   image: {
-    width: "240%", // Adjusted to take the full width of the container
-    height: "45%", // Adjusted to maintain aspect ratio
+    // width: "240%", // Adjusted to take the full width of the container
+    height: "145%", // Adjusted to maintain aspect ratio
     resizeMode: "contain",
   },
   tabsContainer: {

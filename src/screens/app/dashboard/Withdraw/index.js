@@ -1,106 +1,80 @@
-import { SafeAreaView, View, Text, Image } from "react-native";
-import React, { useContext, useState } from "react";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { Dropdown } from "react-native-element-dropdown";
-
-import Button from "../../../../components/Button";
-import Input from "../../../../components/Input";
-
+import React, { useContext, useEffect, useState } from "react";
+import { SafeAreaView, View, Text, TextInput } from "react-native";
 import styles from "./styles";
-
+import Button from "../../../../components/Button";
+import Title from "../../../../components/Title";
+import OtpInput from "../../../../components/OtpInput";
 import { AuthContext } from "../../../../context/AuthContext";
-import Checkbox from "../../../../components/Checkbox";
-import Header from "../../../../components/Header";
-import colors from "../../../../constants/colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-const data = [
-  { label: "SPZ", value: "1" },
-  { label: "SPZ", value: "2" },
-  { label: "SPZ", value: "3" },
-  { label: "SPZ", value: "4" },
-  { label: "SPZ", value: "5" },
-];
+const Verification = ({ navigation }) => {
+  const { verifyEmail, userInfo, sendVerificationEmail } =
+    useContext(AuthContext);
+  const [otp, setOtp] = useState("");
+  const [countdown, setCountdown] = useState(60);
+  const { userId } = useContext(AuthContext);
 
-const Withdraw = ({ navigation }) => {
-  const { isLoading, userInfo } = useContext(AuthContext);
-  const [amount, setAmount] = useState();
-  const [selectedValue, setSelectedValue] = useState("option1");
-  const [error, setError] = useState(null);
-  const [value, setValue] = useState(null);
-  const [isFocus, setIsFocus] = useState(false);
+  const handleEmailVerification = async () => {
+    try {
+      // Use the token and userId in the verifyEmail function
+      const response = await verifyEmail(userId, otp);
 
-  const renderLabel = () => {
-    if (value || isFocus) {
-      return (
-        <Text style={[styles.label, isFocus && { color: "blue" }]}>
-          Dropdown label
-        </Text>
-      );
+      console.log("response :>> ", response.status);
+
+      if (response.status === 200) {
+        // If verification is successful, navigate the user to the "Key" screen
+        navigation.navigate("Key");
+      } else {
+        // Handle the case where verification was not successful
+        console.error("Email verification failed:", response.message);
+      }
+    } catch (error) {
+      console.error("error :>> ", error);
     }
-    return null;
   };
 
-  const handleStakeButtonPress = () => {
-    console.log("Stake button pressed");
+  const handleResend = async () => {
+    // Call your resend email logic here
+    await sendVerificationEmail(
+      userInfo.userData.user.email,
+      userInfo.userInfo.token
+    );
+    setCountdown(60); // Reset the countdown
   };
+
+  useEffect(() => {
+    let timer;
+
+    if (countdown > 0) {
+      timer = setInterval(() => {
+        setCountdown((prevCountdown) => prevCountdown - 1);
+      }, 1000);
+    }
+    console.log("countdown :>> ", countdown);
+    return () => {
+      // Clear the interval when the component unmounts
+      clearInterval(timer);
+    };
+  }, [countdown]);
 
   return (
     <KeyboardAwareScrollView behavior={"padding"} style={styles.container}>
-      <Header
-        title="Withdraw"
-        leftIconName="chevron-left"
-        leftNavigation="Swap"
-        rightIconName={false}
-        rightNavigation={false}
-        navigation={navigation}
+      <Title
+        title="Verify Your Email"
+        subtitle="Confirmation code was sent to your email address"
       />
-      <View style={styles.body}>
-        <View style={styles.token}>
-          <Dropdown
-            style={[
-              styles.dropdown,
-              isFocus && { borderColor: colors.purplelight },
-            ]}
-            placeholderStyle={styles.placeholderStyle}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            iconStyle={styles.iconStyle}
-            data={data}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "Select item" : "..."}
-            searchPlaceholder="Search..."
-            value={value}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setValue(item.value);
-              setIsFocus(false);
-            }}
-            renderLeftIcon={() => (
-              <FontAwesome5
-                name="bitcoin"
-                size={16}
-                color={colors.purplelight}
-                style={{ marginHorizontal: 12 }}
-              ></FontAwesome5>
-            )}
-          />
-        </View>
-        <Input
-          placeholder="Enter SPZ Amount"
-          value={amount}
-          keyboardType="numeric"
-          onChangeText={(text) => setAmount(text)}
-        />
-        <Button onPress={handleStakeButtonPress()} type="blue">
-          Validate
-        </Button>
-      </View>
+      <OtpInput onOtpChange={setOtp} />
+      <Button onPress={handleEmailVerification}>Verify</Button>
+      <Text style={styles.text}>
+        Resend in {countdown} seconds
+        {countdown === 0 && (
+          <Text style={styles.link} onPress={handleResend}>
+            Resend
+          </Text>
+        )}
+      </Text>
     </KeyboardAwareScrollView>
   );
 };
 
-export default Withdraw;
+export default Verification;

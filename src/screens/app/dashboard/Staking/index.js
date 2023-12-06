@@ -16,14 +16,16 @@ import { AuthContext } from "../../../../context/AuthContext";
 import Checkbox from "../../../../components/Checkbox";
 import Header from "../../../../components/Header";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useDashboard } from "../../../../context/DashboardContext";
 
 const Stacking = ({ navigation }) => {
   const { isLoading, userInfo } = useContext(AuthContext);
+  const { sendAmount, loading } = useDashboard();
   const [amount, setAmount] = useState();
   const [error, setError] = useState(null);
 
   const handleStakeButtonPress = () => {
-    // Implement your logic for handling the stake button press
+    sendAmount(amount); // Call the sendAmount method with the amount
     console.log("Stake button pressed");
   };
 

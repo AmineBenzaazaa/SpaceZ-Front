@@ -64,6 +64,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     marginVertical: 4,
   },
+  imageContainer: {
+    height: 100, // Adjust the height as needed
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  image: {
+    // width: "10%", // Adjusted to take the full width of the container
+    height: "175%", // Adjusted to maintain aspect ratio
+    resizeMode: "contain",
+  },
 });
 
 export default styles;

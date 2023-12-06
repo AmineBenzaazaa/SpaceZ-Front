@@ -33,6 +33,7 @@ const Menu = ({ navigation }) => {
       await logout();
       // You can perform any additional actions after successful logout if needed.
       console.log("User logged out successfully");
+      navigation.navigate('Login');
     } catch (error) {
       // Handle logout errors, if any.
       console.error("Error logging out:", error);

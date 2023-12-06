@@ -1,20 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import {
-  Animated,
-  Dimensions,
-  Image,
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Animated, Text, View } from "react-native";
 // import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useFonts } from "expo-font";
 import { useRef } from "react";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 // import * as SplashScreen from "expo-splash-screen";
@@ -47,6 +37,7 @@ import WithdrawReward from "./src/screens/app/dashboard/WithdrawReward";
 import Statement from "./src/screens/app/dashboard/Statement";
 import WalletWithdraw from "./src/screens/app/dashboard/WalletWithraw";
 import { DashboardProvider } from "./src/context/DashboardContext";
+import walletDeposit from "./src/screens/app/dashboard/walletDeposit";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -78,16 +69,17 @@ export default function App() {
     tabBarStyle: {
       backgroundColor: "#ffffff",
       position: "absolute",
-      bottom: 20,
+      // bottom: 20,
       // Max Height...
-      height: 80,
+      height: 90,
       alignItems: "center",
       justifyContent: "center",
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
       borderBottomRightRadius: 20,
       borderBottomLeftRadius: 20,
-      margin: 15,
+      paddingHorizontal: 20,
+      // margin: 15,
       // Shadow...
       shadowColor: "#000",
       shadowOpacity: 0.2,
@@ -106,6 +98,7 @@ export default function App() {
         sceneContainerStyle={{
           backgroundColor: "transparent",
         }}
+        lazy="true"
         tabBarOptions={{
           showLabel: false,
           tabBarStyle: { borderTopWidth: 0 },
@@ -317,18 +310,23 @@ export default function App() {
       <Stack.Screen name="Onboarding" component={Onboarding} />
       <Stack.Screen name="Signin" component={Signin} />
       <Stack.Screen name="Signup" component={Signup} />
-      <Stack.Screen name="Verification" component={Verification} />
+      <Stack.Screen name="Verification" component={Verification} /> 
       <Stack.Screen name="Key" component={Key} />
       <Stack.Screen name="HomeTabs" component={HomeTabs} />
       <Stack.Screen name="Staking" component={Staking} />
-      <Stack.Screen name="Notification" component={Notification} />
+      <Stack.Screen
+        name="Notification"
+        component={Notification}
+        screenOptions={{ gestureDirection: "horizontal-inverted" }}
+      />
       <Stack.Screen name="Withdraw" component={Withdraw} />
       <Stack.Screen name="Deposit" component={Deposit} />
-      <Stack.Screen name="Offer" component={Offer} /> 
+      <Stack.Screen name="Offer" component={Offer} />
       <Stack.Screen name="Menu" component={Menu} />
       <Stack.Screen name="WithdrawReward" component={WithdrawReward} />
       <Stack.Screen name="Statement" component={Statement} />
       <Stack.Screen name="WalletWithdraw" component={WalletWithdraw} />
+      {/* <Stack.Screen name="walletDeposit" component={walletDeposit} /> */}
     </Stack.Navigator>
   );
 

@@ -22,7 +22,7 @@ const data = [
   { label: "SPZ", value: "5" },
 ];
 
-const WalletWithdraw = ({ navigation }) => {
+const walletDeposit = ({ navigation }) => {
   const { isLoading, userInfo } = useContext(AuthContext);
   const [amount, setAmount] = useState();
   const [selectedValue, setSelectedValue] = useState("option1");
@@ -48,7 +48,7 @@ const WalletWithdraw = ({ navigation }) => {
   return (
     <KeyboardAwareScrollView behavior={"padding"} style={styles.container}>
       <Header
-        title="Withdraw"
+        title="Deposit"
         leftIconName="chevron-left"
         leftNavigation="Wallet"
         rightIconName={false}
@@ -77,7 +77,7 @@ const WalletWithdraw = ({ navigation }) => {
   );
 };
 
-export default WalletWithdraw;
+export default walletDeposit;
 
 const styles = StyleSheet.create({
   container: {

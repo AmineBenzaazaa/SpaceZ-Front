@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { BASE_URL } from "../config";
 
 // Create a context for your dashboard data
 const DashboardContext = createContext();
@@ -10,8 +11,49 @@ export const useDashboard = () => useContext(DashboardContext);
 export const DashboardProvider = ({ children, token }) => {
   const [homeData, setHomeData] = useState(null);
   const [statsData, setStatsData] = useState(null);
+  const [walletData, setWalletData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Function to send an amount
+  const sendAmount = (amount) => {
+    const apiUrl = `${BASE_URL}/stake/get/reward`;
+
+    // Define the data you want to send in the request body
+    const postData = {
+      amount: amount,
+    };
+
+    // Convert the data to a JSON string
+    const requestBody = JSON.stringify(postData);
+
+    // Define the headers including the authorization token
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+
+    // Make the POST request
+    fetch(apiUrl, {
+      method: "POST",
+      headers: headers,
+      body: requestBody, // Include the JSON data in the request body
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Handle the response data as needed
+        console.log("POST request successful", data);
+      })
+      .catch((error) => {
+        // Handle any errors that occur during the request
+        console.error("Error making POST request:", error);
+      });
+  };
 
   useEffect(() => {
     // Fetch data from the API endpoints with the token
@@ -21,7 +63,7 @@ export const DashboardProvider = ({ children, token }) => {
     };
 
     const fetchHomeData = () => {
-      const apiUrl = "http://192.168.100.28:8000/api/stake/get/reward";
+      const apiUrl = `${BASE_URL}/stake/get/reward`;
       fetch(apiUrl, { headers: headers }) // Include headers in the fetch request
         .then((response) => {
           if (!response.ok) {
@@ -41,8 +83,8 @@ export const DashboardProvider = ({ children, token }) => {
     };
 
     const fetchStatsData = () => {
-      const apiUrl = "http://192.168.100.28:8000/api/stake/home";
-      fetch(apiUrl, { headers: headers }) 
+      const apiUrl = `${BASE_URL}/stake/home`;
+      fetch(apiUrl, { headers: headers })
         .then((response) => {
           if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -53,20 +95,40 @@ export const DashboardProvider = ({ children, token }) => {
         .then((data) => {
           setLoading(false);
           setStatsData(data);
-        })  
+        })
         .catch((error) => {
           setError(error.message);
-          console.error("Error fetching home data:", error);
+          console.error("Error fetching stats data:", error);
         });
     };
 
-    // Fetch both home and stats data when the component mounts
+    const fetchWalletData = () => {
+      const apiUrl = `${BASE_URL}/wallet/balance`;
+      fetch(apiUrl, { headers: headers })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          setLoading(false);
+          return response.json();
+        })
+        .then((data) => {
+          setLoading(false);
+          setWalletData(data);
+        })
+        .catch((error) => {
+          setError(error.message);
+          console.error("Error fetching wallet data:", error);
+        });
+    };
+
+    // Fetch home, stats, and wallet data when the component mounts
     fetchHomeData();
     fetchStatsData();
-  }, [token]); // Include the token as a dependency
-
+    fetchWalletData();
+  }, [token]);
   return (
-    <DashboardContext.Provider value={{ homeData, statsData, loading, error }}>
+    <DashboardContext.Provider value={{ homeData, statsData, walletData, loading, error, sendAmount }}>
       {children}
     </DashboardContext.Provider>
   );

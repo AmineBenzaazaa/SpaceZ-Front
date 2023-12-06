@@ -1,5 +1,5 @@
 // Swap.js
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -14,10 +14,20 @@ import styles from "./styles";
 import colors from "../../../../constants/colors";
 import ButtonDash from "../../../../components/ButtonDash";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useDashboard } from "../../../../context/DashboardContext";
 
 const Swap = ({ navigation }) => {
   const { isLoading, userInfo } = useContext(AuthContext);
+  const { walletData, loading } = useDashboard();
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!userInfo || !userInfo.userInfo.token) {
+      navigation.replace("Onboarding");
+    } else {
+      console.log("res :>> ", walletData);
+    }
+  }, [userInfo, navigation]);
 
   const MenuItem = ({ iconName, label, balance, onPress }) => (
     <TouchableOpacity style={styles.Cardcontainer} onPress={onPress}>
@@ -31,7 +41,6 @@ const Swap = ({ navigation }) => {
 
   const handleProfilePress = () => {
     console.log("My Profile Pressed");
-    // Add navigation logic here if needed
   };
 
   return (
@@ -45,7 +54,7 @@ const Swap = ({ navigation }) => {
         navigation={navigation}
       />
       <View style={styles.main}>
-        <View style={styles.iconContainer}>
+        {/* <View style={styles.iconContainer}>
           <TouchableOpacity
             onPress={() => navigation.navigate("Deposit")}
             style={styles.columnContainer}
@@ -74,32 +83,27 @@ const Swap = ({ navigation }) => {
             padding: 10,
             width: "100%",
           }}
-        />
-
-        <MenuItem
-          iconName="bitcoin"
-          balance="0.00"
-          label="BTC"
-          onPress={handleProfilePress}
-        />
-        <MenuItem
-          iconName="ethereum"
-          balance="0.00"
-          label="ETH"
-          onPress={handleProfilePress}
-        />
-        <MenuItem
-          iconName="viacoin"
-          balance="0.00"
-          label="VIA"
-          onPress={handleProfilePress}
-        />
-        <MenuItem
-          iconName="maxcdn"
-          balance="0.00"
-          label="MXD"
-          onPress={handleProfilePress}
-        />
+        /> */}
+        <View>
+          <MenuItem
+            iconName="bitcoin"
+            balance={walletData[0].balance.slice(0, 4)}
+            label={walletData[0].symbol}
+            onPress={handleProfilePress}
+          />
+          <MenuItem
+            iconName="ethereum"
+            balance={walletData[1].balance.slice(0, 4)}
+            label={walletData[1].symbol}
+            onPress={handleProfilePress}
+          />
+          <MenuItem
+            iconName="viacoin"
+            balance={walletData[2].balance.slice(0, 4)}
+            label={walletData[2].symbol}
+            onPress={handleProfilePress}
+          />
+        </View>
         <View style={styles.buttonsContainer}>
           <TouchableOpacity
             style={styles.button}

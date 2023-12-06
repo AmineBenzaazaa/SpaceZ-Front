@@ -38,7 +38,7 @@ export default class Accordian extends Component {
 
               <Text style={styles.token}>205</Text>
               <Text style={styles.text}>Countries</Text>
-
+              
               <View style={styles.transactionsLight}>
                 {/* Left column */}
                 <View style={styles.columnLeft}>
