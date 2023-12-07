@@ -237,6 +237,7 @@ export const AuthProvider = ({ children, navigation }) => {
       .then((res) => {
         console.log(res.data);
         AsyncStorage.removeItem("userInfo");
+        AsyncStorage.removeItem("combinedData");
         setUserInfo({});
         setIsLoading(false);
       })
@@ -250,7 +251,7 @@ export const AuthProvider = ({ children, navigation }) => {
     try {
       setSplashLoading(true);
 
-      let userInfo = await AsyncStorage.getItem("userInfo");
+      let userInfo = await AsyncStorage.getItem("combinedData");
       userInfo = JSON.parse(userInfo);
 
       if (userInfo) {

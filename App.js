@@ -36,8 +36,10 @@ import Offer from "./src/screens/app/dashboard/Offer";
 import WithdrawReward from "./src/screens/app/dashboard/WithdrawReward";
 import Statement from "./src/screens/app/dashboard/Statement";
 import WalletWithdraw from "./src/screens/app/dashboard/WalletWithraw";
+import WalletDeposit from "./src/screens/app/dashboard/WalletDeposit";
+
 import { DashboardProvider } from "./src/context/DashboardContext";
-import walletDeposit from "./src/screens/app/dashboard/walletDeposit";
+import Profile from "./src/screens/app/user/Profile";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -326,7 +328,8 @@ export default function App() {
       <Stack.Screen name="WithdrawReward" component={WithdrawReward} />
       <Stack.Screen name="Statement" component={Statement} />
       <Stack.Screen name="WalletWithdraw" component={WalletWithdraw} />
-      {/* <Stack.Screen name="walletDeposit" component={walletDeposit} /> */}
+      <Stack.Screen name="WalletDeposit" component={WalletDeposit} />
+      <Stack.Screen name="Profile" component={Profile} />
     </Stack.Navigator>
   );
 

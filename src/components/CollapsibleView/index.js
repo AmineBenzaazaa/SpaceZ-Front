@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import colors from "../../constants/colors";
-
 export default class Accordian extends Component {
   constructor(props) {
     super(props);
@@ -18,7 +17,7 @@ export default class Accordian extends Component {
       data: props.data,
       expanded: false,
     };
-
+    console.log("props :>> ", props);
     if (Platform.OS === "android") {
       UIManager.setLayoutAnimationEnabledExperimental(true);
     }
@@ -32,54 +31,40 @@ export default class Accordian extends Component {
             <View style={styles.child}>
               <Text style={styles.title}>Global Stats</Text>
               <View style={styles.states}>
-                <Text style={styles.token}>16,350,270</Text>
+                <Text style={styles.token}>
+                  {this.props.data.total_participents}
+                </Text>
                 <Text style={styles.text}>Total Participants</Text>
               </View>
-
-              <Text style={styles.token}>205</Text>
-              <Text style={styles.text}>Countries</Text>
+              <View style={{ marginVertical: 5 }}>
+                <Text style={styles.token}>{this.props.data.countries}</Text>
+                <Text style={styles.text}>Countries</Text>
+              </View>
+              <View style={[{ marginVertical: 5 }]}>
+                <Text style={styles.token}>
+                  {this.props.data.tokenPrice} SPZ
+                </Text>
+                <Text style={styles.text}>Token Price</Text>
+              </View>
               
               <View style={styles.transactionsLight}>
                 {/* Left column */}
                 <View style={styles.columnLeft}>
-                  <Text style={styles.token}>11,265,520,780 SPZ</Text>
+                  <Text style={styles.token}>
+                    {this.props.data.totalStackedPool} SPZ
+                  </Text>
                   <Text style={styles.text}>Total Staked in Pool</Text>
                 </View>
 
                 {/* Right column */}
                 <View style={styles.columnRight}>
-                  <Text style={styles.token}>$2,253,104,156</Text>
-                  <Text style={styles.text}>Total Staked in Pool (USD)</Text>
+                  <Text style={styles.token}>
+                    {this.props.data.totalWithdrawal} SPZ
+                  </Text>
+                  <Text style={styles.text}>Total Withdrawal</Text>
                 </View>
               </View>
 
-              <View style={styles.transactions}>
-                {/* Left column */}
-                <View style={styles.columnLeft}>
-                  <Text style={styles.token}>20,456,456,352 SPZ</Text>
-                  <Text style={styles.text}>Total Staked in Pool</Text>
-                </View>
-
-                {/* Right column */}
-                <View style={styles.columnRight}>
-                  <Text style={styles.token}>$4,091,291,270</Text>
-                  <Text style={styles.text}>Total Staked in Pool (USD)</Text>
-                </View>
-              </View>
-
-              <View style={styles.transactionsLight}>
-                {/* Left column */}
-                <View style={styles.columnLeft}>
-                  <Text style={styles.token}>11,265,520,780 SPZ</Text>
-                  <Text style={styles.text}>Total Staked in Pool</Text>
-                </View>
-
-                {/* Right column */}
-                <View style={styles.columnRight}>
-                  <Text style={styles.token}>$2,253,104,156</Text>
-                  <Text style={styles.text}>Total Staked in Pool (USD)</Text>
-                </View>
-              </View>
             </View>
           </>
         )}

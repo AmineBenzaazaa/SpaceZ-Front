@@ -29,9 +29,10 @@ const Home = ({ navigation }) => {
   const { userInfo } = useContext(AuthContext);
   const [isDepositOpen, setIsDepositOpen] = useState(false);
   const [isWithdrawOpen, setIsWithdrawOpen] = useState(false);
-  const [activeType, setActiveType] = useState("Deposit");
-  const [copiedText, setCopiedText] = React.useState('');
+  const [activeType, setActiveType] = useState("BNB");
+  const [copiedText, setCopiedText] = React.useState("");
   const Types = ["BNB", "SNX", "USDT"];
+  const walletPublicKey = userInfo.userData.user.walletPublicKey;
 
   useEffect(() => {
     if (!userInfo || !userInfo.userInfo.token) {
@@ -42,9 +43,8 @@ const Home = ({ navigation }) => {
   }, [userInfo, navigation]);
 
   const copyToClipboard = async () => {
-    await (userInfo.userData.user.walletPublicKey);
+    await Clipboard.setStringAsync(walletPublicKey);
   };
-
 
   // const Drawer = createDrawerNavigator();
   const MenuItem = ({ iconName, label, balance, onPress }) => (
@@ -221,7 +221,10 @@ const Home = ({ navigation }) => {
                     <View style={styles.buttonsContainer}>
                       <TouchableOpacity
                         style={styles.button}
-                        onPress={() => navigation.navigate("walletDeposit") +  this.depositRBSheet.close()}
+                        onPress={() =>
+                          navigation.navigate("WalletDeposit") +
+                          this.depositRBSheet.close()
+                        }
                       >
                         <Text style={styles.btnText}>Validate</Text>
                       </TouchableOpacity>
@@ -314,7 +317,10 @@ const Home = ({ navigation }) => {
                     <View style={styles.buttonsContainer}>
                       <TouchableOpacity
                         style={styles.button}
-                        onPress={() => navigation.navigate("WalletWithdraw") +  this.withdrawRBSheet.close()}
+                        onPress={() =>
+                          navigation.navigate("WalletWithdraw") +
+                          this.withdrawRBSheet.close()
+                        }
                       >
                         <Text style={styles.btnText}>Validate</Text>
                       </TouchableOpacity>

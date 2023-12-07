@@ -24,8 +24,7 @@ const MenuItem = ({ iconName, label, onPress }) => (
 const Menu = ({ navigation }) => {
   const { logout } = useContext(AuthContext);
   const handleProfilePress = () => {
-    console.log("My Profile Pressed");
-    // Add navigation logic here if needed
+
   };
 
   const handleLogout = async () => {
@@ -55,7 +54,7 @@ const Menu = ({ navigation }) => {
         <MenuItem
           iconName="user"
           label="My Profile"
-          onPress={handleProfilePress}
+          onPress={()=> navigation.navigate("Profile")}
         />
         <MenuItem
           iconName="lock"

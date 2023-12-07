@@ -63,7 +63,7 @@ export const DashboardProvider = ({ children, token }) => {
     };
 
     const fetchHomeData = () => {
-      const apiUrl = `${BASE_URL}/stake/get/reward`;
+      const apiUrl = `${BASE_URL}/home/data`;
       fetch(apiUrl, { headers: headers }) // Include headers in the fetch request
         .then((response) => {
           if (!response.ok) {
