@@ -7,11 +7,10 @@ import {
 } from "react-native";
 import React, { useContext, useState } from "react";
 import Spinner from "react-native-loading-spinner-overlay";
+import * as Clipboard from 'expo-clipboard';
 
 import Button from "../../../../components/Button";
 import Title from "../../../../components/Title";
-import Input from "../../../../components/Input";
-import OtpInput from "../../../../components/OtpInput";
 
 import styles from "./styles";
 import { AuthContext } from "../../../../context/AuthContext";
@@ -22,6 +21,12 @@ const Key = ({ navigation }) => {
   const { isLoading, userInfo } = useContext(AuthContext);
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState(null);
+  const walletPublicKey = userInfo.userData.user.walletPublicKey;
+
+
+  const copyToClipboard = async () => {
+    await Clipboard.setStringAsync(walletPublicKey);
+  };
 
   const onCheckboxPress = () => {
     setAgreed((value) => !value);
@@ -41,14 +46,14 @@ const Key = ({ navigation }) => {
               {userInfo.userData.user.walletPublicKey}
             </Text>
           </View>
-          <TouchableOpacity style={styles.copy}>
+          <TouchableOpacity onPress={copyToClipboard} style={styles.copy}>
             <Image
               source={require("../../../../assets/icons/copy.png")}
               style={styles.icon}
             />
           </TouchableOpacity>
         </View>
-        <Text style={styles.warning}>
+        <Text  style={styles.warning}>
           Warning Never discloses this private key to anyone with your private
           key they can fully control your wallet including transferring away
           your BLC and BFIC

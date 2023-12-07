@@ -14,7 +14,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 // import 'react-native-gesture-handler';
 import { FontAwesome5 } from "@expo/vector-icons";
 import RBSheet from "@nonam4/react-native-bottom-sheet";
-
+import * as Clipboard from 'expo-clipboard';
 import Header from "../../../../components/Header";
 
 import { AuthContext } from "../../../../context/AuthContext";

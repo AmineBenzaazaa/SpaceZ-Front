@@ -224,6 +224,45 @@ export const AuthProvider = ({ children, navigation }) => {
     }
   };
 
+  const changePassword = async (currentPassword, newPassword) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/user/change-password`,
+        {
+          currentPassword,
+          newPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      // Handle the response based on your application's logic
+      console.log("Change password response:", response.data);
+  
+      // Optional: You can navigate the user to another screen or display a success message
+      // navigation.navigate('Profile');
+  
+      setIsLoading(false);
+      return response;
+    } catch (error) {
+      // Handle password change errors
+      console.error("Error changing password:", error);
+  
+      // Example: Display a more detailed error message to the user
+      const errorMessage =
+        error.response?.data?.message || "Password change failed. Please try again.";
+  
+      // Alert.alert("Error", errorMessage);
+  
+      setIsLoading(false);
+      throw error; // Rethrow the error to indicate password change failure
+    }
+  };  
+
   const logout = () => {
     setIsLoading(true);
     axios
@@ -294,6 +333,7 @@ export const AuthProvider = ({ children, navigation }) => {
         userId,
         setUserId,
         verifyEmail,
+        changePassword,
         token,
       }}
     >

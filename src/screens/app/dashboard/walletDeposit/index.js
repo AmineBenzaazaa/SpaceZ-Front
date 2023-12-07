@@ -10,9 +10,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Dropdown } from "react-native-element-dropdown";
 import QRCode from "react-native-qrcode-svg";
-
-import Button from "../../../../components/Button";
-import Input from "../../../../components/Input";
+import * as Clipboard from 'expo-clipboard';
 
 // import styles from "./styles";
 
@@ -34,10 +32,15 @@ const data = [
 const WalletDeposit = ({ navigation }) => {
   const { isLoading, userInfo } = useContext(AuthContext);
   const { walletData, loading, error } = useDashboard();
-
   const [amount, setAmount] = useState();
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
+  const walletPublicKey = userInfo.userData.user.walletPublicKey;
+
+
+  const copyToClipboard = async () => {
+    await Clipboard.setStringAsync(walletPublicKey);
+  };
 
   useEffect(() => {
     if (!userInfo || !userInfo.userInfo.token) {
@@ -47,9 +50,7 @@ const WalletDeposit = ({ navigation }) => {
     }
   }, [userInfo, navigation]);
 
-  const copyToClipboard = async () => {
-    await userInfo.userData.user.walletPublicKey;
-  };
+  
 
   return (
     <KeyboardAwareScrollView behavior={"padding"} style={styles.container}>

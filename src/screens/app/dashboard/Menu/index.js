@@ -59,7 +59,7 @@ const Menu = ({ navigation }) => {
         <MenuItem
           iconName="lock"
           label="Change password"
-          onPress={handleProfilePress}
+          onPress={()=> navigation.navigate("UpdatePassword")}
         />
         <View
           style={{

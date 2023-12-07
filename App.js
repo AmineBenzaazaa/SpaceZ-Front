@@ -40,6 +40,7 @@ import WalletDeposit from "./src/screens/app/dashboard/WalletDeposit";
 
 import { DashboardProvider } from "./src/context/DashboardContext";
 import Profile from "./src/screens/app/user/Profile";
+import UpdatePassword from "./src/screens/app/user/UpdatePassword";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -314,7 +315,7 @@ export default function App() {
       <Stack.Screen name="Signup" component={Signup} />
       <Stack.Screen name="Verification" component={Verification} /> 
       <Stack.Screen name="Key" component={Key} />
-      <Stack.Screen name="HomeTabs" component={HomeTabs} />
+      <Stack.Screen name="HomeTabs" component={HomeTabs} options={{gestureEnabled: false}}/>
       <Stack.Screen name="Staking" component={Staking} />
       <Stack.Screen
         name="Notification"
@@ -330,6 +331,7 @@ export default function App() {
       <Stack.Screen name="WalletWithdraw" component={WalletWithdraw} />
       <Stack.Screen name="WalletDeposit" component={WalletDeposit} />
       <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="UpdatePassword" component={UpdatePassword} />
     </Stack.Navigator>
   );
 
