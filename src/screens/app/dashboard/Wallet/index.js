@@ -25,27 +25,27 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { useDashboard } from "../../../../context/DashboardContext";
 
 const Home = ({ navigation }) => {
-  const { walletData, loading, error } = useDashboard();
+  const { walletData, tokenList, loading, error } = useDashboard();
   const { userInfo } = useContext(AuthContext);
   const [isDepositOpen, setIsDepositOpen] = useState(false);
   const [isWithdrawOpen, setIsWithdrawOpen] = useState(false);
-  const [activeType, setActiveType] = useState("BNB");
   const [copiedText, setCopiedText] = React.useState("");
-  const Types = ["BNB", "SNX", "USDT"];
+  const symbols = tokenList.tokens.map(token => token.symbol);
   const walletPublicKey = userInfo.userData.user.walletPublicKey;
+  
+  const [activeType, setActiveType] = useState(symbols[0]);
 
   useEffect(() => {
     if (!userInfo || !userInfo.userInfo.token) {
       navigation.replace("Onboarding");
     } else {
-      console.log("res :>> ", walletData);
     }
   }, [userInfo, navigation]);
 
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(walletPublicKey);
   };
-
+  
   // const Drawer = createDrawerNavigator();
   const MenuItem = ({ iconName, label, balance, onPress }) => (
     <TouchableOpacity style={styles.Cardcontainer} onPress={onPress}>
@@ -57,10 +57,6 @@ const Home = ({ navigation }) => {
     </TouchableOpacity>
   );
 
-  const handleProfilePress = () => {
-    console.log("My Profile Pressed");
-  };
-
   return (
     <ScrollView>
       <KeyboardAwareScrollView
@@ -69,7 +65,6 @@ const Home = ({ navigation }) => {
       >
         <ScrollView>
           <View style={{ ...styles.bg }}>
-            {/* <Header title="" navigation={navigation}/> */}
             <Header
               title="Wallet"
               leftIconName="bell"
@@ -78,10 +73,6 @@ const Home = ({ navigation }) => {
               rightNavigation="Menu"
               navigation={navigation}
             />
-            {/* <Drawer.Navigator>
-          <Drawer.Screen name="Feed" component={Notification} />
-          <Drawer.Screen name="Article" component={Notification} />
-        </Drawer.Navigator> */}
 
             <View style={styles.head}>
               <View style={styles.columnLeft}>
@@ -191,7 +182,7 @@ const Home = ({ navigation }) => {
                     </Text>
                     <View style={styles.tabsContainer}>
                       <FlatList
-                        data={Types}
+                        data={symbols}
                         renderItem={({ item }) => (
                           <TouchableOpacity
                             style={styles.tab(activeType, item)}
@@ -240,7 +231,7 @@ const Home = ({ navigation }) => {
                 }}
               >
                 <TouchableOpacity
-                  onPress={() => this.withdrawRBSheet.open()}
+                  onPress={() => navigation.navigate("WalletWithdraw")}
                   style={styles.columnContainer}
                 >
                   <View style={styles.icon}>
@@ -254,7 +245,7 @@ const Home = ({ navigation }) => {
                     withdraw
                   </Text>
                 </TouchableOpacity>
-                <RBSheet
+                {/* <RBSheet
                   ref={(ref) => {
                     this.withdrawRBSheet = ref;
                   }}
@@ -287,7 +278,7 @@ const Home = ({ navigation }) => {
                     </Text>
                     <View style={styles.tabsContainer}>
                       <FlatList
-                        data={Types}
+                        data={symbols}
                         renderItem={({ item }) => (
                           <TouchableOpacity
                             style={styles.tab(activeType, item)}
@@ -326,7 +317,7 @@ const Home = ({ navigation }) => {
                       </TouchableOpacity>
                     </View>
                   </View>
-                </RBSheet>
+                </RBSheet> */}
               </View>
             </View>
             <View
@@ -342,19 +333,16 @@ const Home = ({ navigation }) => {
                 iconName="bitcoin"
                 balance={walletData[0].balance.slice(0, 4)}
                 label={walletData[0].symbol}
-                onPress={handleProfilePress}
               />
               <MenuItem
                 iconName="ethereum"
                 balance={walletData[1].balance.slice(0, 4)}
                 label={walletData[1].symbol}
-                onPress={handleProfilePress}
               />
               <MenuItem
                 iconName="viacoin"
                 balance={walletData[2].balance.slice(0, 4)}
                 label={walletData[2].symbol}
-                onPress={handleProfilePress}
               />
             </View>
           </View>

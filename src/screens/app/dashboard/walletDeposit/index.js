@@ -46,7 +46,6 @@ const WalletDeposit = ({ navigation }) => {
     if (!userInfo || !userInfo.userInfo.token) {
       navigation.replace("Onboarding");
     } else {
-      console.log("res :>> ", walletData);
     }
   }, [userInfo, navigation]);
 

@@ -1,7 +1,16 @@
-import { SafeAreaView, View, Text, Image, StyleSheet } from "react-native";
+import {
+  SafeAreaView,
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import React, { useContext, useState } from "react";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Dropdown } from "react-native-element-dropdown";
+import * as Clipboard from "expo-clipboard";
 
 import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
@@ -13,36 +22,25 @@ import Checkbox from "../../../../components/Checkbox";
 import Header from "../../../../components/Header";
 import colors from "../../../../constants/colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
-const data = [
-  { label: "SPZ", value: "1" },
-  { label: "SPZ", value: "2" },
-  { label: "SPZ", value: "3" },
-  { label: "SPZ", value: "4" },
-  { label: "SPZ", value: "5" },
-];
+import { useDashboard } from "../../../../context/DashboardContext";
 
 const WalletWithdraw = ({ navigation }) => {
   const { isLoading, userInfo } = useContext(AuthContext);
-  const [amount, setAmount] = useState();
-  const [selectedValue, setSelectedValue] = useState("option1");
-  const [error, setError] = useState(null);
+  const { tokenList, withdraw, loading, error } = useDashboard();
+  const [address, setAddress] = useState("");
+  const [amount, setAmount] = useState("");
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
 
-  const renderLabel = () => {
-    if (value || isFocus) {
-      return (
-        <Text style={[styles.label, isFocus && { color: "blue" }]}>
-          Dropdown label
-        </Text>
-      );
-    }
-    return null;
-  };
+  const symbols = tokenList.tokens.map((token) => ({
+    label: token.symbol,
+    value: token.symbol,
+  }));
+
+  const data = [...symbols];
 
   const handleStakeButtonPress = () => {
-    console.log("Stake button pressed");
+    withdraw(amount, address, value);
   };
 
   return (
@@ -57,19 +55,46 @@ const WalletWithdraw = ({ navigation }) => {
       />
       <View style={styles.body}>
         <Text style={styles.text}>Choose asset to Swap</Text>
-        <Input
-          placeholder="Address"
-          value={amount}
-          // keyboardType="numeric"
-          onChangeText={(text) => setAmount(text)}
-        />
+
+        <View style={styles.inputContainer}>
+          <TextInput
+            placeholder="Address"
+            value={address}
+            onChangeText={(text) => setAddress(text)}
+            style={styles.input}
+            placeholderTextColor={colors.text}
+          />
+          <Dropdown
+            style={[
+              styles.dropdown,
+              isFocus && { borderColor: colors.purplelight },
+            ]}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={data}
+            maxHeight={200}
+            labelField="label"
+            valueField="value"
+            placeholder={!isFocus ? "Select item" : "..."}
+            searchPlaceholder="Search..."
+            value={value}
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+            onChange={(item) => {
+              setValue(item.value);
+              setIsFocus(false);
+            }}
+          />
+        </View>
         <Input
           placeholder="Amount"
           value={amount}
           keyboardType="numeric"
           onChangeText={(text) => setAmount(text)}
         />
-        <Button onPress={handleStakeButtonPress()} type="blue">
+        <Button onPress={handleStakeButtonPress} type="blue">
           Validate
         </Button>
       </View>
@@ -85,26 +110,42 @@ const styles = StyleSheet.create({
     backgroundColor: colors.purpledark,
   },
   dropdown: {
-    borderRadius: 20,
+    flex: 1,
     backgroundColor: colors.white,
-    height: 50,
-    width: 180,
+    height: 42,
     borderColor: "gray",
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,
   },
-  icon: {
-    marginRight: 5,
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 32,
   },
-  label: {
-    position: "absolute",
-    backgroundColor: "white",
-    left: 22,
-    top: 8,
-    zIndex: 999,
-    paddingHorizontal: 8,
+  input: {
+    flex: 3, // Allow input to expand and fill available space
+    color: colors.text,
+    borderBottomWidth: 0.7,
+    borderRadius: 9,
+    borderColor: colors.grey,
+    backgroundColor: colors.purpleinput,
+    padding: 12,
     fontSize: 14,
+    borderRadius: 10,
+    fontSize: 15,
+    marginRight: 8,
+  },
+  addressInput: {
+    flex: 3,
+  },
+  pasteIcon: {
+    flex: 0.1,
+    marginLeft: 8,
+    marginRight: 8,
+  },
+  coinIcon: {
+    flex: 0.1,
   },
   placeholderStyle: {
     fontSize: 16,
@@ -123,8 +164,7 @@ const styles = StyleSheet.create({
   body: {
     paddingHorizontal: 24,
     justifyContent: "center",
-    alignItems: "center", // Center content horizontally
-    // flex: 1, // Take up available vertical space
+    alignItems: "center",
   },
   token: {
     marginTop: 34,
@@ -141,11 +181,11 @@ const styles = StyleSheet.create({
     paddingTop: 12,
   },
   button: {
-    backgroundColor: colors.green, // Adjust the color as needed
+    backgroundColor: colors.green,
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
-    marginTop: "auto", // Pushes the button to the bottom
+    marginTop: "auto",
   },
   buttonText: {
     color: colors.white,

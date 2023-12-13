@@ -17,7 +17,6 @@ export default class Accordian extends Component {
       data: props.data,
       expanded: false,
     };
-    console.log("props :>> ", props);
     if (Platform.OS === "android") {
       UIManager.setLayoutAnimationEnabledExperimental(true);
     }

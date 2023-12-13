@@ -315,11 +315,11 @@ export default function App() {
       <Stack.Screen name="Signup" component={Signup} />
       <Stack.Screen name="Verification" component={Verification} /> 
       <Stack.Screen name="Key" component={Key} />
-      <Stack.Screen name="HomeTabs" component={HomeTabs} options={{gestureEnabled: false}}/>
+      <Stack.Screen name="HomeTabs" component={HomeTabs} options={{gestureEnabled: false}}/> 
       <Stack.Screen name="Staking" component={Staking} />
       <Stack.Screen
         name="Notification"
-        component={Notification}
+        component={Notification}  
         screenOptions={{ gestureDirection: "horizontal-inverted" }}
       />
       <Stack.Screen name="Withdraw" component={Withdraw} />

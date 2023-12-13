@@ -25,7 +25,6 @@ const Swap = ({ navigation }) => {
     if (!userInfo || !userInfo.userInfo.token) {
       navigation.replace("Onboarding");
     } else {
-      console.log("res :>> ", walletData);
     }
   }, [userInfo, navigation]);
 
@@ -89,19 +88,16 @@ const Swap = ({ navigation }) => {
             iconName="bitcoin"
             balance={walletData[0].balance.slice(0, 4)}
             label={walletData[0].symbol}
-            onPress={handleProfilePress}
           />
           <MenuItem
             iconName="ethereum"
             balance={walletData[1].balance.slice(0, 4)}
             label={walletData[1].symbol}
-            onPress={handleProfilePress}
           />
           <MenuItem
             iconName="viacoin"
             balance={walletData[2].balance.slice(0, 4)}
             label={walletData[2].symbol}
-            onPress={handleProfilePress}
           />
         </View>
         <View style={styles.buttonsContainer}>

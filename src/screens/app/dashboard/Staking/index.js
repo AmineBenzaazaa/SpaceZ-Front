@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  Alert,
 } from "react-native";
 import React, { useContext, useState } from "react";
 
@@ -13,20 +14,18 @@ import Input from "../../../../components/Input";
 import styles from "./styles";
 
 import { AuthContext } from "../../../../context/AuthContext";
-import Checkbox from "../../../../components/Checkbox";
 import Header from "../../../../components/Header";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useDashboard } from "../../../../context/DashboardContext";
 
 const Stacking = ({ navigation }) => {
   const { isLoading, userInfo } = useContext(AuthContext);
-  const { sendAmount, loading } = useDashboard();
+  const { sendAmount, homeData, loading } = useDashboard();
   const [amount, setAmount] = useState();
   const [error, setError] = useState(null);
 
   const handleStakeButtonPress = () => {
     sendAmount(amount); // Call the sendAmount method with the amount
-    console.log("Stake button pressed");
   };
 
   return (
@@ -46,7 +45,12 @@ const Stacking = ({ navigation }) => {
             source={require("../../../../assets/images/coin.png")}
           />
           <View style={styles.states}>
-            <Text style={styles.token}>0.00 SPZ</Text>
+            <Text style={styles.token}>
+              {homeData.staking.length > 7
+                ? homeData.staking.slice(0, 7)
+                : homeData.staking}{" "}
+              SPZ
+            </Text>
             <Text style={styles.text}>Balance</Text>
           </View>
         </View>

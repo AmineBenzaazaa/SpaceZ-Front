@@ -10,6 +10,8 @@ import {
 import React, { useContext, useState } from "react";
 import { FontAwesome5 } from "@expo/vector-icons";
 import Spinner from "react-native-loading-spinner-overlay";
+import Toast from 'react-native-toast-message';
+
 import { AuthContext } from "../../../../context/AuthContext";
 import Checkbox from "../../../../components/Checkbox";
 import Header from "../../../../components/Header";
@@ -25,12 +27,12 @@ const UpdatePassword = ({ navigation }) => {
 
   const handleChangePassword = async () => {
     try {
-      await changePassword(currentPassword, newPassword);
+      const response = await changePassword(currentPassword, newPassword);
+      console.log("response :>> ", response.data.message);
       // Password changed successfully, you can navigate to another screen or show a success message.
-      Alert.alert("Success", "Password changed successfully");
     } catch (error) {
+      console.log("error!!! :>> ", error);
       // Handle password change failure, display an error message, etc.
-      Alert.alert("Error", "Password change failed. Please try again.");
     }
   };
 
@@ -44,7 +46,7 @@ const UpdatePassword = ({ navigation }) => {
       style={{ ...styles.container }}
     >
       <Header
-        title="UpdatePassword"
+        title="Update Password"
         leftIconName="chevron-left"
         leftNavigation="Menu"
         rightIconName={false}
@@ -54,6 +56,17 @@ const UpdatePassword = ({ navigation }) => {
 
       <Spinner visible={isLoading} />
       <View style={styles.body}>
+        <TouchableOpacity
+          onPress={showToasts}
+          style={{
+            backgroundColor: "white",
+            borderColor: "green",
+            borderWidth: 1,
+            padding: 10,
+          }}
+        >
+          <Text>SHOW SOME AWESOMENESS!</Text>
+        </TouchableOpacity>
         <View style={styles.input}>
           <Text style={styles.label}>Current Password</Text>
           <Input
@@ -87,7 +100,6 @@ const styles = StyleSheet.create({
   },
   body: {
     padding: 24,
-    
   },
   label: {
     textAlign: "left",
