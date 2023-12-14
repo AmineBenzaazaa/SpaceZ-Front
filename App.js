@@ -10,6 +10,7 @@ import { createSharedElementStackNavigator } from "react-navigation-shared-eleme
 // import * as SplashScreen from "expo-splash-screen";
 import { BetweenPagesProvider } from "between-pages";
 import { AuthContext, AuthProvider } from "./src/context/AuthContext";
+import * as Device from 'expo-device';
 
 import Onboarding from "./src/screens/app/auth/Onboarding";
 import Signin from "./src/screens/app/auth/Signin";
@@ -41,6 +42,8 @@ import WalletDeposit from "./src/screens/app/dashboard/WalletDeposit";
 import { DashboardProvider } from "./src/context/DashboardContext";
 import Profile from "./src/screens/app/user/Profile";
 import UpdatePassword from "./src/screens/app/user/UpdatePassword";
+import TeamLevels from "./src/screens/app/dashboard/TeamLevels";
+import LevelDetail from "./src/screens/app/dashboard/LevelDetail";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -332,6 +335,8 @@ export default function App() {
       <Stack.Screen name="WalletDeposit" component={WalletDeposit} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="UpdatePassword" component={UpdatePassword} />
+      <Stack.Screen name="TeamLevels" component={TeamLevels} />
+      <Stack.Screen name="LevelDetail" component={LevelDetail} />
     </Stack.Navigator>
   );
 

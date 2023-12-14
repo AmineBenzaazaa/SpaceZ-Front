@@ -56,17 +56,6 @@ const UpdatePassword = ({ navigation }) => {
 
       <Spinner visible={isLoading} />
       <View style={styles.body}>
-        <TouchableOpacity
-          onPress={showToasts}
-          style={{
-            backgroundColor: "white",
-            borderColor: "green",
-            borderWidth: 1,
-            padding: 10,
-          }}
-        >
-          <Text>SHOW SOME AWESOMENESS!</Text>
-        </TouchableOpacity>
         <View style={styles.input}>
           <Text style={styles.label}>Current Password</Text>
           <Input

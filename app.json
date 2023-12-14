@@ -4,16 +4,14 @@
     "slug": "Spacez",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/Splash.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.chaudhrygroup.Spacez"
@@ -23,15 +21,13 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.aminebenz.Spacez"
+      "package": "com.aminebenz.Spacez",
+      "assets": {
+        "fonts": ["./assets/fonts/"]
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "assets": {
-      "fonts": [
-        "./assets/fonts/"
-      ]
     },
     "runtimeVersion": "1.0.0",
     "extra": {

@@ -1,28 +1,67 @@
 import {
-  SafeAreaView,
   View,
   Text,
   TouchableOpacity,
-  Image,
+  StyleSheet,
+  FlatList,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import Spinner from "react-native-loading-spinner-overlay";
 
-import Button from "../../../../components/Button";
-import Title from "../../../../components/Title";
-import Input from "../../../../components/Input";
-import OtpInput from "../../../../components/OtpInput";
+import { FontAwesome5 } from "@expo/vector-icons";
 
-import styles from "./styles";
 import { AuthContext } from "../../../../context/AuthContext";
 import Checkbox from "../../../../components/Checkbox";
 import Header from "../../../../components/Header";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import colors from "../../../../constants/colors";
 
 const Team = ({ navigation }) => {
   const { isLoading, userInfo } = useContext(AuthContext);
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState(null);
+
+  const levelsData = [
+    {
+      id: 1,
+      name: "Level 1",
+      pointDirect: 12,
+      pointInDirect: 29,
+      points: "100",
+      lvl_count: "5",
+    },
+    {
+      id: 2,
+      name: "Level 2",
+      pointDirect: 8,
+      pointInDirect: 20,
+      points: "100",
+      lvl_count: "5",
+    },
+    { id: 3, name: "Level 3", pointDirect: 15, pointInDirect: 40 },
+    { id: 4, name: "Level 4", pointDirect: 5, pointInDirect: 18 },
+    { id: 5, name: "Level 5", pointDirect: 10, pointInDirect: 25 },
+    { id: 6, name: "Level 6", pointDirect: 7, pointInDirect: 21 },
+    { id: 7, name: "Level 7", pointDirect: 20, pointInDirect: 55 },
+    { id: 8, name: "Level 8", pointDirect: 6, pointInDirect: 24 },
+    { id: 9, name: "Level 9", pointDirect: 18, pointInDirect: 45 },
+    { id: 10, name: "Level 10", pointDirect: 9, pointInDirect: 30 },
+  ];
+  const renderItem = ({ item }) => (
+    <TouchableOpacity
+      style={styles.levelItem}
+      onPress={() => navigation.navigate("LevelDetail", { level: item })}
+    >
+      <View style={styles.iconContainer}>
+        <Text style={styles.label}>{item.name}</Text>
+        <Text style={styles.pointDirect}>●</Text>
+        <Text style={styles.pointText}>{item.pointDirect}</Text>
+        <Text style={styles.pointInDirect}>●</Text>
+        <Text style={styles.pointText}>{item.pointInDirect}</Text>
+      </View>
+      <FontAwesome5 name="chevron-right" size={20} style={styles.chevronIcon} />
+    </TouchableOpacity>
+  );
 
   const onCheckboxPress = () => {
     setAgreed((value) => !value);
@@ -38,8 +77,139 @@ const Team = ({ navigation }) => {
         rightNavigation="Menu"
         navigation={navigation}
       />
+      <View style={styles.body}>
+        <View style={styles.cardsContainer}>
+          <View style={styles.card}>
+            <Text style={styles.cardText}>12</Text>
+            <Text>Total Team Members</Text>
+          </View>
+          <View style={styles.card}>
+            <Text style={styles.cardText}>8</Text>
+            <Text>Direct Members</Text>
+          </View>
+        </View>
+        <View style={styles.levelsContainer}>
+          <FlatList
+            data={levelsData}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id.toString()}
+          />
+        </View>
+        <View style={styles.space} />
+      </View>
     </KeyboardAwareScrollView>
   );
 };
 
 export default Team;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.purpledark,
+    // justifyContent: "center", // Center content vertically
+  },
+  body: {
+    padding: 24,
+  },
+  cardsContainer: {
+    flexDirection: "row", // Arrange items in a row
+    justifyContent: "space-between", // Space evenly between items
+  },
+  card: {
+    backgroundColor: colors.purplelight,
+    // paddingHorizontal: 10,
+    paddingVertical: 16,
+    borderRadius: 8,
+    width: "48%", // Take up 48% of the container width (adjust as needed)
+    alignItems: "center", // Center items horizontally
+  },
+  cardText: {
+    marginBottom: 5,
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center", // Center text horizontally
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  button: {
+    flex: 1,
+    marginHorizontal: 5,
+    backgroundColor: colors.white,
+    borderRadius: 30,
+    padding: 13,
+    alignSelf: "stretch",
+  },
+  btnText: {
+    color: colors.purpledark,
+    fontSize: 16,
+    textAlign: "center",
+    fontWeight: "normal",
+  },
+  btnbg: {
+    backgroundColor: colors.purplelight,
+  },
+  levelsContainer: {
+    marginVertical: 20,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row", // Arrange items in a row
+    justifyContent: "space-between", // Space evenly between items
+  },
+  levelItem: {
+    marginVertical: 5,
+    padding: 20,
+    backgroundColor: colors.purplebold,
+    // paddingHorizontal: 10,
+    borderRadius: 8,
+    alignItems: "left", // Center items horizontally
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 16,
+  },
+  levelName: {
+    fontSize: 14,
+    color: colors.white,
+  },
+  iconContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  icon: {
+    width: 20,
+    marginRight: 10,
+    color: colors.white,
+  },
+  label: {
+    fontSize: 18,
+    color: colors.white,
+  },
+  chevronIcon: {
+    marginLeft: 10,
+    color: colors.purplelight,
+  },
+  numberedPoint: {
+    marginRight: 8, // Adjust the spacing as needed
+    width: 16, // Adjust the size of the point as needed
+    alignItems: "center",
+  },
+  pointDirect: {
+    marginHorizontal: 8,
+    color: colors.purplelight,
+  },
+  pointInDirect: {
+    marginHorizontal: 8,
+    color: colors.white,
+  },
+  pointText: {
+    fontSize: 14,
+    color: colors.white,
+  },
+  space: {
+    margin: 40,
+  },
+});

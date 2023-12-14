@@ -14,7 +14,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 // import 'react-native-gesture-handler';
 import { FontAwesome5 } from "@expo/vector-icons";
 import RBSheet from "@nonam4/react-native-bottom-sheet";
-import * as Clipboard from 'expo-clipboard';
+import * as Clipboard from "expo-clipboard";
 import Header from "../../../../components/Header";
 
 import { AuthContext } from "../../../../context/AuthContext";
@@ -30,9 +30,9 @@ const Home = ({ navigation }) => {
   const [isDepositOpen, setIsDepositOpen] = useState(false);
   const [isWithdrawOpen, setIsWithdrawOpen] = useState(false);
   const [copiedText, setCopiedText] = React.useState("");
-  const symbols = tokenList.tokens.map(token => token.symbol);
+  const symbols = tokenList.tokens.map((token) => token.symbol);
   const walletPublicKey = userInfo.userData.user.walletPublicKey;
-  
+
   const [activeType, setActiveType] = useState(symbols[0]);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const Home = ({ navigation }) => {
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(walletPublicKey);
   };
-  
+
   // const Drawer = createDrawerNavigator();
   const MenuItem = ({ iconName, label, balance, onPress }) => (
     <TouchableOpacity style={styles.Cardcontainer} onPress={onPress}>
@@ -77,11 +77,19 @@ const Home = ({ navigation }) => {
             <View style={styles.head}>
               <View style={styles.columnLeft}>
                 <Text style={styles.token}>
-                  {walletData[0].balance} {walletData[0].symbol}
+                  {String(walletData[0].balance).length > 7
+                    ? String(walletData[0].balance).slice(0, 7) + " "
+                    : String(walletData[0].balance) + " "}
+                  {walletData[0].symbol}
                 </Text>
                 <Text style={styles.text}>BFIC Available</Text>
 
-                <Text style={styles.token}>${walletData[0].Price}</Text>
+                <Text style={styles.token}>
+                  $
+                  {String(walletData[0].Price).length > 7
+                    ? String(walletData[0].Price).slice(0, 7) + " "
+                    : String(walletData[0].Price) + " "}
+                </Text>
                 <Text style={styles.text}>BFIC Price</Text>
               </View>
               <View style={styles.columnCenter}>
@@ -98,7 +106,12 @@ const Home = ({ navigation }) => {
                 </Text>
                 <Text style={styles.text}>SPZ Available</Text>
 
-                <Text style={styles.token}>${walletData[1].Price}</Text>
+                <Text style={styles.token}>
+                  $
+                  {String(walletData[1].Price).length > 7
+                    ? String(walletData[1].Price).slice(0, 7) + " "
+                    : String(walletData[1].Price) + " "}
+                </Text>
                 <Text style={styles.text}>SPZ Price</Text>
               </View>
             </View>

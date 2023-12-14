@@ -107,9 +107,9 @@ const Swap = ({ navigation }) => {
           >
             <Text style={styles.btnText}>Make offer</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.btnbg]}>
+          {/* <TouchableOpacity style={[styles.button, styles.btnbg]}>
             <Text style={[styles.btnText]}>My offers</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
       <View style={{ marginTop: 80 }} />
