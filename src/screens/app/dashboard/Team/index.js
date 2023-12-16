@@ -25,10 +25,42 @@ const Team = ({ navigation }) => {
     {
       id: 1,
       name: "Level 1",
-      pointDirect: 12,
-      pointInDirect: 29,
+      pointDirect: 128,
+      pointInDirect: 400,
       points: "100",
       lvl_count: "5",
+      referrals: [
+        {
+          username: "User1",
+          referralCode: "ABC123",
+          dateAdded: "15-12-2023",
+        },
+        {
+          username: "User2",
+          referralCode: "XYZ789",
+          dateAdded: "16-12-2023",
+        },
+        {
+          username: "User3",
+          referralCode: "ABC123",
+          dateAdded: "15-12-2023",
+        },
+        {
+          username: "User4",
+          referralCode: "XYZ789",
+          dateAdded: "16-12-2023",
+        },
+        {
+          username: "User5",
+          referralCode: "ABC123",
+          dateAdded: "15-12-2023",
+        },
+        {
+          username: "User6",
+          referralCode: "XYZ789",
+          dateAdded: "16-12-2023",
+        },
+      ],
     },
     {
       id: 2,
@@ -37,16 +69,99 @@ const Team = ({ navigation }) => {
       pointInDirect: 20,
       points: "100",
       lvl_count: "5",
+      referrals: [
+        {
+          username: "User1",
+          referralCode: "ABC123",
+          dateAdded: "15-12-2023",
+        },
+        {
+          username: "User2",
+          referralCode: "XYZ789",
+          dateAdded: "16-12-2023",
+        },
+      ],
     },
-    { id: 3, name: "Level 3", pointDirect: 15, pointInDirect: 40 },
-    { id: 4, name: "Level 4", pointDirect: 5, pointInDirect: 18 },
-    { id: 5, name: "Level 5", pointDirect: 10, pointInDirect: 25 },
-    { id: 6, name: "Level 6", pointDirect: 7, pointInDirect: 21 },
-    { id: 7, name: "Level 7", pointDirect: 20, pointInDirect: 55 },
-    { id: 8, name: "Level 8", pointDirect: 6, pointInDirect: 24 },
-    { id: 9, name: "Level 9", pointDirect: 18, pointInDirect: 45 },
-    { id: 10, name: "Level 10", pointDirect: 9, pointInDirect: 30 },
+    {
+      id: 3,
+      name: "Level 3",
+      pointDirect: 15,
+      pointInDirect: 40,
+      points: "100",
+      lvl_count: "5",
+      referrals: [
+        {
+          username: "User3",
+          referralCode: "DEF456",
+          dateAdded: "17-12-2023",
+        },
+      ],
+    },
+    {
+      id: 4,
+      name: "Level 4",
+      pointDirect: 7,
+      pointInDirect: 15,
+      points: "100",
+      lvl_count: "5",
+      referrals: [],
+    },
+    {
+      id: 5,
+      name: "Level 5",
+      pointDirect: 9,
+      pointInDirect: 25,
+      points: "100",
+      lvl_count: "5",
+      referrals: [],
+    },
+    {
+      id: 6,
+      name: "Level 6",
+      pointDirect: 11,
+      pointInDirect: 30,
+      points: "100",
+      lvl_count: "5",
+      referrals: [],
+    },
+    {
+      id: 7,
+      name: "Level 7",
+      pointDirect: 14,
+      pointInDirect: 35,
+      points: "100",
+      lvl_count: "5",
+      referrals: [],
+    },
+    {
+      id: 8,
+      name: "Level 8",
+      pointDirect: 6,
+      pointInDirect: 19,
+      points: "100",
+      lvl_count: "5",
+      referrals: [],
+    },
+    {
+      id: 9,
+      name: "Level 9",
+      pointDirect: 12,
+      pointInDirect: 32,
+      points: "100",
+      lvl_count: "5",
+      referrals: [],
+    },
+    {
+      id: 10,
+      name: "Level 10",
+      pointDirect: 5,
+      pointInDirect: 12,
+      points: "100",
+      lvl_count: "5",
+      referrals: [],
+    },
   ];
+
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.levelItem}
@@ -62,10 +177,6 @@ const Team = ({ navigation }) => {
       <FontAwesome5 name="chevron-right" size={20} style={styles.chevronIcon} />
     </TouchableOpacity>
   );
-
-  const onCheckboxPress = () => {
-    setAgreed((value) => !value);
-  };
 
   return (
     <KeyboardAwareScrollView behavior={"padding"} style={styles.container}>

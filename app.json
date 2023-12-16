@@ -22,9 +22,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.aminebenz.Spacez",
-      "assets": {
-        "fonts": ["./assets/fonts/"]
-      }
+      "assetBundlePatterns": ["./assets/fonts/"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
