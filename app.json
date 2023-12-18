@@ -4,41 +4,37 @@
     "slug": "Spacez",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/Icon.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/Splash.png",
+      "image": "./assets/splash.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.aftabameen.spacez"
+      "bundleIdentifier": "com.chaudhrygroup.spacez"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.aftabameen.spacez",
-      "assetBundlePatterns": [
-        "./assets/fonts/"
-      ]
+      "package": "com.chaudhrygroup.spacez",
+      "assetBundlePatterns": ["./assets/fonts/"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "runtimeVersion": "1.0.0",
-    "owner": "aftabameen",
+    "owner": "aminebenz",
     "updates": {
       "url": "https://u.expo.dev/7a3cb6bd-2270-4758-901a-0e278cb406ce"
     },
     "extra": {
       "eas": {
-        "projectId": "3797334d-8aab-4812-ab26-578573722197"
+        "projectId": "7a3cb6bd-2270-4758-901a-0e278cb406ce"
       }
     }
   }
