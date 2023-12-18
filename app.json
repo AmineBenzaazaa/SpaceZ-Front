@@ -11,7 +11,9 @@
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.aftabameen.spacez"
@@ -22,7 +24,9 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.aftabameen.spacez",
-      "assetBundlePatterns": ["./assets/fonts/"]
+      "assetBundlePatterns": [
+        "./assets/fonts/"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -31,6 +35,11 @@
     "owner": "aftabameen",
     "updates": {
       "url": "https://u.expo.dev/7a3cb6bd-2270-4758-901a-0e278cb406ce"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3797334d-8aab-4812-ab26-578573722197"
+      }
     }
   }
 }
