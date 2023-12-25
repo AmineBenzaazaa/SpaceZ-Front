@@ -38,9 +38,6 @@ const Swap = ({ navigation }) => {
     </TouchableOpacity>
   );
 
-  const handleProfilePress = () => {
-    console.log("My Profile Pressed");
-  };
 
   return (
     <KeyboardAwareScrollView behavior={"padding"} style={styles.container}>

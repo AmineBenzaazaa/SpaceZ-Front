@@ -1,36 +1,34 @@
-import {
-  SafeAreaView,
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { View, Text, StyleSheet, TextInput } from "react-native";
 import React, { useContext, useState } from "react";
-import { FontAwesome5 } from "@expo/vector-icons";
 import { Dropdown } from "react-native-element-dropdown";
-import * as Clipboard from "expo-clipboard";
+import Spinner from "react-native-loading-spinner-overlay";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
-
-// import styles from "./styles";
+import Header from "../../../../components/Header";
+import CustomModal from "../../../../components/Modal";
 
 import { AuthContext } from "../../../../context/AuthContext";
-import Checkbox from "../../../../components/Checkbox";
-import Header from "../../../../components/Header";
 import colors from "../../../../constants/colors";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useDashboard } from "../../../../context/DashboardContext";
+import ValideModal from "../../../../components/ValideModal";
 
 const WalletWithdraw = ({ navigation }) => {
   const { isLoading, userInfo } = useContext(AuthContext);
-  const { tokenList, withdraw, loading, error } = useDashboard();
+  const { tokenList, withdraw, loading, setLoading, error } = useDashboard();
   const [address, setAddress] = useState("");
   const [amount, setAmount] = useState("");
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
+  const [validationError, setValidationError] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [message, setMessage] = useState(null);
+  const [isValideModalVisible, setValideModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
   const symbols = tokenList.tokens.map((token) => ({
     label: token.symbol,
@@ -39,8 +37,27 @@ const WalletWithdraw = ({ navigation }) => {
 
   const data = [...symbols];
 
-  const handleStakeButtonPress = () => {
-    withdraw(amount, address, value);
+  const handleStakeButtonPress = async () => {
+    try {
+      if (amount <= "0" || amount === "" || address === "" || value === null) {
+        setValidationError("Please fill out all the required fields.");
+        setModalVisible(true);
+        return;
+      }
+
+      setLoading(true);
+
+      await withdraw(amount, address, value);
+
+      // The API call is successful, set loading to false
+      setLoading(false);
+    } catch (error) {
+      // The API call failed, set loading to false
+      console.error("Unable to send amount: ", error);
+      setLoading(false);
+      setValidationError("Unable to send amount.");
+      setModalVisible(true);
+    }
   };
 
   return (
@@ -53,6 +70,8 @@ const WalletWithdraw = ({ navigation }) => {
         rightNavigation={false}
         navigation={navigation}
       />
+      <Spinner visible={loading} />
+
       <View style={styles.body}>
         <Text style={styles.text}>Choose asset to Swap</Text>
 
@@ -97,6 +116,18 @@ const WalletWithdraw = ({ navigation }) => {
         <Button onPress={handleStakeButtonPress} type="blue">
           Validate
         </Button>
+        {validationError && (
+          <CustomModal
+            isVisible={isModalVisible}
+            toggleModal={toggleModal}
+            modalText={validationError}
+          />
+        )}
+        <ValideModal
+          isVisible={isValideModalVisible}
+          toggleModal={toggleModal}
+          modalText={message}
+        />
       </View>
     </KeyboardAwareScrollView>
   );

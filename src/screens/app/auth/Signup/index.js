@@ -25,6 +25,7 @@ import CustomPhoneInput from "../../../../components/PhoneInput";
 import { AuthContext } from "../../../../context/AuthContext";
 import colors from "../../../../constants/colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import CustomModal from "../../../../components/Modal";
 
 const RegisterScreen = ({ navigation }) => {
   const [fullName, setfullName] = useState(null);
@@ -36,6 +37,11 @@ const RegisterScreen = ({ navigation }) => {
   const [country, setCountry] = useState(null);
   const [error, setError] = useState(null);
   const { isLoading, register, setUserId } = useContext(AuthContext);
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
   const handlePhoneNumberChange = (number) => {
     // Update the phoneNumber state when the phone number changes
@@ -46,7 +52,22 @@ const RegisterScreen = ({ navigation }) => {
     setError(null); // Reset any previous errors
     if (password !== confirmationPassword) {
       setError("Password and confirmation password do not match.");
+      setModalVisible(true);
       return; // Exit early if there's a mismatch
+    }
+
+    if (
+      !fullName ||
+      !username ||
+      !email ||
+      !phoneNumber ||
+      !password ||
+      !confirmationPassword ||
+      !country
+    ) {
+      setError("Please fill out all the required fields.");
+      setModalVisible(true);
+      return;
     }
 
     try {
@@ -71,12 +92,14 @@ const RegisterScreen = ({ navigation }) => {
         navigation.navigate("Verification");
       } else {
         // Login failed, set error message
-        setError("Login failed. Please check your credentials.");
+        setError("Register failed. Please check your credentials.");
+        setModalVisible(true);
       }
     } catch (e) {
       // Handle API call errors here
       console.error("Login error:", e);
       setError("Server error. Please try again.");
+      setModalVisible(true);
     }
   };
 
@@ -95,7 +118,7 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <>
-      <KeyboardAwareScrollView behavior={"padding"} style={styles.container} >
+      <KeyboardAwareScrollView behavior={"padding"} style={styles.container}>
         <Title title="Sign up" subtitle="Enter your credentials" />
         <ScrollView style={styles.form}>
           {/* <SafeAreaView style={styles.container}> */}
@@ -172,7 +195,13 @@ const RegisterScreen = ({ navigation }) => {
           </View>
 
           <Button onPress={() => handleRegister()}>Sign up</Button>
-          {error && <Text style={styles.errorText}>{error}</Text>}
+          {error && (
+            <CustomModal
+              isVisible={isModalVisible}
+              toggleModal={toggleModal}
+              modalText={error}
+            />
+          )}
           <Text style={styles.text}>
             Already have an account?{" "}
             <Text

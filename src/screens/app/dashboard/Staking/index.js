@@ -1,38 +1,52 @@
-import {
-  SafeAreaView,
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  Alert,
-  StyleSheet,
-} from "react-native";
+import { View, Text, Image, StyleSheet } from "react-native";
 import React, { useContext, useState } from "react";
+import Spinner from "react-native-loading-spinner-overlay";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
+import CustomModal from "../../../../components/Modal";
+import Header from "../../../../components/Header";
 
 import { AuthContext } from "../../../../context/AuthContext";
-import Header from "../../../../components/Header";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useDashboard } from "../../../../context/DashboardContext";
-import Modal from "react-native-modal";
 import colors from "../../../../constants/colors";
-import CustomModal from "../../../../components/Modal";
 
 const Stacking = ({ navigation }) => {
-  const { isLoading, userInfo } = useContext(AuthContext);
-  const { sendAmount, homeData, loading } = useDashboard();
+  const { userInfo } = useContext(AuthContext);
+  const { sendAmount, homeData, loading, setLoading, error } = useDashboard();
+  const [validationError, setValidationError] = useState(false);
   const [amount, setAmount] = useState();
-  const [error, setError] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
-  const handleStakeButtonPress = () => {
-    sendAmount(amount); // Call the sendAmount method with the amount
+  const handleStakeButtonPress = async () => {
+    if (homeData) {
+      if (amount <= "0" || amount === "") {
+        setValidationError("Amount must be greater than zero.");
+        setModalVisible(true);
+        return;
+      } else {
+        setLoading(true);
+
+        try {
+          await sendAmount(amount);
+          // The API call is successful, set loading to false
+          setLoading(false);
+        } catch (error) {
+          // The API call failed, set loading to false
+          setLoading(false);
+        }
+      }
+    } else {
+      console.error("Unable to send amount.");
+      setLoading(false);
+      setValidationError("Unable to send amount.");
+      setModalVisible(true);
+    }
   };
 
   return (
@@ -45,6 +59,7 @@ const Stacking = ({ navigation }) => {
         rightNavigation={false}
         navigation={navigation}
       />
+      <Spinner visible={loading} />
       <View style={styles.body}>
         <View style={styles.token}>
           <Image
@@ -52,13 +67,19 @@ const Stacking = ({ navigation }) => {
             source={require("../../../../assets/images/coin.png")}
           />
           <View style={styles.states}>
-            <Text style={styles.token}>
-              {homeData.staking.length > 7
-                ? homeData.staking.slice(0, 7)
-                : homeData.staking}{" "}
-              SPZ
-            </Text>
-            <Text style={styles.text}>Balance</Text>
+            {homeData ? (
+              <>
+                <Text style={styles.token}>
+                  {homeData.staking?.length > 7
+                    ? homeData.staking.slice(0, 7)
+                    : homeData.staking}{" "}
+                  SPZ
+                </Text>
+                <Text style={styles.text}>Balance</Text>
+              </>
+            ) : (
+              <Text style={styles.loadingText}>Loading...</Text>
+            )}
           </View>
         </View>
         <Input
@@ -67,16 +88,16 @@ const Stacking = ({ navigation }) => {
           keyboardType="numeric"
           onChangeText={(text) => setAmount(text)}
         />
-        <Button onPress={handleStakeButtonPress()} type="blue">
+        <Button onPress={handleStakeButtonPress} type="blue">
           Validate
         </Button>
-        <Button title="Show modal" onPress={toggleModal} />
-
-        <CustomModal
-          isVisible={isModalVisible}
-          toggleModal={toggleModal}
-          modalText="I am the modal content!"
-        />
+        {validationError && (
+          <CustomModal
+            isVisible={isModalVisible}
+            toggleModal={toggleModal}
+            modalText={validationError}
+          />
+        )}
       </View>
     </KeyboardAwareScrollView>
   );

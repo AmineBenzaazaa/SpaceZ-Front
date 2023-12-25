@@ -8,13 +8,13 @@ import { AuthContext } from "../../../../context/AuthContext";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Verification = ({ navigation }) => {
-  const { verifyEmail, userInfo, sendVerificationEmail } =
-    useContext(AuthContext);
+  const { verifyEmail, userInfo, sendVerificationEmail } = useContext(AuthContext);
   const [otp, setOtp] = useState("");
   const [countdown, setCountdown] = useState(60);
   const { userId } = useContext(AuthContext);
 
   const handleEmailVerification = async () => {
+    
     try {
       // Use the token and userId in the verifyEmail function
       const response = await verifyEmail(userId, otp);

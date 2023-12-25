@@ -57,7 +57,6 @@ const Verification = ({ navigation }) => {
         setCountdown((prevCountdown) => prevCountdown - 1);
       }, 1000);
     }
-    console.log("countdown :>> ", countdown);
     return () => {
       // Clear the interval when the component unmounts
       clearInterval(timer);

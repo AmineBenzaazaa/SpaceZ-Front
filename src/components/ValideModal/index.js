@@ -5,15 +5,14 @@ import LottieView from "lottie-react-native";
 
 import colors from "../../constants/colors";
 
-const CustomModal = ({ isVisible, toggleModal, modalText }) => {
+const ValideModal = ({ isVisible, toggleModal, modalText }) => {
   return (
     <Modal isVisible={isVisible} avoidKeyboard={true}>
       <View style={styles.modalContainer}>
         <View style={styles.animationContainer}>
           <LottieView
-            source={require("../../assets/lotties/error.json")} // Import your Lottie animation file
+            source={require("../../assets/lotties/validation.json")} // Import your Lottie animation file
             autoPlay
-            
             style={styles.animation}
           />
         </View>
@@ -26,7 +25,7 @@ const CustomModal = ({ isVisible, toggleModal, modalText }) => {
   );
 };
 
-export default CustomModal;
+export default ValideModal;
 
 const styles = StyleSheet.create({
   modalContainer: {

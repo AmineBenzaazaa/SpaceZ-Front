@@ -3,10 +3,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Dropdown } from "react-native-element-dropdown";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Spinner from "react-native-loading-spinner-overlay";
 
 import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
-import Checkbox from "../../../../components/Checkbox";
 import Header from "../../../../components/Header";
 
 import styles from "./styles";
@@ -14,10 +14,11 @@ import styles from "./styles";
 import colors from "../../../../constants/colors";
 import { AuthContext } from "../../../../context/AuthContext";
 import { useDashboard } from "../../../../context/DashboardContext";
+import CustomModal from "../../../../components/Modal";
 
 const Offer = ({ navigation }) => {
-  const { isLoading, userInfo } = useContext(AuthContext);
-  const { tokenList, qoute, swap,loading, error } = useDashboard();
+  const { userInfo } = useContext(AuthContext);
+  const { tokenList, qoute, swap, setLoading, loading, error } = useDashboard();
   const [amountFrom, setAmountFrom] = useState();
   const [amountTo, setAmountTo] = useState();
   const [valueFrom, setValueFrom] = useState(null);
@@ -25,7 +26,12 @@ const Offer = ({ navigation }) => {
   const [isFocus, setIsFocus] = useState(false);
   const [buttonText, setButtonText] = useState("Get Quote");
   const [buttonType, setButtonType] = useState(undefined);
+  const [validationError, setValidationError] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
 
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
   const symbols = tokenList.tokens.map((token) => ({
     label: token.symbol,
     value: token.symbol,
@@ -45,21 +51,44 @@ const Offer = ({ navigation }) => {
     }
   }, [valueFrom, valueTo, amountFrom]);
 
-  const handleQouteButtonPress = () => {
-    qoute(valueFrom, valueTo, amountFrom)
-      .then((toAmount) => {
-        setAmountTo(toAmount);
-        setButtonText("Validate");
-        setButtonType("blue");
-      })
-      .catch((error) => {
-        // Handle any errors that occurred during the request
-        console.error("Error:", error);
-      });
+  const handleQouteButtonPress = async () => {
+    console.log("amountFrom, :>> ", amountFrom, valueTo, valueFrom);
+    if (
+      amountFrom === undefined ||  // Check for undefined instead of "undefined"
+      amountFrom <= 0 ||            // Check if amountFrom is less than or equal to 0
+      valueTo === null ||            // Check for null instead of "null"
+      valueFrom === null             // Check for null instead of "null"
+    ) {
+      setValidationError("Please fill out all the required fields.");
+      setModalVisible(true);
+      return;
+    } else {
+      setLoading(true);
+      try {
+        await qoute(valueFrom, valueTo, amountFrom)
+          .then((toAmount) => {
+            setAmountTo(toAmount);
+            setButtonText("Validate");
+            setButtonType("blue");
+          })
+          .catch((error) => {
+            // Handle any errors that occurred during the request
+            console.error("Error:", error);
+          });
+        // The API call is successful, set loading to false
+        setLoading(false);
+      } catch (error) {
+        // The API call failed, set loading to false
+        console.error("Unable to Swap: ", error);
+        setLoading(false);
+        setValidationError("Unable to Swap the amount.");
+        setModalVisible(true);
+      }
+    }
   };
-
+  
   const handleSwapButtonPress = () => {
-    swap(valueFrom, valueTo, amountFrom)
+    swap(valueFrom, valueTo, amountFrom);
   };
 
   return (
@@ -72,6 +101,8 @@ const Offer = ({ navigation }) => {
         rightNavigation={false}
         navigation={navigation}
       />
+      <Spinner visible={loading} />
+
       <View style={styles.body}>
         <View style={styles.token}>
           <Text style={styles.text}>From: </Text>
@@ -166,6 +197,13 @@ const Offer = ({ navigation }) => {
         >
           {buttonText}
         </Button>
+        {validationError && (
+          <CustomModal
+            isVisible={isModalVisible}
+            toggleModal={toggleModal}
+            modalText={validationError}
+          />
+        )}
       </View>
     </KeyboardAwareScrollView>
   );
